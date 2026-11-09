@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人人影视字幕组 - 剧集字幕档案与追剧速览</title>
+<meta name="description" content="人人影视字幕组相关内容聚合，涵盖美剧、英剧、日韩剧、电影与纪录片的字幕版本对照、更新时间线、译制特点与追剧路径，适合想找具体剧目字幕资源与版本差异的观众查阅。">
+<meta name="keywords" content="美剧字幕版本, 双语字幕, 剧集更新时间表, 字幕组译制, 电影字幕资源">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b2a41'/%3E%3Cpath d='M14 20h36v6H14zM14 31h24v6H14zM14 42h30v6H14z' fill='%23f0b429'/%3E%3Ccircle cx='50' cy='44' r='7' fill='%23e4572e'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6f4ef;
+  --panel:#ffffff;
+  --ink:#1d2530;
+  --ink-soft:#4d5866;
+  --ink-mute:#7b8694;
+  --line:#e2ded4;
+  --brand:#1b2a41;
+  --brand-2:#2c4160;
+  --accent:#e4572e;
+  --accent-soft:#fdf0ea;
+  --gold:#c9941a;
+  --gold-soft:#fbf4e3;
+  --teal:#1f6f6b;
+  --teal-soft:#e8f3f2;
+  --radius:10px;
+  --radius-sm:6px;
+  --shadow:0 1px 2px rgba(29,37,48,.06),0 4px 14px rgba(29,37,48,.06);
+  --shadow-sm:0 1px 2px rgba(29,37,48,.07);
+  --wrap:1340px;
+  --stick:104px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--stick)}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15.5px;line-height:1.75;-webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+h1,h2,h3,h4{margin:0;line-height:1.35;font-weight:700}
+p{margin:0 0 .85em}
+ul,ol{margin:0 0 .9em;padding-left:1.25em}
+li{margin-bottom:.35em}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* ============ 吸顶公告条 + 页头 ============ */
+.stick-wrap{position:sticky;top:0;z-index:60;box-shadow:0 1px 0 var(--line),0 6px 18px rgba(29,37,48,.06)}
+.notice-bar{
+  background:var(--brand);color:#e9edf3;font-size:13px;
+  display:flex;align-items:center;gap:10px;padding:7px 20px;
+  min-height:34px;
+}
+.notice-bar .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 auto;box-shadow:0 0 0 3px rgba(201,148,26,.22)}
+.notice-bar strong{color:#fff;font-weight:600}
+.notice-bar .notice-track{display:flex;gap:22px;overflow:hidden;white-space:nowrap;flex:1;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.notice-bar .notice-track span{opacity:.92}
+.notice-bar a{margin-left:auto;color:var(--gold);font-weight:600;flex:0 0 auto}
+
+.site-head{background:rgba(255,255,255,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.head-inner{max-width:var(--wrap);margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand-mark{width:38px;height:38px;flex:0 0 auto}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-text b{font-size:18.5px;letter-spacing:.2px;color:var(--brand)}
+.brand-text small{font-size:11px;color:var(--ink-mute);letter-spacing:1.6px;text-transform:uppercase;font-weight:600}
+.head-nav{display:flex;gap:4px;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.head-nav a{font-size:13.5px;padding:6px 10px;border-radius:999px;color:var(--ink-soft);font-weight:500;transition:.15s}
+.head-nav a:hover{background:var(--accent-soft);color:var(--accent)}
+.head-search{display:flex;align-items:center;gap:6px;flex:0 0 auto;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 12px;background:#fbfaf7}
+.head-search input{border:0;background:transparent;font-size:13px;width:132px;padding:4px 0;color:var(--ink)}
+.head-search input:focus{outline:none}
+.head-search button{border:0;background:var(--brand);color:#fff;border-radius:999px;font-size:12.5px;padding:5px 12px;font-weight:600}
+.head-search button:hover{background:var(--accent)}
+
+/* ============ 布局 ============ */
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+.portal-grid{
+  display:grid;
+  grid-template-columns:178px minmax(0,1fr) 248px;
+  gap:26px;align-items:start;padding:26px 0 40px;
+}
+
+/* ============ 首屏 ============ */
+.hero{position:relative;overflow:hidden;background:var(--brand);color:#eef1f6;border-radius:14px;margin-top:22px}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(760px 320px at 88% -12%,rgba(228,87,46,.32),transparent 62%),
+    radial-gradient(560px 280px at 8% 112%,rgba(31,111,107,.36),transparent 60%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 46px);
+  pointer-events:none;
+}
+.hero-inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 344px;gap:30px;padding:38px 38px 34px;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.4px;font-weight:600;color:var(--gold);border:1px solid rgba(201,148,26,.42);border-radius:999px;padding:4px 12px;margin-bottom:16px}
+.hero h1{font-size:clamp(28px,3.4vw,42px);letter-spacing:.5px;color:#fff;margin-bottom:14px}
+.hero-lead{font-size:15px;color:#c6cfdc;max-width:60ch;line-height:1.85;margin-bottom:20px}
+.hero-lead b{color:#f0d9a8;font-weight:600}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 18px;font-size:13.5px;font-weight:600;border:1px solid transparent;transition:.16s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#c9481f;color:#fff}
+.btn-ghost{border-color:rgba(255,255,255,.28);color:#e6ebf2}
+.btn-ghost:hover{background:rgba(255,255,255,.1);color:#fff}
+.hero-stats{display:flex;flex-wrap:wrap;gap:26px;border-top:1px solid rgba(255,255,255,.14);padding-top:16px}
+.hero-stats div{display:flex;flex-direction:column}
+.hero-stats b{font-size:19px;color:#fff;font-variant-numeric:tabular-nums}
+.hero-stats span{font-size:12px;color:#93a1b5;letter-spacing:.4px}
+.hero-art{position:relative;display:flex;align-items:center;justify-content:center}
+.hero-art svg{width:100%;height:auto;filter:drop-shadow(0 12px 26px rgba(0,0,0,.32))}
+
+/* ============ 左频道索引 ============ */
+.side-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:20px;overflow:hidden}
+.side-card > h2,.side-card > .side-h{font-size:13px;letter-spacing:1.2px;color:var(--ink-mute);font-weight:700;padding:12px 14px 10px;margin:0;border-bottom:1px solid var(--line);background:#fbfaf7}
+.chan-list{list-style:none;margin:0;padding:6px}
+.chan-list li{margin:0}
+.chan-list a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:var(--radius-sm);font-size:13.5px;font-weight:500;color:var(--ink-soft)}
+.chan-list a:hover{background:var(--accent-soft);color:var(--accent)}
+.chan-list .cnt{font-size:11.5px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+.mini-note{padding:0 14px 14px;font-size:12.5px;color:var(--ink-mute);line-height:1.7}
+
+/* ============ 主栏通用 ============ */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:22px 24px;margin-bottom:24px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px;padding-bottom:11px;border-bottom:1px solid var(--line)}
+.sec-head h2{font-size:19px;letter-spacing:.2px;color:var(--brand);display:flex;align-items:center;gap:9px}
+.sec-head h2::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--accent);flex:0 0 auto}
+.sec-head .sub{font-size:12.5px;color:var(--ink-mute)}
+.sec-head .more{font-size:12.5px;color:var(--accent);font-weight:600;white-space:nowrap}
+
+/* 概览 */
+.overview p{color:#333d4a;font-size:15px}
+.overview .kbd{display:inline-block;background:var(--gold-soft);color:#8a6410;border:1px solid #ecd9a8;border-radius:4px;padding:0 5px;font-size:13px;font-weight:600;line-height:1.6}
+
+/* 精选卡片 */
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.pick-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;transition:.18s}
+.pick-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:#d6d0c4}
+.pick-card .thumb{position:relative;aspect-ratio:4/3;overflow:hidden;background:#e9e6df}
+.pick-card .thumb img{width:100%;height:100%;object-fit:cover}
+.pick-card .badge{position:absolute;top:8px;left:8px;background:rgba(27,42,65,.9);color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;letter-spacing:.3px}
+.pick-card .score{position:absolute;bottom:8px;right:8px;background:var(--gold);color:#3a2c05;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;font-variant-numeric:tabular-nums}
+.pick-body{padding:12px 13px 13px;display:flex;flex-direction:column;gap:7px;flex:1}
+.pick-body h3{font-size:15px;color:var(--brand);line-height:1.45}
+.pick-body p{font-size:12.8px;color:var(--ink-soft);margin:0;line-height:1.68}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}
+.tag{font-size:11.5px;color:var(--teal);background:var(--teal-soft);border-radius:4px;padding:1px 7px;font-weight:500}
+.tag.warm{color:#a33c1a;background:var(--accent-soft)}
+.pick-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-mute);border-top:1px dashed var(--line);padding-top:8px}
+
+/* 更新动态 */
+.update-list{list-style:none;margin:0;padding:0}
+.update-list li{display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--line);margin:0}
+.update-list li:last-child{border-bottom:0}
+.update-list time{font-size:12px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+.update-list .u-title{font-size:14px;font-weight:600;color:var(--brand)}
+.update-list .u-desc{display:block;font-size:12.8px;color:var(--ink-soft);font-weight:400;margin-top:1px}
+.update-list .u-tag{font-size:11.5px;color:var(--teal);white-space:nowrap}
+
+/* 分类筛选 */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.filter-bar button{border:1px solid var(--line);background:#fbfaf7;border-radius:999px;padding:5px 14px;font-size:13px;color:var(--ink-soft);font-weight:500;transition:.15s}
+.filter-bar button:hover{border-color:var(--accent);color:var(--accent)}
+.filter-bar button.is-active{background:var(--brand);border-color:var(--brand);color:#fff}
+.cat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.cat-cell{border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 12px;background:#fdfcfa}
+.cat-cell b{display:block;font-size:14px;color:var(--brand);margin-bottom:2px}
+.cat-cell span{font-size:12px;color:var(--ink-mute);line-height:1.6}
+.cat-cell[hidden]{display:none}
+.filter-empty{display:none;font-size:13.5px;color:var(--ink-mute);padding:12px 0}
+.filter-empty.show{display:block}
+
+/* 深度解析 */
+.deep h3{font-size:16px;color:var(--brand);margin:20px 0 8px;padding-left:10px;border-left:3px solid var(--gold)}
+.deep h3:first-of-type{margin-top:4px}
+.deep p{font-size:14.6px;color:#333d4a}
+.deep ul{font-size:14.3px;color:#333d4a}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13.6px;margin:10px 0 16px;background:#fdfcfa;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+.cmp-table thead th{background:var(--brand);color:#fff;font-size:13px;font-weight:600}
+.cmp-table tbody tr:last-child td{border-bottom:0}
+.cmp-table td b{color:var(--brand)}
+
+/* 体验指南 步骤 */
+.steps{list-style:none;counter-reset:st;padding:0;margin:0;display:grid;gap:13px}
+.steps li{counter-increment:st;display:grid;grid-template-columns:38px minmax(0,1fr);gap:13px;background:#fdfcfa;border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 15px}
+.steps li::before{content:counter(st,decimal-leading-zero);font-size:14px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:8px;height:30px;display:flex;align-items:center;justify-content:center;align-self:start;font-variant-numeric:tabular-nums}
+.steps b{display:block;font-size:14.5px;color:var(--brand);margin-bottom:2px}
+.steps span{font-size:13.4px;color:var(--ink-soft);line-height:1.72}
+
+/* FAQ */
+.faq details{border:1px solid var(--line);border-radius:var(--radius-sm);background:#fdfcfa;margin-bottom:9px;overflow:hidden}
+.faq summary{padding:11px 15px;font-size:14.2px;font-weight:600;color:var(--brand);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:18px;color:var(--accent);font-weight:400;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq details[open] summary{border-bottom:1px solid var(--line);background:var(--gold-soft)}
+.faq .ans{padding:11px 15px 13px;font-size:13.8px;color:var(--ink-soft);line-height:1.78}
+
+/* 评论 */
+.cmt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cmt{border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 13px;background:#fdfcfa}
+.cmt header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex:0 0 auto}
+.cmt .who{font-size:13px;font-weight:600;color:var(--brand)}
+.cmt .when{font-size:11.5px;color:var(--ink-mute);margin-left:auto;font-variant-numeric:tabular-nums}
+.cmt p{font-size:13.2px;color:var(--ink-soft);margin:0;line-height:1.72}
+.cmt .ref{font-size:11.5px;color:var(--teal);background:var(--teal-soft);border-radius:4px;padding:1px 6px;display:inline-block;margin-top:7px}
+
+/* 资讯 */
+.news-list{display:grid;gap:13px}
+.news-item{display:grid;grid-template-columns:132px minmax(0,1fr);gap:14px;align-items:start;border-bottom:1px dashed var(--line);padding-bottom:13px}
+.news-item:last-child{border-bottom:0;padding-bottom:0}
+.news-item img{width:132px;height:88px;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--line)}
+.news-item h3{font-size:14.6px;color:var(--brand);margin-bottom:3px;line-height:1.5}
+.news-item time{font-size:11.8px;color:var(--ink-mute);display:block;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.news-item p{font-size:13.2px;color:var(--ink-soft);margin:0;line-height:1.7}
+
+/* 相关推荐 标签索引 */
+.rel-tags{display:flex;flex-wrap:wrap;gap:8px}
+.rel-tags a{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 13px;color:var(--ink-soft);background:#fdfcfa;font-weight:500}
+.rel-tags a:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.rel-tags a .n{color:var(--ink-mute);font-size:11.5px;margin-left:5px}
+
+/* 榜单 */
+.rank-list{list-style:none;margin:0;padding:0;counter-reset:rk}
+.rank-list li{counter-increment:rk;display:grid;grid-template-columns:28px minmax(0,1fr) 66px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);margin:0}
+.rank-list li:last-child{border-bottom:0}
+.rank-list li::before{content:counter(rk);font-size:13px;font-weight:700;color:var(--ink-mute);text-align:center;font-variant-numeric:tabular-nums}
+.rank-list li:nth-child(-n+3)::before{color:#fff;background:var(--accent);border-radius:6px;height:22px;line-height:22px}
+.rank-list .rk-name{font-size:14px;font-weight:600;color:var(--brand)}
+.rank-list .rk-name span{display:block;font-size:12px;color:var(--ink-mute);font-weight:400}
+.bar{height:6px;border-radius:3px;background:#eeeae1;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:3px}
+
+/* ============ 右侧栏 ============ */
+.aside-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:20px;overflow:hidden}
+.aside-card h2{font-size:13px;letter-spacing:1.2px;color:var(--ink-mute);font-weight:700;padding:12px 15px 10px;margin:0;border-bottom:1px solid var(--line);background:#fbfaf7}
+.hot-list{list-style:none;margin:0;padding:6px 10px 10px;counter-reset:ho}
+.hot-list li{counter-increment:ho;display:flex;gap:9px;align-items:baseline;padding:7px 4px;border-bottom:1px dashed var(--line);margin:0;font-size:13.4px}
+.hot-list li:last-child{border-bottom:0}
+.hot-list li::before{content:counter(ho);font-size:11.5px;font-weight:700;color:var(--ink-mute);min-width:16px;font-variant-numeric:tabular-nums}
+.hot-list li:nth-child(-n+3)::before{color:var(--accent)}
+.hot-list a{font-weight:500;color:var(--ink-soft);line-height:1.55}
+.hot-list em{display:block;font-style:normal;font-size:11.5px;color:var(--ink-mute);margin-top:1px}
+
+.tl{padding:8px 15px 14px;list-style:none;margin:0;border-left:2px solid var(--line);margin-left:18px;padding-left:14px}
+.tl li{position:relative;padding:7px 0 7px 4px;font-size:13px;margin:0}
+.tl li::before{content:"";position:absolute;left:-20px;top:15px;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tl time{display:block;font-size:11.5px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+.tl b{color:var(--brand);font-weight:600;font-size:13.2px}
+
+.aside-note{font-size:12.3px;color:var(--ink-mute);line-height:1.75;padding:0 15px 14px}
+
+/* ============ 页尾 ============ */
+.site-foot{background:var(--brand);color:#b9c3d1;margin-top:14px}
+.foot-inner{max-width:var(--wrap);margin:0 auto;padding:36px 20px 20px;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:28px}
+.foot-brand b{color:#fff;font-size:17px;display:block;margin-bottom:7px}
+.foot-brand p{font-size:13px;line-height:1.8;color:#9fabbd;max-width:34ch}
+.foot-col h4{font-size:12.5px;color:var(--gold);letter-spacing:1px;margin-bottom:9px;font-weight:700}
+.foot-col ul{list-style:none;padding:0;margin:0}
+.foot-col li{margin-bottom:5px}
+.foot-col a{font-size:13px;color:#b9c3d1}
+.foot-col a:hover{color:#fff}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.13);margin-top:24px;padding:14px 20px 20px;max-width:var(--wrap);margin-left:auto;margin-right:auto;font-size:12px;color:#8494a8;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+@media (max-width:1180px){
+  .portal-grid{grid-template-columns:160px minmax(0,1fr);gap:22px}
+  .portal-aside{grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-inner{grid-template-columns:minmax(0,1fr) 280px}
+  .foot-inner{grid-template-columns:1fr 1fr}
+}
+@media (max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;padding:30px 26px}
+  .hero-art{order:-1;max-width:300px;margin:0 auto}
+  .cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .head-nav{display:none}
+  .head-search input{width:110px}
+}
+@media (max-width:860px){
+  .portal-grid{grid-template-columns:1fr}
+  .portal-left{order:0}
+  .portal-main{order:1}
+  .portal-aside{order:2}
+  .chan-list{display:flex;flex-wrap:wrap;gap:4px}
+  .chan-list li{flex:0 1 auto}
+  .chan-list a{padding:5px 10px;font-size:13px;border:1px solid var(--line);border-radius:999px}
+  .chan-list .cnt{margin-left:4px}
+  .side-card > .side-h{display:none}
+  .mini-note{display:none}
+  .cmt-grid{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:740px){
+  :root{--stick:96px}
+  .wrap{padding:0 14px}
+  .hero-inner{padding:24px 18px}
+  .hero-stats{gap:18px}
+  .panel{padding:17px 15px}
+  .card-grid{grid-template-columns:1fr}
+  .update-list li{grid-template-columns:64px minmax(0,1fr);row-gap:2px}
+  .update-list .u-tag{grid-column:2}
+  .news-item{grid-template-columns:1fr}
+  .news-item img{width:100%;height:150px}
+  .foot-inner{grid-template-columns:1fr;gap:20px;padding:26px 16px 16px}
+  .notice-bar .notice-track{gap:16px}
+  .head-inner{padding:9px 14px;gap:12px}
+  .brand-text b{font-size:16px}
+  .head-search input{width:88px}
+  .rank-list li{grid-template-columns:24px minmax(0,1fr) 54px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pick-card:hover{transform:none}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- 吸顶公告条 + 页头 -->
+<div class="stick-wrap">
+  <div class="notice-bar" role="region" aria-label="更新公告">
+    <span class="dot" aria-hidden="true"></span>
+    <strong>11 月 8 日更新</strong>
+    <div class="notice-track">
+      <span>《流人》第四季 1080P 双语字幕第 6 集已校订</span>
+      <span>本周新增 27 部剧目字幕档案</span>
+      <span>《幕府将军》双语版补齐第 10 集时间轴</span>
+    </div>
+    <a href="#gengxin">查看更新</a>
+  </div>
+  <header class="site-head">
+    <div class="head-inner">
+      <a class="brand" href="#top" aria-label="人人影视字幕组 首页">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="14" fill="#1b2a41"/>
+          <path d="M14 19h36v6H14zM14 30h23v6H14zM14 41h29v6H14z" fill="#f0b429"/>
+          <circle cx="50" cy="44" r="7.5" fill="#e4572e"/>
+          <path d="M47 44l2.2 2.4L53.5 41" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text"><b>人人影视字幕组</b><small>SUBTITLE ARCHIVE</small></span>
+      </a>
+      <nav class="head-nav" aria-label="主题导航">
+        <a href="#gaishu">字幕档案</a>
+        <a href="#jingxuan">精选剧目</a>
+        <a href="#gengxin">更新动态</a>
+        <a href="#fenlei">分类筛选</a>
+        <a href="#jiedu">版本解析</a>
+        <a href="#zhinan">追剧路径</a>
+        <a href="#wenda">常见问答</a>
+        <a href="#bangdan">热榜</a>
+      </nav>
+      <form class="head-search" role="search" id="siteSearch" onsubmit="return false;">
+        <label for="q" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">搜索剧目</label>
+        <input id="q" type="search" placeholder="搜剧目 / 字幕版本" autocomplete="off">
+        <button type="button" id="searchBtn">查找</button>
+      </form>
+    </div>
+  </header>
+</div>
+
+<div class="wrap" id="top">
+
+  <!-- 首屏 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-eyebrow">字幕档案 · 版本对照 · 追剧速览</span>
+        <h1 id="hero-title">人人影视字幕组</h1>
+        <p class="hero-lead">这里汇集的是美剧、英剧、日韩剧、电影与纪录片在<b>字幕版本</b>上的具体信息：哪部剧出到第几集、双语与简体字幕的差异、时间轴校订情况、译名与术语处理习惯，以及新剧集的上线节奏。适合想弄清版本区别、按更新时间追剧、或为一部冷门片找合适字幕的观众查阅。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#jingxuan">浏览精选剧目</a>
+          <a class="btn btn-ghost" href="#gengxin">看今日更新</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>1,284</b><span>剧目字幕档案</span></div>
+          <div><b>27</b><span>本周新增条目</span></div>
+          <div><b>6</b><span>今日校订剧集</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 340 260" role="presentation">
+          <defs>
+            <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#33496b"/><stop offset="1" stop-color="#1b2a41"/>
+            </linearGradient>
+            <linearGradient id="gl" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#e4572e"/><stop offset="1" stop-color="#f0b429"/>
+            </linearGradient>
+          </defs>
+          <rect x="18" y="28" width="244" height="150" rx="10" fill="url(#scr)" stroke="#4a648c" stroke-width="1.4"/>
+          <rect x="34" y="46" width="212" height="8" rx="4" fill="#5c7aa8" opacity=".55"/>
+          <rect x="34" y="62" width="150" height="8" rx="4" fill="#5c7aa8" opacity=".4"/>
+          <rect x="34" y="86" width="196" height="7" rx="3.5" fill="#f0b429" opacity=".9"/>
+          <rect x="34" y="101" width="128" height="7" rx="3.5" fill="#f0b429" opacity=".55"/>
+          <rect x="34" y="124" width="212" height="1.4" fill="#4a648c"/>
+          <rect x="34" y="136" width="86" height="24" rx="6" fill="#e4572e" opacity=".85"/>
+          <text x="77" y="152" font-size="11" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="700">CC 双语</text>
+          <rect x="130" y="136" width="70" height="24" rx="6" fill="#2c4160" stroke="#5c7aa8"/>
+          <text x="165" y="152" font-size="11" fill="#c6cfdc" text-anchor="middle" font-family="sans-serif">简体</text>
+          <rect x="210" y="136" width="36" height="24" rx="6" fill="#1f6f6b"/>
+          <text x="228" y="152" font-size="10" fill="#d8efed" text-anchor="middle" font-family="sans-serif">SRT</text>
+          <path d="M272 52l40 22-40 22z" fill="url(#gl)" opacity=".92"/>
+          <rect x="262" y="112" width="58" height="8" rx="4" fill="#f0b429" opacity=".7"/>
+          <rect x="262" y="128" width="40" height="8" rx="4" fill="#f0b429" opacity=".45"/>
+          <rect x="262" y="150" width="52" height="8" rx="4" fill="#e4572e" opacity=".6"/>
+          <circle cx="286" cy="200" r="22" fill="none" stroke="#4a648c" stroke-width="1.6"/>
+          <circle cx="286" cy="200" r="13" fill="none" stroke="#f0b429" stroke-width="1.6"/>
+          <path d="M286 196v6l4 3" stroke="#f0b429" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <rect x="18" y="196" width="230" height="1.4" fill="#4a648c" opacity=".6"/>
+          <rect x="18" y="208" width="120" height="26" rx="6" fill="#2c4160" stroke="#4a648c"/>
+          <text x="78" y="225" font-size="10.5" fill="#c6cfdc" text-anchor="middle" font-family="sans-serif">EP06 · 校订完成</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="portal-grid">
+
+    <!-- 左频道索引 -->
+    <aside class="portal-left" aria-label="频道索引">
+      <div class="side-card">
+        <h2>频道索引</h2>
+        <ul class="chan-list">
+          <li><a href="#fenlei">美剧字幕<span class="cnt">412</span></a></li>
+          <li><a href="#fenlei">英剧字幕<span class="cnt">186</span></a></li>
+          <li><a href="#fenlei">日剧字幕<span class="cnt">173</span></a></li>
+          <li><a href="#fenlei">韩剧字幕<span class="cnt">208</span></a></li>
+          <li><a href="#fenlei">电影字幕<span class="cnt">241</span></a></li>
+          <li><a href="#fenlei">纪录片字幕<span class="cnt">64</span></a></li>
+          <li><a href="#jiedu">双语对照版本</a></li>
+          <li><a href="#jiedu">时间轴校订</a></li>
+          <li><a href="#zhinan">连载追剧表</a></li>
+          <li><a href="#bangdan">完结补番榜</a></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h2>版本速查</h2>
+        <ul class="chan-list">
+          <li><a href="#jiedu">简中单语</a></li>
+          <li><a href="#jiedu">中英双语</a></li>
+          <li><a href="#jiedu">软字幕 SRT</a></li>
+          <li><a href="#jiedu">硬字幕版本</a></li>
+          <li><a href="#jiedu">注释版（文化梗）</a></li>
+        </ul>
+        <p class="mini-note">同一部剧常并存多种字幕形态，集数、码率与译名可能不同，逐条对照再决定。</p>
+      </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="portal-main">
+
+      <!-- 1 主题领域概览 -->
+      <section class="panel overview" id="gaishu" aria-labelledby="h-gaishu">
+        <div class="sec-head">
+          <h2 id="h-gaishu">字幕档案领域概览</h2>
+          <span class="sub">覆盖六大剧种与五类字幕形态</span>
+        </div>
+        <p>围绕人人影视字幕组这一条目，实际牵动的是一个以剧集为中心的字幕资源体系：美剧占据最大比重，英剧、日剧、韩剧各自形成稳定的追更人群，电影与纪录片则更多以单片档案的形式存在。每一部剧目在档案里不是一条链接，而是一组信息：原片名与中文译名、播出平台、季数与集数、当前更新的集数、字幕语言形态（简中单语 / 中英双语 / 注释版）、封装方式（软字幕或硬字幕）、时间轴校订状态与译名表版本。</p>
+        <p>真正影响观看体验的差异往往藏在这些字段里。以<span class="kbd">中英双语</span>版本为例，它适合想顺带对照原文的观众，但双语行会占用较多画面空间，在手机竖屏上容易压住画面下缘；<span class="kbd">简中单语</span>版本阅读更轻，但对白中的双关、俚语与专业术语可能被抹平。注释版则在文化梗、法律术语、医学名词处加行内说明，信息量最大，代价是视线频繁离开对白。</p>
+        <p>当前值得关注的具体方向有三类。其一是长线连载剧的集数追赶，例如《流人》第四季与《幕府将军》这类周更剧，字幕通常在正片上线后 12—36 小时内放出首版，第 2—3 天再出校订版。其二是老剧补档，许多 2010 年代前后的剧集只保留了早期版本字幕，译名与现在通行译法不一致，需要按译名表核对。其三是单片电影与纪录片的版本稀缺问题，冷门片往往只有一种字幕形态，选择空间很小，此时更该关注时间轴是否对齐、是否有 OCR 残留错字。</p>
+        <p>把这些字段读顺，判断一部剧值不值得现在开看、该等哪个版本，就有了具体依据，而不是只凭热度数字决定。</p>
+      </section>
+
+      <!-- 2 精选内容推荐 -->
+      <section class="panel" id="jingxuan" aria-labelledby="h-jingxuan">
+        <div class="sec-head">
+          <h2 id="h-jingxuan">精选剧目字幕档案</h2>
+          <span class="sub">9 部 · 含版本与校订状态</span>
+        </div>
+        <div class="card-grid">
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-slowhorse04/400/300" width="400" height="300" loading="lazy" alt="《流人》第四季特工题材剧照">
+              <span class="badge">英剧 · 谍战</span>
+              <span class="score">9.1</span>
+            </div>
+            <div class="pick-body">
+              <h3>流人 第四季</h3>
+              <p>军情五处边缘小组的慢热谍战，台词密集且大量使用伦敦俚语，双语版对理解讽刺语气帮助明显，第 6 集已完成时间轴二次校订。</p>
+              <div class="tag-row"><span class="tag">中英双语</span><span class="tag">俚语注释</span><span class="tag warm">周更</span></div>
+              <div class="pick-meta"><span>更新至 EP06</span><span>11-08 校订</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-shogun11/400/300" width="400" height="300" loading="lazy" alt="《幕府将军》战国题材剧照">
+              <span class="badge">美剧 · 历史</span>
+              <span class="score">8.8</span>
+            </div>
+            <div class="pick-body">
+              <h3>幕府将军 第一季</h3>
+              <p>以日本战国为背景的英语剧，夹杂大量日语对白与官职名，注释版对“奉行”“大老”等称谓加了行内说明，适合不熟悉日本史的观众。</p>
+              <div class="tag-row"><span class="tag">注释版</span><span class="tag">日语对白</span><span class="tag">已完结</span></div>
+              <div class="pick-meta"><span>全 10 集</span><span>11-05 补齐</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-bearkitchen07/400/300" width="400" height="300" loading="lazy" alt="《熊家餐馆》后厨题材剧照">
+              <span class="badge">美剧 · 职场</span>
+              <span class="score">8.6</span>
+            </div>
+            <div class="pick-body">
+              <h3>熊家餐馆 第三季</h3>
+              <p>后厨高压环境下的快节奏对白，大量重叠争吵与背景人声，字幕需要处理多人同说的分行问题，本季双语版对厨房术语加了简注。</p>
+              <div class="tag-row"><span class="tag">中英双语</span><span class="tag">厨房术语</span><span class="tag warm">周更</span></div>
+              <div class="pick-meta"><span>更新至 EP08</span><span>11-07 校订</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-kdrama21/400/300" width="400" height="300" loading="lazy" alt="《泪之女王》都市情感剧剧照">
+              <span class="badge">韩剧 · 情感</span>
+              <span class="score">8.3</span>
+            </div>
+            <div class="pick-body">
+              <h3>泪之女王</h3>
+              <p>财阀婚姻题材，敬语与半语切换频繁，字幕用“您 / 你”区分人物关系变化，是判断译制是否用心的一个观察点，全集简中版已齐。</p>
+              <div class="tag-row"><span class="tag">简中单语</span><span class="tag">敬语处理</span><span class="tag">已完结</span></div>
+              <div class="pick-meta"><span>全 16 集</span><span>11-02 补档</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-jdrama33/400/300" width="400" height="300" loading="lazy" alt="《重启人生》日常题材日剧剧照">
+              <span class="badge">日剧 · 生活</span>
+              <span class="score">9.0</span>
+            </div>
+            <div class="pick-body">
+              <h3>重启人生</h3>
+              <p>以反复重生串联日常对话的剧集，语速快、吐槽密集，字幕对地方口音与综艺梗做了括号注释，简中版阅读负担较轻。</p>
+              <div class="tag-row"><span class="tag">简中单语</span><span class="tag">口语梗注释</span><span class="tag">已完结</span></div>
+              <div class="pick-meta"><span>全 10 集</span><span>10-28 校订</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-docu45/400/300" width="400" height="300" loading="lazy" alt="《深海观测站》海洋纪录片画面">
+              <span class="badge">纪录片 · 自然</span>
+              <span class="score">8.9</span>
+            </div>
+            <div class="pick-body">
+              <h3>深海观测站</h3>
+              <p>海洋科考纪录片，大量物种拉丁学名与设备术语，字幕采用“中文名（学名）”的双层写法，注释版另附深度单位换算说明。</p>
+              <div class="tag-row"><span class="tag">注释版</span><span class="tag">学名对照</span><span class="tag">全 6 集</span></div>
+              <div class="pick-meta"><span>全 6 集</span><span>11-04 校订</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-film58/400/300" width="400" height="300" loading="lazy" alt="《末班地铁》城市悬疑电影剧照">
+              <span class="badge">电影 · 悬疑</span>
+              <span class="score">8.1</span>
+            </div>
+            <div class="pick-body">
+              <h3>末班地铁</h3>
+              <p>单一场景悬疑片，对白少、环境音多，字幕时间轴需要贴合呼吸节奏，本片只提供简中软字幕一种形态，注意核对片长版本。</p>
+              <div class="tag-row"><span class="tag">简中单语</span><span class="tag">软字幕 SRT</span><span class="tag">单片</span></div>
+              <div class="pick-meta"><span>片长 108 分</span><span>11-01 发布</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-crowngirl62/400/300" width="400" height="300" loading="lazy" alt="《王冠之下》宫廷历史剧剧照">
+              <span class="badge">英剧 · 历史</span>
+              <span class="score">8.7</span>
+            </div>
+            <div class="pick-body">
+              <h3>王冠之下 第二季</h3>
+              <p>宫廷政治题材，称谓与爵位体系复杂，字幕在首次出现时加括号标注身份，双语版更适合需要对照原句语气的观众。</p>
+              <div class="tag-row"><span class="tag">中英双语</span><span class="tag">爵位注释</span><span class="tag warm">周更</span></div>
+              <div class="pick-meta"><span>更新至 EP04</span><span>11-06 校订</span></div>
+            </div>
+          </article>
+
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/renren-anime74/400/300" width="400" height="300" loading="lazy" alt="《齿轮之城》动画剧集画面">
+              <span class="badge">动画 · 科幻</span>
+              <span class="score">8.4</span>
+            </div>
+            <div class="pick-body">
+              <h3>齿轮之城</h3>
+              <p>蒸汽朋克设定动画，自造词与机械部件名多，字幕组为专名建立独立译名表并保持全季一致，追更时留意译名表版本号。</p>
+              <div class="tag-row"><span class="tag">专名译名表</span><span class="tag">简中单语</span><span class="tag warm">周更</span></div>
+              <div class="pick-meta"><span>更新至 EP05</span><span>11-07 发布</span></div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 3 最新更新 / 动态 -->
+      <section class="panel" id="gengxin" aria-labelledby="h-gengxin">
+        <div class="sec-head">
+          <h2 id="h-gengxin">最新更新与校订动态</h2>
+          <span class="sub">11-07 至 11-08</span>
+        </div>
+        <ul class="update-list">
+          <li><time>11-08 09:30</time><span class="u-title">流人 第四季 第 6 集<span class="u-desc">双语版时间轴二次校订，修正三处多人重叠对白的分行</span></span><span class="u-tag">校订</span></li>
+          <li><time>11-08 08:12</time><span class="u-title">熊家餐馆 第三季 第 8 集<span class="u-desc">简中单语版放出，厨房术语注释沿用第 3 集起的统一译名</span></span><span class="u-tag">新集</span></li>
+          <li><time>11-07 23:40</time><span class="u-title">幕府将军 第 10 集<span class="u-desc">注释版补齐末尾旁白段落，补上两处官职名说明</span></span><span class="u-tag">补齐</span></li>
+          <li><time>11-07 21:10</time><span class="u-title">齿轮之城 第 5 集<span class="u-desc">专名译名表更新至 v1.3，机械部件名统一为“齿轮箱”</span></span><span class="u-tag">译名表</span></li>
+          <li><time>11-07 18:05</time><span class="u-title">王冠之下 第二季 第 4 集<span class="u-desc">双语版上线，爵位称谓首次出现处加括号身份标注</span></span><span class="u-tag">新集</span></li>
+          <li><time>11-06 22:30</time><span class="u-title">深海观测站 第 5 集<span class="u-desc">学名对照表增补 14 个物种中文名，修正一处深度单位</span></span><span class="u-tag">校订</span></li>
+          <li><time>11-06 15:48</time><span class="u-title">末班地铁<span class="u-desc">发布 108 分钟版本 SRT，同步标注 102 分钟剪辑版的时间偏移</span></span><span class="u-tag">发布</span></li>
+          <li><time>11-05 20:20</time><span class="u-title">泪之女王 第 16 集<span class="u-desc">大结局简中版补档，敬语与半语切换处统一处理口径</span></span><span class="u-tag">补档</span></li>
+          <li><time>11-05 13:15</time><span class="u-title">重启人生 第 10 集<span class="u-desc">口语梗注释复核，删去两处过度解释、保留一处必要背景</span></span><span class="u-tag">复核</span></li>
+          <li><time>11-04 19:02</time><span class="u-title">深海观测站 第 4 集<span class="u-desc">双语版新增英文旁白轨，方便对照科考术语原文</span></span><span class="u-tag">新版</span></li>
+          <li><time>11-03 11:35</time><span class="u-title">王冠之下 第一季<span class="u-desc">旧版字幕译名回退问题修复，与第二季译名表对齐</span></span><span class="u-tag">修复</span></li>
+        </ul>
+      </section>
+
+      <!-- 4 分类入口 + 筛选 -->
+      <section class="panel" id="fenlei" aria-labelledby="h-fenlei">
+        <div class="sec-head">
+          <h2 id="h-fenlei">按类型找字幕</h2>
+          <span class="sub">点击筛选下列分类</span>
+        </div>
+        <div class="filter-bar" role="group" aria-label="类型筛选">
+          <button type="button" class="is-active" data-cat="all">全部</button>
+          <button type="button" data-cat="us">美剧</button>
+          <button type="button" data-cat="uk">英剧</button>
+          <button type="button" data-cat="jp">日剧</button>
+          <button type="button" data-cat="kr">韩剧</button>
+          <button type="button" data-cat="film">电影</button>
+          <button type="button" data-cat="doc">纪录片</button>
+          <button type="button" data-cat="ani">动画</button>
+        </div>
+        <div class="cat-grid" id="catGrid">
+          <div class="cat-cell" data-cat="us"><b>美剧</b><span>周更连载为主，412 部档案，双语版占比最高</span></div>
+          <div class="cat-cell" data-cat="uk"><b>英剧</b><span>俚语与口音密集，186 部档案，注释版更常见</span></div>
+          <div class="cat-cell" data-cat="jp"><b>日剧</b><span>语速快、吐槽多，173 部档案，简中版阅读轻</span></div>
+          <div class="cat-cell" data-cat="kr"><b>韩剧</b><span>敬语体系是译制关键，208 部档案</span></div>
+          <div class="cat-cell" data-cat="film"><b>电影</b><span>单片档案 241 条，注意片长与剪辑版本差异</span></div>
+          <div class="cat-cell" data-cat="doc"><b>纪录片</b><span>学名与术语对照，64 部档案，注释版为主</span></div>
+          <div class="cat-cell" data-cat="ani"><b>动画</b><span>自造词多，需独立译名表，52 部档案</span></div>
+          <div class="cat-cell" data-cat="us"><b>连载追更</b><span>按播出日历排列的周更剧目，含集数与校订状态</span></div>
+        </div>
+        <p class="filter-empty" id="filterEmpty">没有符合条件的分类，换个类型试试。</p>
+      </section>
+
+      <!-- 5 深度解析 -->
+      <section class="panel deep" id="jiedu" aria-labelledby="h-jiedu">
+        <div class="sec-head">
+          <h2 id="h-jiedu">字幕版本差异与选择解析</h2>
+          <span class="sub">约 800 字 · 含对照表</span>
+        </div>
+
+        <h3>双语、单语与注释版，差别不只在行数</h3>
+        <p>同一部剧的多个字幕版本，差异首先体现在信息密度上。简中单语版把注意力全部留给中文对白，一行一句，阅读速度快，适合追更时一晚连看两三集；中英双语版在中文对白下压一行英文原文，遇到双关、反讽或语气词时可以直接对照，代价是画面下缘被占去更多空间，在 13 英寸以下的屏幕上尤其明显。注释版则在双语基础上再加行内说明，处理的是文化背景而非语言本身，比如英剧里的一句议会程序玩笑，注释会补一句它影射的是哪条惯例。</p>
+        <p>三者的取舍不是谁更高级，而是看你要从这一集里取什么。想快速推进剧情，单语版效率最高；想练听力或核对译文准确度，双语版更合适；想把一部历史剧或专业题材看懂，注释版的额外信息才真正派上用场。</p>
+
+        <h3>软字幕与硬字幕的取舍</h3>
+        <p>封装方式的差别常被忽略，却直接影响使用场景。软字幕以独立字幕文件随片封装，可开关、可调字号与位置、可替换为其他语言版本，缺点是需要播放器支持，部分老设备会出现字体缺失或位置漂移。硬字幕把文字直接压进画面，任何设备都能显示，但无法关闭，也无法调整，遇到画面本身就在底部有文字的场景时容易叠字。</p>
+        <p>实际判断方法很简单：如果你会在电视、平板、手机之间切换观看，优先选软字幕；如果只是固定设备一次看完，硬字幕的稳定性反而更省心。</p>
+
+        <h3>版本对照：四种常见字幕形态</h3>
+        <table class="cmp-table">
+          <thead>
+            <tr><th>形态</th><th>画面占用</th><th>适合场景</th><th>常见问题</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>简中单语</b></td><td>低</td><td>连续追更、移动端观看</td><td>双关与术语被抹平</td></tr>
+            <tr><td><b>中英双语</b></td><td>中</td><td>对照原文、练听力</td><td>小屏压画面下缘</td></tr>
+            <tr><td><b>注释版</b></td><td>高</td><td>历史剧、专业题材</td><td>视线频繁离开对白</td></tr>
+            <tr><td><b>硬字幕版</b></td><td>固定</td><td>设备兼容性优先</td><td>无法关闭、可能叠字</td></tr>
+          </tbody>
+        </table>
+
+        <h3>时间轴校订为什么值得等一两天</h3>
+        <p>首版字幕通常在正片上线后 12—36 小时内放出，此时最常出现的问题不是翻译错误，而是时间轴错位：多人同时说话的段落被压成一行、背景广播与主对白抢同一时间点、片尾曲段落提前收尾。校订版一般在本集上线后第 2—3 天出现，改动集中在分行、提前量与延后量上。</p>
+        <ul>
+          <li><b>看更新标记：</b>档案里标注“校订”的条目，通常已处理过分行与时间轴偏移。</li>
+          <li><b>看集数连续性：</b>同一季前几集都是校订版、最新一集仍是首版，说明这集还在修订窗口内。</li>
+          <li><b>看译名一致性：</b>专名译名表版本号变化时，前后集的人名、地名可能不同，跨集连看要留意。</li>
+        </ul>
+
+        <h3>译名表与专名一致性</h3>
+        <p>连载剧最容易出问题的地方是人名与专名。一部剧播到第三季，早期译名与后期译名不一致，会让观众在人物关系上产生错位。成熟的档案会给专名单独建表，记录首次出现集数、采用的译法与备选译法。像《齿轮之城》这类自造词密集的动画，译名表版本号会随集数更新；《幕府将军》这类历史题材，官职名则倾向于保留日文原词加注释，而不是强行意译。</p>
+        <p>判断一份字幕是否可靠，不妨先看它有没有公开的译名表，再看这张表是否随集数维护。没有译名表、前后集人名对不上的版本，即使翻译本身流畅，长线追更也会越看越累。</p>
+      </section>
+
+      <!-- 6 体验指南 -->
+      <section class="panel" id="zhinan" aria-labelledby="h-zhinan">
+        <div class="sec-head">
+          <h2 id="h-zhinan">追剧与选版路径</h2>
+          <span class="sub">从类型到具体条目的判断顺序</span>
+        </div>
+        <ol class="steps">
+          <li><div><b>先定类型，再定剧目</b><span>周更连载适合跟着播出日历追，已完结剧适合一次补完。先想清楚是“今晚看一集”还是“这个周末补一季”，再进对应的分类。</span></div></li>
+          <li><div><b>用集数与校订状态筛掉一半候选</b><span>更新到第几集、是不是校订版，比评分更能决定当下的观看体验。首版刚放出的一集，可以先等一天再开。</span></div></li>
+          <li><div><b>按观看设备选字幕形态</b><span>手机与平板优先简中单语；大屏或想对照原文时选双语；历史剧、专业题材再考虑注释版。</span></div></li>
+          <li><div><b>核对片长与剪辑版本</b><span>电影尤其要注意，同一部片可能有 102 分钟与 108 分钟两个剪辑，字幕时间轴不通用，先确认片长再匹配。</span></div></li>
+          <li><div><b>连续追更时留意译名表版本</b><span>跨集观看前扫一眼译名表是否更新，能避免人名突然变化带来的困惑。</span></div></li>
+          <li><div><b>冷门片降低预期，先看时间轴</b><span>只有一种字幕形态的冷门片，先确认时间轴是否对齐、有无 OCR 残留错字，再决定是否投入时间。</span></div></li>
+        </ol>
+      </section>
+
+      <!-- 7 FAQ -->
+      <section class="panel faq" id="wenda" aria-labelledby="h-wenda">
+        <div class="sec-head">
+          <h2 id="h-wenda">常见问答</h2>
+          <span class="sub">6 个高频问题</span>
+        </div>
+        <details>
+          <summary>美剧字幕一般多久更新一集？</summary>
+          <div class="ans">周更剧通常在正片上线后 12—36 小时放出首版字幕，第 2—3 天再出校订版。像《流人》第四季这类台词密集的剧，校订版改动更明显；节奏简单的剧，首版可用度就比较高。</div>
+        </details>
+        <details>
+          <summary>中英双语版和简中单语版该怎么选？</summary>
+          <div class="ans">想快速推进剧情、在手机上看，选简中单语；想对照原文、核对双关与语气，选中英双语。双语版会多占一行画面空间，小屏上更明显，这是最直接的取舍点。</div>
+        </details>
+        <details>
+          <summary>第一次接触这类剧集，从哪部开始看比较好？</summary>
+          <div class="ans">如果偏好生活流对白，可以从《重启人生》入手，语速快但情境清楚；如果喜欢强情节，从《流人》第四季开始，但建议先看前三季。历史题材建议从《幕府将军》注释版起步，理解成本更低。</div>
+        </details>
+        <details>
+          <summary>注释版字幕是不是一定更好？</summary>
+          <div class="ans">不一定。注释版信息量最大，但会频繁打断阅读节奏。日常轻喜剧用注释版反而累，历史剧、法律或医学题材才真正受益。判断标准是：这一集里有多少信息是你仅靠中文对白无法理解的。</div>
+        </details>
+        <details>
+          <summary>为什么同一部剧前后集的人名译法不一样？</summary>
+          <div class="ans">常见原因是译名表更新或换人接手。成熟的档案会维护专名表并标注版本号，前后集对齐后再发布。遇到人名突变，先查译名表版本，再决定是否换用其他版本的字幕。</div>
+        </details>
+        <details>
+          <summary>电影字幕和剧集字幕有什么不同？</summary>
+          <div class="ans">电影是单片，没有跨集译名一致性问题，但更依赖片长与剪辑版本匹配。同一部片若存在不同剪辑，时间轴不通用。剧集则更看重译名连续性与周更节奏，两者的判断重点不一样。</div>
+        </details>
+      </section>
+
+      <!-- 8 用户评论 -->
+      <section class="panel" id="pinglun" aria-labelledby="h-pinglun">
+        <div class="sec-head">
+          <h2 id="h-pinglun">观众评论</h2>
+          <span class="sub">14 条 · 围绕具体剧目与版本</span>
+        </div>
+        <div class="cmt-grid">
+          <article class="cmt"><header><span class="avatar" style="background:#1f6f6b">林</span><span class="who">林间慢跑</span><span class="when">11-08 10:12</span></header><p>《流人》第四季第 6 集校订后，多人争吵那段终于分行了，之前首版看着有点乱。</p><span class="ref">流人 第四季</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#e4572e">周</span><span class="who">周末补剧人</span><span class="when">11-08 09:05</span></header><p>《幕府将军》注释版对官职名的处理挺克制，没有每个词都解释，看得下去。</p><span class="ref">幕府将军</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#c9941a">阿</span><span class="who">阿岚不熬夜</span><span class="when">11-07 22:41</span></header><p>《熊家餐馆》第三季后厨争吵太多人同时说话，简中版读起来比双语版顺，双语那行挤得慌。</p><span class="ref">熊家餐馆 第三季</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#2c4160">沈</span><span class="who">沈默看片</span><span class="when">11-07 20:18</span></header><p>《末班地铁》只有一种字幕形态，时间轴倒是贴得不错，片长记得对 108 分钟那版。</p><span class="ref">末班地铁</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#1f6f6b">陈</span><span class="who">陈小满</span><span class="when">11-07 18:33</span></header><p>《泪之女王》敬语和半语切换的处理能看出用心，“您”和“你”换得挺准。</p><span class="ref">泪之女王</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#e4572e">老</span><span class="who">老片重看</span><span class="when">11-07 15:02</span></header><p>《王冠之下》第一季回退的译名修好了，和第二季终于对得上，之前看得很别扭。</p><span class="ref">王冠之下</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#c9941a">青</span><span class="who">青柠气泡</span><span class="when">11-06 23:20</span></header><p>《齿轮之城》译名表更新到 v1.3 之后“齿轮箱”统一了，前几集还是旧译法，跨集看要注意。</p><span class="ref">齿轮之城</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#2c4160">吴</span><span class="who">吴下阿蒙</span><span class="when">11-06 21:47</span></header><p>《深海观测站》学名对照挺实用，但注释版信息太密，我后来换回单语版了。</p><span class="ref">深海观测站</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#1f6f6b">何</span><span class="who">何处不追剧</span><span class="when">11-06 14:09</span></header><p>《重启人生》的口语梗注释删掉两处之后舒服多了，之前有些解释反而打断节奏。</p><span class="ref">重启人生</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#e4572e">许</span><span class="who">许一集</span><span class="when">11-05 22:31</span></header><p>《流人》前三季的双语版我补了一遍，俚语注释确实帮了大忙，不然很多反讽听不出来。</p><span class="ref">流人 第四季</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#c9941a">苏</span><span class="who">苏打水加冰</span><span class="when">11-05 19:55</span></header><p>《王冠之下》第二季第 4 集的爵位标注有点多，第一次出现标一下还行，后面重复标就有点累。</p><span class="ref">王冠之下</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#2c4160">郑</span><span class="who">郑在看剧</span><span class="when">11-05 11:22</span></header><p>《熊家餐馆》的厨房术语注释挺克制，只标了不常见的几个，这个尺度我觉得合适。</p><span class="ref">熊家餐馆 第三季</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#1f6f6b">叶</span><span class="who">叶落知秋</span><span class="when">11-04 20:40</span></header><p>《幕府将军》第 10 集旁白补上之后结尾顺了，之前那版断得有点突然。</p><span class="ref">幕府将军</span></article>
+          <article class="cmt"><header><span class="avatar" style="background:#e4572e">罗</span><span class="who">罗盘有点歪</span><span class="when">11-04 16:13</span></header><p>《深海观测站》第 4 集加了英文旁白轨，对照科考术语原文方便不少，虽然看得慢一点。</p><span class="ref">深海观测站</span></article>
+        </div>
+      </section>
+
+      <!-- 9 相关资讯 -->
+      <section class="panel" id="zixun" aria-labelledby="h-zixun">
+        <div class="sec-head">
+          <h2 id="h-zixun">相关资讯</h2>
+          <span class="sub">11-08 至 11-01</span>
+        </div>
+        <div class="news-list">
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-a1/600/400" width="132" height="88" loading="lazy" alt="字幕档案新增条目统计示意图">
+            <div>
+              <h3>本周字幕档案新增 27 部剧目，英剧占比上升</h3>
+              <time>2026-11-08</time>
+              <p>新增条目中英剧 9 部、美剧 8 部，其余分布在日剧与纪录片。英剧条目普遍标注了俚语注释版本。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-b2/600/400" width="132" height="88" loading="lazy" alt="周更剧集播出日历示意画面">
+            <div>
+              <h3>十一月周更剧集播出日历调整，三部剧换档</h3>
+              <time>2026-11-07</time>
+              <p>《流人》第四季与《王冠之下》第二季保持周更，《齿轮之城》改为周四上线，追更节奏需重排。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-c3/600/400" width="132" height="88" loading="lazy" alt="专名译名表版本更新界面示意">
+            <div>
+              <h3>《齿轮之城》专名译名表升至 v1.3，机械部件名统一</h3>
+              <time>2026-11-07</time>
+              <p>本次更新统一 11 个机械部件译法，前四集旧译法保留备查，跨集连看建议以最新版本为准。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-d4/600/400" width="132" height="88" loading="lazy" alt="历史剧注释版字幕讨论场景">
+            <div>
+              <h3>历史题材注释版争议：标注密度多少算合适</h3>
+              <time>2026-11-05</time>
+              <p>围绕《幕府将军》与《王冠之下》的注释密度出现讨论，多数意见倾向于首次出现标注、后续不重复。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-e5/600/400" width="132" height="88" loading="lazy" alt="电影片长与剪辑版本对照示意">
+            <div>
+              <h3>《末班地铁》双剪辑版本并存，字幕需按片长匹配</h3>
+              <time>2026-11-02</time>
+              <p>108 分钟版与 102 分钟剪辑版时间轴不通用，发布方已同步标注两版偏移量，下载前需确认片长。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/renren-news-f6/600/400" width="132" height="88" loading="lazy" alt="韩剧敬语译法讨论画面">
+            <div>
+              <h3>韩剧敬语译法讨论升温，“您 / 你”切换标准被重新梳理</h3>
+              <time>2026-11-01</time>
+              <p>《泪之女王》补档后，敬语与半语的对应规则被整理成简表，供后续韩剧条目参照。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 10 相关推荐 -->
+      <section class="panel" id="tuijian" aria-labelledby="h-tuijian">
+        <div class="sec-head">
+          <h2 id="h-tuijian">延伸方向索引</h2>
+          <span class="sub">按类型与版本形态延伸</span>
+        </div>
+        <div class="rel-tags">
+          <a href="#fenlei">谍战与情报题材<span class="n">38</span></a>
+          <a href="#fenlei">宫廷历史剧<span class="n">24</span></a>
+          <a href="#fenlei">后厨职场剧<span class="n">17</span></a>
+          <a href="#jiedu">俚语注释版<span class="n">61</span></a>
+          <a href="#jiedu">学名对照纪录片<span class="n">29</span></a>
+          <a href="#jiedu">自造词译名表<span class="n">14</span></a>
+          <a href="#zhinan">完结补番清单<span class="n">96</span></a>
+          <a href="#gengxin">周更播出日历<span class="n">43</span></a>
+        </div>
+      </section>
+
+      <!-- 11 补充板块：热门榜单 -->
+      <section class="panel" id="bangdan" aria-labelledby="h-bangdan">
+        <div class="sec-head">
+          <h2 id="h-bangdan">本周追更热度榜</h2>
+          <span class="sub">截至 2026-11-08 09:00</span>
+        </div>
+        <ul class="rank-list">
+          <li><span class="rk-name">流人 第四季<span>EP06 校订版 · 英剧</span></span><span class="bar"><i style="width:96%"></i></span></li>
+          <li><span class="rk-name">熊家餐馆 第三季<span>EP08 简中版 · 美剧</span></span><span class="bar"><i style="width:89%"></i></span></li>
+          <li><span class="rk-name">幕府将军 第一季<span>全 10 集注释版 · 美剧</span></span><span class="bar"><i style="width:84%"></i></span></li>
+          <li><span class="rk-name">王冠之下 第二季<span>EP04 双语版 · 英剧</span></span><span class="bar"><i style="width:77%"></i></span></li>
+          <li><span class="rk-name">齿轮之城<span>EP05 译名表 v1.3 · 动画</span></span><span class="bar"><i style="width:71%"></i></span></li>
+          <li><span class="rk-name">泪之女王<span>全 16 集简中版 · 韩剧</span></span><span class="bar"><i style="width:64%"></i></span></li>
+          <li><span class="rk-name">深海观测站<span>EP05 学名对照 · 纪录片</span></span><span class="bar"><i style="width:56%"></i></span></li>
+          <li><span class="rk-name">重启人生<span>全 10 集简中版 · 日剧</span></span><span class="bar"><i style="width:49%"></i></span></li>
+        </ul>
+      </section>
+
+    </main>
+
+    <!-- 右辅助栏 -->
+    <aside class="portal-aside" aria-label="辅助信息">
+
+      <div class="aside-card">
+        <h2>今日校订速览</h2>
+        <ol class="hot-list">
+          <li><a href="#gengxin">流人 第四季 EP06<em>双语 · 时间轴二次校订</em></a></li>
+          <li><a href="#gengxin">熊家餐馆 第三季 EP08<em>简中 · 厨房术语统一</em></a></li>
+          <li><a href="#gengxin">幕府将军 EP10<em>注释版 · 旁白补齐</em></a></li>
+          <li><a href="#gengxin">齿轮之城 EP05<em>译名表 v1.3</em></a></li>
+          <li><a href="#gengxin">王冠之下 第二季 EP04<em>双语 · 爵位标注</em></a></li>
+        </ol>
+      </div>
+
+      <div class="aside-card">
+        <h2>条目时间线</h2>
+        <ul class="tl">
+          <li><time>11-08</time><b>流人 EP06 校订</b>修正三处重叠对白分行</li>
+          <li><time>11-07</time><b>齿轮之城译名表</b>升级至 v1.3 并统一部件名</li>
+          <li><time>11-05</time><b>幕府将军补档</b>全 10 集注释版齐备</li>
+          <li><time>11-02</time><b>末班地铁双版</b>标注两版剪辑时间偏移</li>
+          <li><time>11-01</time><b>泪之女王补档</b>敬语译法规则整理成表</li>
+        </ul>
+        <p class="aside-note">时间线按校订与补档事件排列，用于判断某一集是否已过修订窗口。</p>
+      </div>
+
+      <div class="aside-card">
+        <h2>版本选择提示</h2>
+        <p class="aside-note" style="padding-top:12px">手机竖屏优先简中单语；大屏或核对原文选双语；历史、法律、医学题材再上注释版。电影先确认片长，剧集先看集数与校订标记。</p>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- 页尾 -->
+<footer class="site-foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <b>人人影视字幕组</b>
+      <p>以剧集为中心的字幕档案聚合，记录集数、字幕形态、校订状态与译名表版本，帮助观众按类型、设备与追更节奏做选择。</p>
+    </div>
+    <div class="foot-col">
+      <h4>按类型</h4>
+      <ul>
+        <li><a href="#fenlei">美剧字幕档案</a></li>
+        <li><a href="#fenlei">英剧字幕档案</a></li>
+        <li><a href="#fenlei">日剧字幕档案</a></li>
+        <li><a href="#fenlei">韩剧字幕档案</a></li>
+        <li><a href="#fenlei">电影与纪录片</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>版本形态</h4>
+      <ul>
+        <li><a href="#jiedu">简中单语版</a></li>
+        <li><a href="#jiedu">中英双语版</a></li>
+        <li><a href="#jiedu">注释版</a></li>
+        <li><a href="#jiedu">软字幕 SRT</a></li>
+        <li><a href="#jiedu">硬字幕版本</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>追更与查阅</h4>
+      <ul>
+        <li><a href="#gengxin">最新更新动态</a></li>
+        <li><a href="#zhinan">追剧与选版路径</a></li>
+        <li><a href="#wenda">常见问答</a></li>
+        <li><a href="#bangdan">追更热度榜</a></li>
+        <li><a href="#tuijian">延伸方向索引</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>部分内容为示例数据，仅用于展示页面结构。</span>
+    <span>© 2026 人人影视字幕组 · 字幕档案聚合</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 分类筛选
+  var bar = document.querySelector('.filter-bar');
+  var grid = document.getElementById('catGrid');
+  var empty = document.getElementById('filterEmpty');
+  if(bar && grid){
+    bar.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-cat]');
+      if(!btn) return;
+      var cat = btn.dataset.cat;
+      bar.querySelectorAll('button').forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+      var shown = 0;
+      grid.querySelectorAll('.cat-cell').forEach(function(cell){
+        var hit = (cat === 'all') || (cell.dataset.cat === cat);
+        cell.hidden = !hit;
+        if(hit) shown++;
+      });
+      empty.classList.toggle('show', shown === 0);
+    });
+  }
+
+  // 站内查找：滚动到首个匹配条目并高亮
+  var input = document.getElementById('q');
+  var btn = document.getElementById('searchBtn');
+  function doSearch(){
+    if(!input) return;
+    var kw = input.value.trim().toLowerCase();
+    document.querySelectorAll('.search-hit').forEach(function(el){
+      el.style.outline = '';
+      el.style.outlineOffset = '';
+      el.classList.remove('search-hit');
+    });
+    if(!kw) return;
+    var nodes = document.querySelectorAll('.pick-card, .update-list li, .cat-cell, .rank-list li, .news-item');
+    var found = null;
+    for(var i=0;i<nodes.length;i++){
+      if(nodes[i].textContent.toLowerCase().indexOf(kw) > -1){ found = nodes[i]; break; }
+    }
+    if(found){
+      found.classList.add('search-hit');
+      found.style.outline = '2px solid #e4572e';
+      found.style.outlineOffset = '3px';
+      found.scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      alert('没有找到包含“' + input.value.trim() + '”的条目，试试“流人”“双语”或“纪录片”。');
+    }
+  }
+  if(btn) btn.addEventListener('click', doSearch);
+  if(input) input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); doSearch(); }});
+})();
+</script>
+</body>
+  </html>
