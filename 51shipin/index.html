@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>51视频每日大赛 - 每日视频赛事与创作排行</title>
+  <meta name="description" content="51视频每日大赛汇集每日视频创作赛题、参赛作品排行与创作者动态。这里有速通、生活记录、创意短片等分类赛道，适合视频创作者与观众发现每日新赛果与热门作品。">
+  <meta name="keywords" content="每日视频挑战, 视频创作赛, 速通赛道, 创意短片, 生活记录赛">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M10 8l14 8-14 8V8z' fill='%2338bdf8'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --surface-alt: #f0f4fa;
+      --ink: #0b1b2b;
+      --ink-secondary: #2c3e50;
+      --muted: #5e6f82;
+      --border: #dce5f0;
+      --brand: #0b1b2b;
+      --brand-accent: #1e6f9f;
+      --accent: #0f6b9c;
+      --accent-soft: #e2eff8;
+      --highlight: #c4450c;
+      --highlight-soft: #fef0e8;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-sm: 0 2px 8px rgba(0,20,40,0.04);
+      --shadow-md: 0 8px 24px rgba(0,20,40,0.06);
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      --font-mono: 'SFMono-Regular', 'Menlo', monospace;
+      --max-width: 1320px;
+      --announce-height: 44px;
+      --header-height: 68px;
+      --sticky-offset: calc(var(--announce-height) + var(--header-height) + 8px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--sticky-offset);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-top: calc(var(--announce-height) + var(--header-height));
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      object-fit: cover;
+      background: var(--surface-alt);
+    }
+
+    /* 吸顶公告条 + 页头 */
+    .announce-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--announce-height);
+      background: var(--brand);
+      color: #eef6ff;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
+      padding: 0 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .announce-bar .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .announce-bar strong {
+      color: #7ed0ff;
+      font-weight: 600;
+    }
+
+    .announce-bar .dot {
+      width: 6px;
+      height: 6px;
+      background: #7ed0ff;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .site-header {
+      position: fixed;
+      top: var(--announce-height);
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--brand);
+      white-space: nowrap;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      flex-wrap: wrap;
+    }
+
+    .header-nav a:hover {
+      color: var(--accent);
+    }
+
+    .header-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-alt);
+      border-radius: 40px;
+      padding: 4px 4px 4px 16px;
+      border: 1px solid var(--border);
+    }
+
+    .header-search input {
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      padding: 6px 0;
+      width: 150px;
+      outline: none;
+      color: var(--ink);
+    }
+
+    .header-search input::placeholder {
+      color: var(--muted);
+    }
+
+    .header-search button {
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .header-search button:hover {
+      background: var(--accent);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    /* 首屏 / Hero */
+    .hero {
+      max-width: var(--max-width);
+      margin: 24px auto 0;
+      padding: 0 24px;
+    }
+
+    .hero-inner {
+      background: linear-gradient(135deg, #e8f2fa 0%, #f4f9ff 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 38px 40px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-content {
+      flex: 1 1 55%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--brand);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--brand);
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      font-size: 1.02rem;
+      color: var(--ink-secondary);
+      max-width: 540px;
+      margin-bottom: 24px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-visual {
+      flex: 0 0 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(0,40,80,0.06));
+    }
+
+    /* 主内容区 — 三栏门户 */
+    .main-container {
+      max-width: var(--max-width);
+      margin: 28px auto 48px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr) 260px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* 左频道索引 */
+    .channel-sidebar {
+      position: sticky;
+      top: var(--sticky-offset);
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 18px 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .channel-sidebar h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+
+    .channel-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .channel-nav a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      transition: background 0.1s;
+    }
+
+    .channel-nav a:hover {
+      background: var(--surface-alt);
+      color: var(--accent);
+    }
+
+    .channel-nav a.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* 中间主内容 */
+    .primary-content {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      min-width: 0;
+    }
+
+    .section-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 24px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--brand);
+    }
+
+    .section-header .meta-link {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .section-header .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 概览段落 */
+    .overview-text p {
+      font-size: 0.94rem;
+      color: var(--ink-secondary);
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+
+    .overview-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 精选卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .video-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--surface);
+      transition: box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .video-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .video-card-body {
+      padding: 12px 14px 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .video-card-title {
+      font-weight: 700;
+      font-size: 0.94rem;
+      line-height: 1.35;
+      color: var(--brand);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0;
+    }
+
+    .tag {
+      background: var(--surface-alt);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 40px;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .tag.accent {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .video-card-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .video-card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* 最新更新列表 */
+    .update-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .update-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .update-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .update-time {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+      min-width: 76px;
+      font-family: var(--font-mono);
+    }
+
+    .update-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .update-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .update-summary {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* 分类入口 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .category-chip {
+      background: var(--surface-alt);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.84rem;
+      color: var(--ink-secondary);
+      border: 1px solid transparent;
+      transition: all 0.1s;
+    }
+
+    .category-chip:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent-soft);
+    }
+
+    /* 深度解析 */
+    .deep-dive h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--brand);
+      margin: 20px 0 10px;
+    }
+
+    .deep-dive h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .deep-dive p {
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+
+    .deep-dive ul {
+      padding-left: 20px;
+      margin: 8px 0 16px;
+    }
+
+    .deep-dive li {
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+
+    /* 体验指南 - 编号步骤 */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .step-body h4 {
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    .step-body p {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    .faq-list details {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+
+    .faq-list details:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .faq-list summary {
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink);
+    }
+
+    .faq-list summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-list summary::after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .faq-list details[open] summary::after {
+      content: '−';
+    }
+
+    .faq-list .faq-answer {
+      padding-top: 8px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* 用户评论 */
+    .comment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .comment-card {
+      background: var(--surface-alt);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+      border: 1px solid var(--border);
+    }
+
+    .comment-author {
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* 相关资讯 */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .news-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .news-item img {
+      width: 90px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .news-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .news-title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .news-date {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-bottom: 4px;
+    }
+
+    .news-summary {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* 相关推荐标签索引 */
+    .related-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .related-tag {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      transition: all 0.1s;
+    }
+
+    .related-tag:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    /* 补充板块：热度排行榜 */
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rank-index {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-width: 24px;
+    }
+
+    .rank-index.top {
+      color: var(--highlight);
+    }
+
+    .rank-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px dashed var(--border);
+      padding: 6px 0;
+    }
+
+    .rank-title {
+      font-weight: 600;
+      font-size: 0.86rem;
+    }
+
+    .rank-score {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    /* 右辅助栏 */
+    .secondary-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .aside-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .aside-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .hot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hot-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .hot-num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--muted);
+      width: 20px;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .hot-num.top3 {
+      color: var(--highlight);
+    }
+
+    .hot-info {
+      flex: 1;
+    }
+
+    .hot-title {
+      font-weight: 600;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
+    .hot-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .update-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stream-item {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-left: 10px;
+      border-left: 2px solid var(--accent-soft);
+      line-height: 1.5;
+    }
+
+    .stream-item strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* 页尾 */
+    .site-footer {
+      background: var(--brand);
+      color: #c2d4e8;
+      padding: 40px 24px 24px;
+      margin-top: 20px;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #9bb5cc;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 0.8rem;
+      color: #9bb5cc;
+      padding: 3px 0;
+      transition: color 0.1s;
+    }
+
+    .footer-col a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      max-width: var(--max-width);
+      margin: 32px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid #1f3a4f;
+      font-size: 0.72rem;
+      color: #7f9bb5;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 1024px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .channel-sidebar {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 12px;
+      }
+
+      .channel-sidebar h2 {
+        width: 100%;
+        margin-bottom: 4px;
+      }
+
+      .channel-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .channel-nav a {
+        padding: 6px 12px;
+        background: var(--surface-alt);
+        font-size: 0.8rem;
+      }
+
+      .secondary-sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-inner {
+        flex-direction: column;
+        padding: 28px;
+      }
+
+      .hero-visual {
+        flex: 0 0 auto;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-inner {
+        padding: 22px 18px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .comment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .secondary-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .header-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .header-search input {
+        width: 100px;
+      }
+
+      .main-container {
+        padding: 0 16px;
+      }
+
+      .announce-bar {
+        font-size: 0.75rem;
+        padding: 0 16px;
+      }
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+  <!-- 吸顶公告条 -->
+  <div class="announce-bar">
+    <div class="container">
+      <span class="dot"></span>
+      <span><strong>今日赛题</strong> 更新：11 月 8 日速通挑战“暗夜回廊”已开放提交，创意短片赛道新增 12 条作品</span>
+    </div>
+  </div>
+
+  <!-- 吸顶页头 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/#hero" class="logo" aria-label="51视频每日大赛首页">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="#0b1b2b"/>
+          <path d="M10 8l14 8-14 8V8z" fill="#38bdf8"/>
+        </svg>
+        <span class="logo-text">51视频每日大赛</span>
+      </a>
+      <nav class="header-nav" aria-label="主导航">
+        <a href="/#overview">赛事概览</a>
+        <a href="/#featured">精选作品</a>
+        <a href="/#updates">最新动态</a>
+        <a href="/#categories">分类赛道</a>
+        <a href="/#deep-dive">深度解析</a>
+        <a href="/#faq">常见问题</a>
+      </nav>
+      <div class="header-search">
+        <label for="search-input" class="visually-hidden">搜索赛事或作品</label>
+        <input type="search" id="search-input" placeholder="搜索赛题或作品" aria-label="搜索赛题或作品">
+        <button type="button" id="search-btn">搜索</button>
+      </div>
+      <button class="menu-toggle" aria-label="展开导航菜单" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <!-- 首屏 -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="hero-badge">每日更新 · 创作者竞技场</span>
+        <h1>51视频每日大赛</h1>
+        <p class="hero-desc">
+          汇聚每日视频创作赛题、参赛作品排行与创作者动态。涵盖速通挑战、生活记录、创意短片、知识解说等分类赛道，为视频创作者和观众提供当日赛果、热门作品与参赛指南。
+        </p>
+        <div class="hero-actions">
+          <a href="/#featured" class="btn btn-primary">浏览今日精选</a>
+          <a href="/#updates" class="btn btn-outline">查看最新赛况</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="30" width="300" height="180" rx="16" fill="#d9eaf7"/>
+          <rect x="40" y="50" width="260" height="140" rx="10" fill="#ffffff" stroke="#b8d4e8" stroke-width="1.5"/>
+          <circle cx="170" cy="120" r="32" fill="#0b1b2b" opacity="0.08"/>
+          <path d="M158 104l28 16-28 16V104z" fill="#1e6f9f"/>
+          <rect x="56" y="164" width="60" height="8" rx="4" fill="#c2ddf0"/>
+          <rect x="126" y="164" width="40" height="8" rx="4" fill="#c2ddf0"/>
+          <rect x="176" y="164" width="80" height="8" rx="4" fill="#b8d4e8"/>
+          <circle cx="70" cy="68" r="6" fill="#f59e0b" opacity="0.5"/>
+          <circle cx="90" cy="68" r="6" fill="#10b981" opacity="0.5"/>
+          <circle cx="110" cy="68" r="6" fill="#3b82f6" opacity="0.5"/>
+          <rect x="250" y="60" width="36" height="10" rx="5" fill="#e2eff8"/>
+          <rect x="250" y="76" width="24" height="8" rx="4" fill="#e2eff8"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主内容区：三栏门户 -->
+  <div class="main-container">
+
+    <!-- 左频道索引 -->
+    <aside class="channel-sidebar" aria-label="频道索引">
+      <h2>频道索引</h2>
+      <nav class="channel-nav">
+        <a href="/#overview">赛事概览</a>
+        <a href="/#featured" class="active">精选作品</a>
+        <a href="/#updates">最新动态</a>
+        <a href="/#categories">分类赛道</a>
+        <a href="/#deep-dive">深度解析</a>
+        <a href="/#guide">体验指南</a>
+        <a href="/#faq">常见问题</a>
+        <a href="/#comments">用户评论</a>
+        <a href="/#news">相关资讯</a>
+        <a href="/#related">相关推荐</a>
+        <a href="/#ranking">热度排行</a>
+      </nav>
+    </aside>
+
+    <!-- 中间主内容 -->
+    <main class="primary-content">
+
+      <!-- 板块1：主题领域概览 -->
+      <section class="section-card" id="overview">
+        <div class="section-header">
+          <h2>赛事概览</h2>
+        </div>
+        <div class="overview-text">
+          <p>
+            51视频每日大赛是一个以“每日一题”为核心的视频创作挑战聚合平台。每天上午 9 点更新当日赛题，涵盖速通挑战、生活记录、创意短片、知识解说、美食制作、旅行纪实等方向。创作者根据赛题提交作品，观众可以浏览当日所有参赛视频并看到基于播放完成率与互动量生成的热度排序。
+          </p>
+          <p>
+            当前赛季（2026 秋季赛）进行至第 8 周，速通赛道热门赛题“暗夜回廊”已有 47 条有效提交，创意短片赛道本周主题为“三分钟反转叙事”，生活记录赛道则围绕“我的通勤路线”展开。每个赛道均设有独立的评审维度，速通以通关用时与操作规范为评判核心，创意短片侧重叙事完整度与拍摄执行，生活记录则关注真实感与日常洞察。
+          </p>
+          <p>
+            每日大赛的参赛作品以 3 至 10 分钟的中短篇视频为主，适合在通勤、午休等碎片时间观看。当日 24 点截止提交，次日中午 12 点公布赛道热度榜。对于第一次接触的观众，可以从速通挑战的“暗夜回廊”或创意短片的“三分钟反转叙事”入手，这两个赛道的作品完成度普遍较高，也最能体现当日赛题的核心玩法。
+          </p>
+        </div>
+      </section>
+
+      <!-- 板块2：精选内容推荐 -->
+      <section class="section-card" id="featured">
+        <div class="section-header">
+          <h2>精选作品推荐</h2>
+          <a href="/#updates" class="meta-link">查看全部更新 →</a>
+        </div>
+        <div class="card-grid">
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/sutong-anye01/400/300" width="400" height="300" loading="lazy" alt="速通挑战暗夜回廊赛题封面">
+            <div class="video-card-body">
+              <div class="video-card-title">暗夜回廊速通 · 4分12秒无伤路线</div>
+              <div class="tag-row">
+                <span class="tag accent">速通挑战</span>
+                <span class="tag">暗夜回廊</span>
+                <span class="tag">无伤</span>
+              </div>
+              <p class="video-card-desc">选手“疾风之影”提交的速通记录，利用墙体滑步跳过第二段巡逻区，全程无伤通关。操作路线清晰，适合研究速通技巧的观众逐帧回看。</p>
+              <div class="video-card-meta"><span>热度 9.8k</span><span>今日 09:42</span></div>
+            </div>
+          </article>
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/chuangyi-fanzhuan02/400/300" width="400" height="300" loading="lazy" alt="创意短片三分钟反转叙事封面">
+            <div class="video-card-body">
+              <div class="video-card-title">三分钟反转叙事 · 最后一通电话</div>
+              <div class="tag-row">
+                <span class="tag accent">创意短片</span>
+                <span class="tag">反转叙事</span>
+                <span class="tag">剧情</span>
+              </div>
+              <p class="video-card-desc">导演系学生作品，用一通深夜电话串起三个时间线。结尾 30 秒推翻前两分钟的所有假设，剪辑节奏干净，场景切换依靠声音转场完成。</p>
+              <div class="video-card-meta"><span>热度 8.6k</span><span>今日 10:15</span></div>
+            </div>
+          </article>
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/shenghuo-tongqin03/400/300" width="400" height="300" loading="lazy" alt="生活记录赛道通勤路线封面">
+            <div class="video-card-body">
+              <div class="video-card-title">我的通勤路线 · 跨江地铁 47 分钟</div>
+              <div class="tag-row">
+                <span class="tag accent">生活记录</span>
+                <span class="tag">通勤</span>
+                <span class="tag">城市观察</span>
+              </div>
+              <p class="video-card-desc">从江北到江南每天往返 94 分钟的通勤记录。镜头对准地铁车厢里的晨间百态，没有旁白，仅保留环境声与字幕，呈现真实的城市通勤节奏。</p>
+              <div class="video-card-meta"><span>热度 7.2k</span><span>昨天 20:30</span></div>
+            </div>
+          </article>
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/zhishi-jieshuo04/400/300" width="400" height="300" loading="lazy" alt="知识解说赛道咖啡因科学封面">
+            <div class="video-card-body">
+              <div class="video-card-title">知识解说 · 咖啡因的半衰期到底怎么算</div>
+              <div class="tag-row">
+                <span class="tag accent">知识解说</span>
+                <span class="tag">咖啡因</span>
+                <span class="tag">代谢科学</span>
+              </div>
+              <p class="video-card-desc">用一杯美式咖啡的摄入时间线，解释咖啡因在体内的半衰期曲线。图表动画清晰，给出不同时间段喝咖啡对睡眠的实际影响区间。</p>
+              <div class="video-card-meta"><span>热度 6.9k</span><span>11 月 7 日</span></div>
+            </div>
+          </article>
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/meishi-zaocan05/400/300" width="400" height="300" loading="lazy" alt="美食制作赛道十分钟早餐封面">
+            <div class="video-card-body">
+              <div class="video-card-title">美食制作 · 十分钟快手早餐三件套</div>
+              <div class="tag-row">
+                <span class="tag accent">美食制作</span>
+                <span class="tag">早餐</span>
+                <span class="tag">快手菜</span>
+              </div>
+              <p class="video-card-desc">挑战十分钟内完成煎蛋、牛油果吐司和酸奶碗。全程无剪辑加速，展示时间分配和火候控制的实际操作，适合早上时间紧张又想认真吃早餐的人。</p>
+              <div class="video-card-meta"><span>热度 5.8k</span><span>11 月 6 日</span></div>
+            </div>
+          </article>
+          <article class="video-card">
+            <img src="https://picsum.photos/seed/lvxing-qixing06/400/300" width="400" height="300" loading="lazy" alt="旅行纪实赛道环湖骑行封面">
+            <div class="video-card-body">
+              <div class="video-card-title">旅行纪实 · 环湖骑行 120 公里 Day1</div>
+              <div class="tag-row">
+                <span class="tag accent">旅行纪实</span>
+                <span class="tag">骑行</span>
+                <span class="tag">户外</span>
+              </div>
+              <p class="video-card-desc">单人单车环湖第一天，从清晨出发到傍晚扎营。镜头记录路况、补给点位置和体力分配策略，附带实际骑行数据与装备清单字幕。</p>
+              <div class="video-card-meta"><span>热度 5.1k</span><span>11 月 5 日</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 板块3：最新更新 / 动态 -->
+      <section class="section-card" id="updates">
+        <div class="section-header">
+          <h2>最新更新与赛况</h2>
+        </div>
+        <div class="update-list">
+          <div class="update-item">
+            <span class="update-time">今天 11:30</span>
+            <div class="update-content">
+              <div class="update-title">速通赛道“暗夜回廊”第 47 条提交上线</div>
+              <div class="update-summary">选手“夜行列车”提交 5 分 03 秒路线，采用全程潜行策略，未触发任何警报。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">今天 10:20</span>
+            <div class="update-content">
+              <div class="update-title">创意短片赛道本周主题“三分钟反转叙事”截止倒计时</div>
+              <div class="update-summary">距离 24 点截止还有不到 14 小时，目前收到 32 条有效提交。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">今天 09:15</span>
+            <div class="update-content">
+              <div class="update-title">生活记录赛道“我的通勤路线”新增 8 条作品</div>
+              <div class="update-summary">其中“跨江地铁 47 分钟”进入当日热度前五，评论区讨论集中在城市通勤时间成本。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">昨天 21:10</span>
+            <div class="update-content">
+              <div class="update-title">知识解说赛道“咖啡因半衰期”获当日编辑精选</div>
+              <div class="update-summary">该作品在 24 小时内获得 1,240 次完整播放，收藏数位列知识赛道第一。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">昨天 18:45</span>
+            <div class="update-content">
+              <div class="update-title">美食制作赛道“十分钟快手早餐”发布</div>
+              <div class="update-summary">全程无剪辑加速的早餐流程记录，评论区多人询问煎蛋火候控制细节。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 7 日</span>
+            <div class="update-content">
+              <div class="update-title">旅行纪实赛道“环湖骑行 120 公里 Day1”上线</div>
+              <div class="update-summary">附带 GPX 轨迹与补给点标注，为同类骑行路线提供参考。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 7 日</span>
+            <div class="update-content">
+              <div class="update-title">速通赛道新规则：从 11 月 10 日起增加“无伤”独立子榜</div>
+              <div class="update-summary">无伤通关作品将单独排名，与常规速通榜并行展示，不影响现有提交。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 6 日</span>
+            <div class="update-content">
+              <div class="update-title">创意短片赛道“反转叙事”作品《最后一通电话》播放量破万</div>
+              <div class="update-summary">该作品成为本周创意短片赛道首条播放量过万的作品，弹幕集中在结尾反转设计。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 5 日</span>
+            <div class="update-content">
+              <div class="update-title">生活记录赛道新增“通勤路线”子分类</div>
+              <div class="update-summary">后续提交可标注“跨江”“换乘”“步行接驳”等具体通勤方式标签。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 4 日</span>
+            <div class="update-content">
+              <div class="update-title">知识解说赛道开放“数据可视化”专项评审</div>
+              <div class="update-summary">使用图表、动画解释数据类作品的评审权重将提升 15%。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 板块4：分类入口 -->
+      <section class="section-card" id="categories">
+        <div class="section-header">
+          <h2>分类赛道入口</h2>
+        </div>
+        <div class="category-grid">
+          <a href="/#featured" class="category-chip">速通挑战</a>
+          <a href="/#featured" class="category-chip">生活记录</a>
+          <a href="/#featured" class="category-chip">创意短片</a>
+          <a href="/#featured" class="category-chip">知识解说</a>
+          <a href="/#featured" class="category-chip">美食制作</a>
+          <a href="/#featured" class="category-chip">旅行纪实</a>
+          <a href="/#featured" class="category-chip">开箱测评</a>
+          <a href="/#featured" class="category-chip">运动健身</a>
+        </div>
+      </section>
+
+      <!-- 板块5：深度解析正文 -->
+      <section class="section-card deep-dive" id="deep-dive">
+        <div class="section-header">
+          <h2>赛道深度解析：速通、创意短片与生活记录怎么区分</h2>
+        </div>
+        <h3>速通挑战：评判标准与观看重点</h3>
+        <p>
+          速通挑战的核心评判维度是通关用时和操作规范。以当前热门赛题“暗夜回廊”为例，有效提交必须从关卡起点开始计时，到最终目标点结束，中途不得使用存档、修改器或非官方补丁。评审会逐帧核对关键节点的时间戳，确认没有跳过必经流程。观看速通作品时，可以重点关注三个节点：第一段巡逻区的通过方式（潜行绕行还是引诱后冲刺）、中段资源收集的取舍（是否需要拿额外道具）、以及最后冲刺路线的选择（直接跑图还是清理障碍）。
+        </p>
+        <p>
+          速通作品的时长通常集中在 4 到 8 分钟之间。低于 4 分钟的提交会进入人工复核流程，确认没有使用穿墙或瞬移类 bug。目前“暗夜回廊”赛道记录保持者“疾风之影”的 4 分 12 秒路线中，第二段巡逻区采用了墙体滑步跳过整个警戒范围，这个操作在规则中属于允许的物理引擎利用，但需要在提交时附带操作说明。
+        </p>
+        <h3>创意短片：叙事完整度比画面精致度更重要</h3>
+        <p>
+          创意短片赛道每周更换主题，当前主题“三分钟反转叙事”要求作品在 3 分钟以内完成一次有效的剧情反转。评审维度包括反转的合理性与冲击力、叙事节奏、视听执行三个部分。与速通赛道不同，创意短片不限制拍摄设备，手机拍摄的作品与专业设备作品在同一评审池中比较，但反转设计的质量权重占 50% 以上。
+        </p>
+        <ul>
+          <li><strong>反转合理性</strong>：反转需要在前文有至少两处可回溯的铺垫，不能依赖新信息硬转。</li>
+          <li><strong>叙事节奏</strong>：前两分钟用于建立预期，最后 30 到 40 秒完成反转，过渡不能拖沓。</li>
+          <li><strong>视听执行</strong>：声音转场、景别切换和光线变化会作为加分项，但不是决定性因素。</li>
+        </ul>
+        <p>
+          本周播放量领先的《最后一通电话》就是典型例子：前两分钟通过三通电话建立“主角在寻找某人”的预期，最后 30 秒用接听方的声音揭示主角自己才是被寻找的人。反转成立的关键在于第二通电话中一句被忽略的背景音，观众回看时能发现线索。
+        </p>
+        <h3>生活记录：真实感与日常洞察的平衡</h3>
+        <p>
+          生活记录赛道关注的是真实生活场景中的观察，而不是精致的旅行大片。当前赛题“我的通勤路线”要求提交者记录自己每天真实往返的通勤过程，评审维度包括真实感、观察视角和记录完整度。真实感体现在不刻意摆拍、保留环境原声、展示真实的时间消耗；观察视角则要求提交者在记录中呈现一个具体的发现或感受，比如某站台早高峰的换乘规律、某路段雨天后的积水位置、或者通勤路上固定出现的街头摊贩。
+        </p>
+        <p>
+          与创意短片相比，生活记录赛道对拍摄技术的要求更低，但对“记录是否诚实”的要求更高。如果画面中出现明显的摆拍痕迹或刻意美化的滤镜，评审会降低真实感评分。目前热度较高的“跨江地铁 47 分钟”之所以获得认可，是因为它保留了完整的车厢环境声、没有旁白解说、用字幕标注了每一站的实际耗时，并且镜头里出现了通勤者真实的状态。
+        </p>
+        <h3>三个赛道的投入时间建议</h3>
+        <p>
+          如果你每天只有 15 到 20 分钟浏览作品，建议优先看速通赛道的当日新提交，因为速通作品时长较短、信息密度高、判断标准明确。如果有一个完整的 30 分钟，可以按“速通 1 条 + 创意短片 1 条 + 生活记录 1 条”的组合观看，三种类型带来的观看体验差异明显，也最能体现每日大赛的内容结构。知识解说和美食制作适合在用餐时间观看，旅行纪实则更适合周末有较长完整时间时展开。
+        </p>
+      </section>
+
+      <!-- 板块6：体验指南 / 消费路径 -->
+      <section class="section-card" id="guide">
+        <div class="section-header">
+          <h2>体验指南：从哪条作品开始看</h2>
+        </div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>先看速通赛道当日第一条提交</h4>
+              <p>速通作品时长短、评判标准清晰，能快速了解当日赛题的核心玩法。建议从提交时间最早的作品看起，对比后续作品的路线优化过程。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>用创意短片检验当日叙事质量</h4>
+              <p>创意短片赛道的主题每周更换，观看时先读一遍赛题要求，再判断作品是否在限定时间内完成了有效的叙事设计。重点关注最后 30 秒的处理方式。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>生活记录赛道放在最后看</h4>
+              <p>生活记录需要更放松的观看状态，适合在通勤或午休时打开。判断标准是“记录是否诚实”而非“画面是否好看”，可以留意作品中的环境声和字幕信息。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h4>用热度榜辅助筛选，但不必按排名顺序看</h4>
+              <p>热度排名反映的是播放完成率和互动量的综合结果，不完全代表作品质量。排名靠后的作品中常有实验性较强的创意短片或观察角度独特的生活记录，值得单独点开。</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <h4>比较同一赛题下不同作品的差异</h4>
+              <p>同一赛题下的作品最容易形成对比。速通赛道可以对比不同选手的路线选择，创意短片可以对比同一反转主题下的不同叙事切入方式，生活记录可以对比不同通勤路线的记录视角。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 板块7：FAQ -->
+      <section class="section-card" id="faq">
+        <div class="section-header">
+          <h2>常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>速通挑战的“无伤”子榜和常规榜有什么区别？</summary>
+            <div class="faq-answer">常规速通榜按通关用时排序，允许在过程中承受伤害；无伤子榜要求全程不损失生命值，用时相同的情况下无伤记录排名更高。两个榜单独立展示，11 月 10 日起正式分开计算。</div>
+          </details>
+          <details>
+            <summary>创意短片赛道的“三分钟反转叙事”必须用专业设备拍吗？</summary>
+            <div class="faq-answer">不需要。评审维度中反转设计的权重占 50% 以上，拍摄设备的差异不构成评分门槛。手机拍摄的作品只要反转合理、节奏到位，同样可以进入热度前列。</div>
+          </details>
+          <details>
+            <summary>生活记录赛道为什么要求保留环境原声？</summary>
+            <div class="faq-answer">环境原声是判断真实感的重要依据。保留原声意味着记录者没有用后期音乐覆盖现场声音，观众能听到真实的车厢报站、街道噪声或办公室背景音，这与生活记录赛道的定位直接相关。</div>
+          </details>
+          <details>
+            <summary>第一次看51视频每日大赛，从哪个赛道开始比较好？</summary>
+            <div class="faq-answer">建议从速通挑战开始。速通作品时长较短、规则明确，不需要太多背景知识就能判断路线优劣。看完速通之后再转向创意短片，更容易感受到两类赛道在评判标准上的差异。</div>
+          </details>
+          <details>
+            <summary>知识解说赛道对数据可视化有额外要求吗？</summary>
+            <div class="faq-answer">从 11 月 4 日起，使用图表、动画或信息图解释数据的作品在评审中获得 15% 的权重提升。但可视化只是加分项，解说的准确性和逻辑清晰度仍然是基础评分依据。</div>
+          </details>
+          <details>
+            <summary>每日大赛的提交截止时间和结果公布时间是什么？</summary>
+            <div class="faq-answer">每日提交截止时间为当天 24 点，次日中午 12 点公布赛道热度榜。速通赛道的复核结果可能延迟到次日 14 点，具体以赛道页面标注为准。</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 板块8：用户评论 -->
+      <section class="section-card" id="comments">
+        <div class="section-header">
+          <h2>用户评论</h2>
+        </div>
+        <div class="comment-grid">
+          <div class="comment-card"><span class="comment-author">@夜行列车</span>“暗夜回廊”的潜行路线确实比强攻路线稳定，5 分 03 秒那版操作很干净，第二段巡逻区的引诱时机值得反复看。</div>
+          <div class="comment-card"><span class="comment-author">@剪辑小张</span>《最后一通电话》的反转设计很巧妙，第二通电话里那句背景音我回看了三遍才注意到，伏笔埋得自然。</div>
+          <div class="comment-card"><span class="comment-author">@通勤观察员</span>“跨江地铁 47 分钟”里那个换乘通道的镜头很真实，每天走同一条路的人一看就知道没有摆拍。</div>
+          <div class="comment-card"><span class="comment-author">@咖啡不加糖</span>知识解说那期咖啡因半衰期的图表做得清楚，但希望下次能加上不同体重人群的代谢差异数据。</div>
+          <div class="comment-card"><span class="comment-author">@早起做饭</span>十分钟早餐的流程很实用，但煎蛋那一步火候控制对新手来说还是有点快，可以考虑出个慢速版。</div>
+          <div class="comment-card"><span class="comment-author">@环湖老王</span>环湖骑行 Day1 的补给点标注很具体，GPX 轨迹如果能直接下载就更好了。</div>
+          <div class="comment-card"><span class="comment-author">@路过的观众</span>速通赛道新规则的无伤子榜挺有意思，以后可以专门看无伤路线了。</div>
+          <div class="comment-card"><span class="comment-author">@剧情爱好者</span>本周创意短片整体质量不错，但反转叙事这个主题感觉有些作品为了反转而反转，前两分钟的铺垫不够。</div>
+          <div class="comment-card"><span class="comment-author">@城市漫步</span>生活记录赛道新增通勤子分类之后，找同类路线方便多了。</div>
+          <div class="comment-card"><span class="comment-author">@数据控</span>知识解说赛道的数据可视化加权是个好方向，期待看到更多用动画解释统计概念的作品。</div>
+          <div class="comment-card"><span class="comment-author">@速通新人</span>想问一下“暗夜回廊”第二段巡逻区用引诱后冲刺的话，时间上比滑步慢多少？有对比过的吗？</div>
+          <div class="comment-card"><span class="comment-author">@深夜看片</span>美食制作赛道的作品适合下饭看，但希望多出一些非早餐类的内容，午餐和晚餐方向也可以考虑。</div>
+          <div class="comment-card"><span class="comment-author">@骑行小刘</span>旅行纪实那条环湖视频的装备清单很实用，不过第一天就骑 120 公里对新手来说强度太大了。</div>
+          <div class="comment-card"><span class="comment-author">@反转爱好者</span>本周创意短片赛道里有一部用倒叙做反转的作品也不错，虽然热度不高，但叙事结构比排名靠前的更复杂。</div>
+          <div class="comment-card"><span class="comment-author">@地铁族</span>生活记录赛道那个通勤作品里出现的站台广播声，和我每天听到的一模一样，真实感就是这么来的。</div>
+          <div class="comment-card"><span class="comment-author">@咖啡因依赖</span>那期咖啡因半衰期的知识解说让我调整了下午喝咖啡的时间，实际效果确实有变化。</div>
+        </div>
+      </section>
+
+      <!-- 板块9：相关资讯 -->
+      <section class="section-card" id="news">
+        <div class="section-header">
+          <h2>相关资讯</h2>
+        </div>
+        <div class="news-list">
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/sutong-newrule/600/400" width="90" height="60" loading="lazy" alt="速通赛道无伤子榜规则调整配图">
+            <div class="news-body">
+              <div class="news-title">速通赛道 11 月 10 日起增设无伤子榜，不影响现有提交</div>
+              <div class="news-date">2026-11-07</div>
+              <p class="news-summary">新子榜将独立展示无伤通关记录，与常规速通榜并行运行，评审标准同步公开。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/chuangyi-reverse/600/400" width="90" height="60" loading="lazy" alt="创意短片反转叙事播放量破万配图">
+            <div class="news-body">
+              <div class="news-title">创意短片《最后一通电话》播放量破万，反转设计引讨论</div>
+              <div class="news-date">2026-11-06</div>
+              <p class="news-summary">该作品成为本周创意短片赛道首条播放量过万的作品，评论区集中分析第二通电话中的伏笔。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/tongqin-subcategory/600/400" width="90" height="60" loading="lazy" alt="生活记录通勤子分类上线配图">
+            <div class="news-body">
+              <div class="news-title">生活记录赛道新增“通勤路线”子分类，支持方式标签</div>
+              <div class="news-date">2026-11-05</div>
+              <p class="news-summary">后续提交可标注跨江、换乘、步行接驳等具体通勤方式，便于同类路线对比。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/knowledge-viz/600/400" width="90" height="60" loading="lazy" alt="知识解说数据可视化加权配图">
+            <div class="news-body">
+              <div class="news-title">知识解说赛道开放数据可视化专项评审，权重提升 15%</div>
+              <div class="news-date">2026-11-04</div>
+              <p class="news-summary">使用图表、动画解释数据类作品将获得额外评审权重，基础评分标准不变。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/meishi-breakfast/600/400" width="90" height="60" loading="lazy" alt="美食制作快手早餐热度上升配图">
+            <div class="news-body">
+              <div class="news-title">“十分钟快手早餐”进入美食制作赛道热度前三</div>
+              <div class="news-date">2026-11-03</div>
+              <p class="news-summary">无剪辑加速的早餐流程记录受到关注，评论区多人询问煎蛋火候与时间分配。</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <img src="https://picsum.photos/seed/travel-cycling/600/400" width="90" height="60" loading="lazy" alt="旅行纪实环湖骑行装备清单配图">
+            <div class="news-body">
+              <div class="news-title">旅行纪实赛道环湖骑行作品附带 GPX 轨迹与装备清单</div>
+              <div class="news-date">2026-11-02</div>
+              <p class="news-summary">该作品为同类骑行路线提供可参考的补给点位置、路况记录和装备选择建议。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 板块10：相关推荐 -->
+      <section class="section-card" id="related">
+        <div class="section-header">
+          <h2>相关推荐方向</h2>
+        </div>
+        <div class="related-tags">
+          <a href="/#featured" class="related-tag">速通路线优化</a>
+          <a href="/#featured" class="related-tag">反转叙事结构</a>
+          <a href="/#featured" class="related-tag">通勤路线记录</a>
+          <a href="/#featured" class="related-tag">数据可视化解说</a>
+          <a href="/#featured" class="related-tag">快手早餐流程</a>
+          <a href="/#featured" class="related-tag">长途骑行纪实</a>
+          <a href="/#featured" class="related-tag">无伤通关技巧</a>
+          <a href="/#featured" class="related-tag">手机短片拍摄</a>
+        </div>
+      </section>
+
+      <!-- 板块11：补充板块 - 热度排行榜 -->
+      <section class="section-card" id="ranking">
+        <div class="section-header">
+          <h2>今日热度排行（11 月 8 日）</h2>
+        </div>
+        <div class="rank-list">
+          <div class="rank-item">
+            <span class="rank-index top">01</span>
+            <div class="rank-info">
+              <span class="rank-title">暗夜回廊速通 · 4分12秒无伤路线</span>
+              <span class="rank-score">9.8k</span>
+            </div>
+          </div>
+          <div class="rank-item">
+            <span class="rank-index top">02</span>
+            <div class="rank-info">
+              <span class="rank-title">三分钟反转叙事 · 最后一通电话</span>
+              <span class="rank-score">8.6k</span>
+            </div>
+          </div>
+          <div class="rank-item">
+            <span class="rank-index top">03</span>
+            <div class="rank-info">
+              <span class="rank-title">我的通勤路线 · 跨江地铁 47 分钟</span>
+              <span class="rank-score">7.2k</span>
+            </div>
+          </div>
+          <div class="rank-item">
+            <span class="rank-index">04</span>
+            <div class="rank-info">
+              <span class="rank-title">知识解说 · 咖啡因的半衰期到底怎么算</span>
+              <span class="rank-score">6.9k</span>
+            </div>
+          </div>
+          <div class="rank-item">
+            <span class="rank-index">05</span>
+            <div class="rank-info">
+              <span class="rank-title">美食制作 · 十分钟快手早餐三件套</span>
+              <span class="rank-score">5.8k</span>
+            </div>
+          </div>
+          <div class="rank-item">
+            <span class="rank-index">06</span>
+            <div class="rank-info">
+              <span class="rank-title">旅行纪实 · 环湖骑行 120 公里 Day1</span>
+              <span class="rank-score">5.1k</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 右辅助栏 -->
+    <aside class="secondary-sidebar">
+      <div class="aside-card">
+        <h3>今日热榜</h3>
+        <div class="hot-list">
+          <div class="hot-item">
+            <span class="hot-num top3">1</span>
+            <div class="hot-info">
+              <div class="hot-title">暗夜回廊速通 4分12秒</div>
+              <div class="hot-meta">速通挑战 · 9.8k</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num top3">2</span>
+            <div class="hot-info">
+              <div class="hot-title">最后一通电话</div>
+              <div class="hot-meta">创意短片 · 8.6k</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num top3">3</span>
+            <div class="hot-info">
+              <div class="hot-title">跨江地铁 47 分钟</div>
+              <div class="hot-meta">生活记录 · 7.2k</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num">4</span>
+            <div class="hot-info">
+              <div class="hot-title">咖啡因半衰期</div>
+              <div class="hot-meta">知识解说 · 6.9k</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num">5</span>
+            <div class="hot-info">
+              <div class="hot-title">十分钟快手早餐</div>
+              <div class="hot-meta">美食制作 · 5.8k</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="aside-card">
+        <h3>更新流</h3>
+        <div class="update-stream">
+          <div class="stream-item"><strong>今天 11:30</strong> 速通新提交 5分03秒</div>
+          <div class="stream-item"><strong>今天 10:20</strong> 创意短片倒计时 14 小时</div>
+          <div class="stream-item"><strong>今天 09:15</strong> 通勤路线新增 8 条</div>
+          <div class="stream-item"><strong>昨天 21:10</strong> 咖啡因解说获编辑精选</div>
+          <div class="stream-item"><strong>昨天 18:45</strong> 快手早餐作品发布</div>
+          <div class="stream-item"><strong>11 月 7 日</strong> 环湖骑行 Day1 上线</div>
+        </div>
+      </div>
+      <div class="aside-card">
+        <h3>赛道速览</h3>
+        <div class="hot-list">
+          <div class="hot-item">
+            <span class="hot-num">·</span>
+            <div class="hot-info">
+              <div class="hot-title">速通挑战</div>
+              <div class="hot-meta">暗夜回廊 · 47 条提交</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num">·</span>
+            <div class="hot-info">
+              <div class="hot-title">创意短片</div>
+              <div class="hot-meta">三分钟反转 · 32 条提交</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num">·</span>
+            <div class="hot-info">
+              <div class="hot-title">生活记录</div>
+              <div class="hot-meta">我的通勤路线 · 新增 8 条</div>
+            </div>
+          </div>
+          <div class="hot-item">
+            <span class="hot-num">·</span>
+            <div class="hot-info">
+              <div class="hot-title">知识解说</div>
+              <div class="hot-meta">咖啡因半衰期 · 1.2k 播放</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 页尾 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="#ffffff"/>
+            <path d="M10 8l14 8-14 8V8z" fill="#0b1b2b"/>
+          </svg>
+          <span>51视频每日大赛</span>
+        </div>
+        <p>每日更新视频创作赛题与参赛作品排行，覆盖速通挑战、创意短片、生活记录等分类赛道，为创作者与观众提供当日赛果与作品参考。</p>
+      </div>
+      <div class="footer-col">
+        <h4>赛事</h4>
+        <a href="/#overview">赛事概览</a>
+        <a href="/#featured">精选作品</a>
+        <a href="/#updates">最新动态</a>
+        <a href="/#ranking">热度排行</a>
+      </div>
+      <div class="footer-col">
+        <h4>赛道</h4>
+        <a href="/#categories">分类入口</a>
+        <a href="/#deep-dive">深度解析</a>
+        <a href="/#guide">体验指南</a>
+        <a href="/#faq">常见问题</a>
+      </div>
+      <div class="footer-col">
+        <h4>互动</h4>
+        <a href="/#comments">用户评论</a>
+        <a href="/#news">相关资讯</a>
+        <a href="/#related">相关推荐</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 51视频每日大赛 · 内容聚合示例</span>
+      <span>部分内容为示例数据，仅用于展示页面结构</span>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // 搜索筛选：对精选卡片和更新列表进行简单可见性筛选
+      const searchInput = document.getElementById('search-input');
+      const searchBtn = document.getElementById('search-btn');
+      const featuredSection = document.getElementById('featured');
+      const updateSection = document.getElementById('updates');
+
+      function performSearch() {
+        const q = searchInput.value.trim().toLowerCase();
+        const cards = featuredSection.querySelectorAll('.video-card');
+        const updates = updateSection.querySelectorAll('.update-item');
+        let hasResult = false;
+
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          const match = !q || text.includes(q);
+          card.style.display = match ? '' : 'none';
+          if (match) hasResult = true;
+        });
+
+        updates.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const match = !q || text.includes(q);
+          item.style.display = match ? '' : 'none';
+          if (match) hasResult = true;
+        });
+
+        let noResultMsg = document.getElementById('search-no-result');
+        if (!hasResult && q) {
+          if (!noResultMsg) {
+            noResultMsg = document.createElement('div');
+            noResultMsg.id = 'search-no-result';
+            noResultMsg.style.cssText = 'padding:16px;text-align:center;color:var(--muted);font-size:0.86rem;';
+            featuredSection.appendChild(noResultMsg);
+          }
+          noResultMsg.textContent = '未找到与“' + searchInput.value + '”相关的内容，请尝试其他关键词。';
+        } else if (noResultMsg) {
+          noResultMsg.remove();
+        }
+      }
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+      }
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+          }
+        });
+      }
+
+      // 移动端菜单切换（简易展示/隐藏导航）
+      const menuToggle = document.querySelector('.menu-toggle');
+      const headerNav = document.querySelector('.header-nav');
+      if (menuToggle && headerNav) {
+        menuToggle.addEventListener('click', function() {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          if (window.innerWidth <= 740) {
+            headerNav.style.display = expanded ? 'none' : 'flex';
+            headerNav.style.flexDirection = 'column';
+            headerNav.style.position = 'absolute';
+            headerNav.style.top = 'var(--header-height)';
+            headerNav.style.left = '0';
+            headerNav.style.right = '0';
+            headerNav.style.background = 'white';
+            headerNav.style.padding = '16px 24px';
+            headerNav.style.borderBottom = '1px solid var(--border)';
+            headerNav.style.boxShadow = 'var(--shadow-md)';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+  </html>
