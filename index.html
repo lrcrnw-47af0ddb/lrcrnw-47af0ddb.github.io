@@ -1,0 +1,1962 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r星每日大赛 - 每日赛事与攻略聚合</title>
+  <meta name="description" content="r星每日大赛聚合每日竞速、死亡竞赛、生存挑战等赛事结果与攻略，提供赛道解析、车辆调校、规则解读和社区讨论，适合每日参赛的玩家查阅。">
+  <meta name="keywords" content="竞速挑战,死亡竞赛,生存战,赛事日程,车辆调校,赛道攻略">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f5b301'/%3E%3Cpath d='M16 6 L20 14 L28 16 L20 18 L16 26 L12 18 L4 16 L12 14 Z' fill='%231c1c1c'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0e0f12;
+      --surface: #181a20;
+      --surface-2: #1e2129;
+      --surface-3: #262a34;
+      --text: #e8eaf0;
+      --text-secondary: #9ca3b0;
+      --text-muted: #6b7280;
+      --accent: #f5b301;
+      --accent-dim: #c28e00;
+      --accent-glow: rgba(245, 179, 1, 0.12);
+      --danger: #e74c3c;
+      --success: #2ecc71;
+      --border: #2a2e38;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+      --sticky-h: 104px;
+      --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans SC', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-padding-top: calc(var(--sticky-h) + 16px);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--accent); }
+    img { max-width: 100%; height: auto; display: block; }
+    ul { list-style: none; }
+
+    /* ===== 吸顶公告条 ===== */
+    .announce-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(90deg, #1a1500, #2a2000, #1a1500);
+      border-bottom: 1px solid rgba(245, 179, 1, 0.3);
+      padding: 8px 0;
+      font-size: 0.82rem;
+      color: var(--accent);
+      overflow: hidden;
+    }
+    .announce-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .announce-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #0e0f12;
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .announce-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ===== 吸顶页头 ===== */
+    .site-header {
+      position: sticky;
+      top: 36px;
+      z-index: 999;
+      background: rgba(14, 15, 18, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      height: 64px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .brand-text .accent { color: var(--accent); }
+
+    .main-nav {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .main-nav a {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .main-nav a:hover,
+    .main-nav a:focus-visible {
+      color: var(--accent);
+      background: var(--accent-glow);
+      outline: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 4px 4px 14px;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus-within {
+      border-color: var(--accent);
+    }
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 0.82rem;
+      width: 140px;
+      font-family: var(--font);
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box button {
+      background: var(--accent);
+      border: none;
+      color: #0e0f12;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: var(--font);
+    }
+    .search-box button:hover { background: #ffc82e; }
+    .search-box button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ===== 布局 ===== */
+    .page-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      display: grid;
+      grid-template-columns: 180px 1fr 260px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ===== 左频道索引 ===== */
+    .left-sidebar {
+      position: sticky;
+      top: calc(var(--sticky-h) + 16px);
+    }
+    .channel-nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .channel-nav-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      padding: 14px 16px 8px;
+    }
+    .channel-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .channel-nav a:hover,
+    .channel-nav a:focus-visible {
+      color: var(--accent);
+      background: var(--accent-glow);
+      border-left-color: var(--accent);
+      outline: none;
+    }
+    .channel-nav .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .channel-nav a:hover .dot { background: var(--accent); }
+
+    /* ===== 主内容区 ===== */
+    .main-content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ===== 首屏 ===== */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #1a1500 0%, #1e2129 50%, #181a20 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(245,179,1,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-glow);
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 20px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 24px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0f12;
+    }
+    .btn-primary:hover { background: #ffc82e; color: #0e0f12; }
+    .btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-outline:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .hero-visual {
+      flex-shrink: 0;
+      width: 220px;
+      height: 200px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-visual svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== 板块通用 ===== */
+    .section {
+      scroll-margin-top: calc(var(--sticky-h) + 8px);
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-more {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .section-more:hover { color: var(--accent); }
+
+    /* ===== 概览 ===== */
+    .overview-text {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px 26px;
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+    .overview-text strong { color: var(--text); font-weight: 600; }
+    .overview-text .hl { color: var(--accent); font-weight: 600; }
+
+    /* ===== 精选卡片 ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      border-color: rgba(245, 179, 1, 0.4);
+      transform: translateY(-2px);
+    }
+    .card-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      background: var(--surface-2);
+    }
+    .card-body {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .card-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    .tag-accent { background: rgba(245,179,1,0.15); color: var(--accent); }
+    .tag-gray { background: var(--surface-3); color: var(--text-secondary); }
+    .tag-green { background: rgba(46,204,113,0.12); color: var(--success); }
+    .tag-red { background: rgba(231,76,60,0.12); color: var(--danger); }
+
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .card-meta .hot { color: var(--danger); font-weight: 600; }
+
+    /* ===== 最新更新列表 ===== */
+    .update-list {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .update-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .update-item:last-child { border-bottom: none; }
+    .update-item:hover { background: var(--surface-2); }
+    .update-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 70px;
+      padding-top: 2px;
+    }
+    .update-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .update-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .update-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== 分类入口 ===== */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .category-item:hover {
+      border-color: var(--accent);
+      background: var(--surface-2);
+    }
+    .category-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .category-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .category-count {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== 深度解析 ===== */
+    .deep-dive {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px 30px;
+    }
+    .deep-dive h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 24px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .deep-dive h3:first-child { margin-top: 0; }
+    .deep-dive p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 10px;
+    }
+    .deep-dive ul {
+      margin: 8px 0 14px 18px;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+    .deep-dive li {
+      margin-bottom: 4px;
+      list-style: disc;
+    }
+    .deep-dive li::marker { color: var(--accent); }
+    .deep-dive strong { color: var(--text); font-weight: 600; }
+
+    /* ===== 体验指南 ===== */
+    .guide-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .guide-step {
+      display: flex;
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .guide-step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(245,179,1,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .step-content h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background 0.2s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-weight: 400;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after {
+      content: '−';
+    }
+    .faq-item summary:hover { background: var(--surface-2); }
+    .faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .faq-answer {
+      padding: 0 18px 16px;
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* ===== 评论 ===== */
+    .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .comment-item {
+      display: flex;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+    .comment-avatar {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--surface-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .comment-body { flex: 1; min-width: 0; }
+    .comment-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 3px;
+      flex-wrap: wrap;
+    }
+    .comment-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .comment-time {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+    .comment-text {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ===== 资讯 ===== */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .news-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover { background: var(--surface-2); }
+    .news-thumb {
+      flex-shrink: 0;
+      width: 80px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--surface-3);
+    }
+    .news-body { flex: 1; min-width: 0; }
+    .news-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .news-date {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .news-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== 相关推荐 ===== */
+    .related-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .related-tag {
+      display: inline-block;
+      padding: 7px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .related-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* ===== 榜单 ===== */
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .rank-item:last-child { border-bottom: none; }
+    .rank-item:hover { background: var(--surface-2); }
+    .rank-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: var(--surface-3);
+      color: var(--text-secondary);
+    }
+    .rank-num.top1 { background: #c0392b; color: #fff; }
+    .rank-num.top2 { background: #7f8c8d; color: #fff; }
+    .rank-num.top3 { background: #a05a2c; color: #fff; }
+    .rank-info { flex: 1; min-width: 0; }
+    .rank-name {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .rank-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .rank-score {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ===== 右侧辅助栏 ===== */
+    .right-sidebar {
+      position: sticky;
+      top: calc(var(--sticky-h) + 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .sidebar-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar-title .icon { color: var(--accent); font-size: 0.9rem; }
+    .sidebar-body { padding: 12px 16px; }
+
+    .hot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hot-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .hot-item .idx {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--surface-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .hot-item:nth-child(1) .idx { background: var(--accent); color: #0e0f12; }
+    .hot-item:nth-child(2) .idx { background: #bdc3c7; color: #0e0f12; }
+    .hot-item:nth-child(3) .idx { background: #a05a2c; color: #fff; }
+    .hot-item a { color: var(--text-secondary); transition: color 0.2s; }
+    .hot-item a:hover { color: var(--accent); }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag-cloud span {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      background: var(--surface-2);
+      border-radius: 4px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .tag-cloud span:hover { background: var(--accent-glow); color: var(--accent); }
+
+    .update-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stream-item {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stream-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .stream-time {
+      font-size: 0.66rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ===== 页尾 ===== */
+    .site-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-brand .brand-text { font-size: 1.1rem; }
+    .footer-brand p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .footer-col ul {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .footer-col a {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 1100px) {
+      .page-container {
+        grid-template-columns: 160px 1fr;
+      }
+      .right-sidebar {
+        position: static;
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page-container {
+        grid-template-columns: 1fr;
+      }
+      .left-sidebar {
+        position: static;
+      }
+      .channel-nav {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 8px;
+      }
+      .channel-nav-title { display: none; }
+      .channel-nav a {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding: 6px 12px;
+        border-radius: 4px;
+      }
+      .channel-nav a:hover {
+        border-left-color: transparent;
+        border-bottom-color: var(--accent);
+      }
+      .right-sidebar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero { flex-direction: column; padding: 28px 24px; }
+      .hero-visual { width: 160px; height: 140px; }
+      .hero h1 { font-size: 1.9rem; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .category-grid { grid-template-columns: repeat(4, 1fr); }
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .site-header { top: 0; }
+      .announce-bar { position: relative; }
+      .header-inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 0;
+        gap: 10px;
+      }
+      .main-nav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+      .main-nav a { font-size: 0.78rem; padding: 5px 9px; }
+      .search-box input { width: 100px; }
+      .hero h1 { font-size: 1.6rem; }
+      .hero-visual { display: none; }
+      .hero { padding: 24px 18px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .right-sidebar { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 20px; }
+      .news-thumb { width: 64px; height: 44px; }
+      .deep-dive { padding: 20px 18px; }
+      .overview-text { padding: 18px; }
+      .update-item { flex-direction: column; gap: 4px; padding: 10px 14px; }
+      .update-time { min-width: auto; }
+      .guide-step { padding: 14px 16px; }
+      .comment-item { padding: 12px; }
+    }
+
+    @media (max-width: 400px) {
+      .category-grid { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    .no-result {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+  <!-- 吸顶公告条 -->
+  <div class="announce-bar">
+    <div class="announce-inner">
+      <span class="announce-badge">今日更新</span>
+      <span class="announce-text">11 月 8 日每日大赛已刷新：新增“午夜俱乐部·竞速赛”和“佩里科岛·生存挑战”，本周累计 14 条赛事档案更新。</span>
+    </div>
+  </div>
+
+  <!-- 吸顶页头 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/#hero" class="brand" aria-label="r星每日大赛首页">
+        <svg class="brand-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="18" cy="18" r="16" stroke="#f5b301" stroke-width="2"/>
+          <path d="M18 6 L21 15 L30 18 L21 21 L18 30 L15 21 L6 18 L15 15 Z" fill="#f5b301"/>
+        </svg>
+        <span class="brand-text">r星每日<span class="accent">大赛</span></span>
+      </a>
+      <nav class="main-nav" aria-label="主题导航">
+        <a href="/#hero">首页</a>
+        <a href="/#overview">赛事概览</a>
+        <a href="/#featured">精选赛事</a>
+        <a href="/#updates">最新动态</a>
+        <a href="/#categories">分类入口</a>
+        <a href="/#deep-dive">深度解析</a>
+        <a href="/#guide">参赛指南</a>
+        <a href="/#faq">常见问题</a>
+        <a href="/#comments">玩家评论</a>
+        <a href="/#news">赛事资讯</a>
+        <a href="/#related">延伸推荐</a>
+        <a href="/#ranking">热门榜单</a>
+      </nav>
+      <div class="header-actions">
+        <div class="search-box" role="search">
+          <input type="search" id="searchInput" placeholder="搜索赛事、类型…" aria-label="搜索赛事或类型">
+          <button type="button" id="searchBtn" aria-label="搜索">搜索</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 页面主体 -->
+  <div class="page-container">
+
+    <!-- 左侧频道索引 -->
+    <aside class="left-sidebar">
+      <nav class="channel-nav" aria-label="频道索引">
+        <div class="channel-nav-title">赛事频道</div>
+        <a href="/#featured"><span class="dot"></span>竞速挑战</a>
+        <a href="/#featured"><span class="dot"></span>死亡竞赛</a>
+        <a href="/#featured"><span class="dot"></span>生存挑战</a>
+        <a href="/#featured"><span class="dot"></span>团队对抗</a>
+        <a href="/#featured"><span class="dot"></span>载具战争</a>
+        <a href="/#featured"><span class="dot"></span>极限跳伞</a>
+        <a href="/#featured"><span class="dot"></span>狙击对决</a>
+        <a href="/#featured"><span class="dot"></span>街头狂飙</a>
+        <a href="/#categories"><span class="dot"></span>全部类别</a>
+      </nav>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+
+      <!-- 首屏 -->
+      <section class="hero" id="hero">
+        <div class="hero-content">
+          <span class="hero-tag">每日刷新 · 全模式覆盖</span>
+          <h1>r星每日大赛</h1>
+          <p class="hero-desc">聚合每日竞速、死亡竞赛、生存挑战、团队对抗等模式的赛程结果、赛道解析与车辆调校参考。每个入口对应具体的挑战名称和规则说明，方便参赛前快速查阅当日重点。</p>
+          <div class="hero-actions">
+            <a href="/#featured" class="btn btn-primary">查看今日精选赛事</a>
+            <a href="/#updates" class="btn btn-outline">最新赛况动态</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <svg viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="140" width="180" height="40" rx="8" fill="#262a34"/>
+            <rect x="30" y="150" width="60" height="20" rx="4" fill="#f5b301" opacity="0.3"/>
+            <path d="M60 120 L80 80 L100 100 L120 60 L140 90 L160 70 L180 110" stroke="#f5b301" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+            <circle cx="110" cy="40" r="14" stroke="#f5b301" stroke-width="2" opacity="0.5"/>
+            <path d="M110 30 L113 37 L120 40 L113 43 L110 50 L107 43 L100 40 L107 37 Z" fill="#f5b301" opacity="0.8"/>
+            <rect x="40" y="60" width="4" height="40" rx="2" fill="#f5b301" opacity="0.15"/>
+            <rect x="176" y="50" width="4" height="50" rx="2" fill="#f5b301" opacity="0.15"/>
+            <circle cx="70" cy="95" r="3" fill="#f5b301" opacity="0.4"/>
+            <circle cx="150" cy="85" r="3" fill="#f5b301" opacity="0.4"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 1. 主题领域概览 -->
+      <section class="section" id="overview">
+        <div class="section-header">
+          <h2 class="section-title">赛事领域概览</h2>
+        </div>
+        <div class="overview-text">
+          <p><strong>r星每日大赛</strong>覆盖竞速、射击、生存和团队配合四大类每日轮换挑战。当前版本中，竞速类包含“午夜俱乐部·街头竞速”“洛圣都环城赛”和“佩里科岛越野赛”三种赛道类型，分别对应城市夜跑、高速环线和崎岖地形，车辆选择从<a href="/#featured" class="hl">公路跑车</a>到<a href="/#featured" class="hl">拉力越野车</a>各有侧重。死亡竞赛每日轮换地图，近期热门为“废弃工厂·近距离作战”和“沙漠小镇·中距离交火”，前者强调霰弹枪与冲锋枪的室内配合，后者则需要步枪与狙击枪的节奏控制。生存挑战方面，“佩里科岛·生存战”要求玩家在四波敌人中守住据点，弹药管理与掩体选择比枪法更重要。团队对抗以“商战·据点争夺”和“运钞车·护送拦截”为代表，前者考验占点顺序，后者依赖载具分工。每日大赛的赛程通常在北京时间 18:00 刷新，竞速类单场约 5—8 分钟，生存类约 12—15 分钟，团队对抗约 10—12 分钟。参赛前建议先确认当日模式与地图，再根据队伍人数选择合适类型。</p>
+        </div>
+      </section>
+
+      <!-- 2. 精选内容推荐 -->
+      <section class="section" id="featured">
+        <div class="section-header">
+          <h2 class="section-title">今日精选赛事</h2>
+          <a href="/#updates" class="section-more">查看全部 →</a>
+        </div>
+        <div class="card-grid">
+          <!-- 卡片1 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-race01/400/300" alt="午夜俱乐部街头竞速赛道夜景" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-accent">竞速</span>
+                <span class="tag tag-gray">夜跑</span>
+                <span class="tag tag-gray">公路跑车</span>
+              </div>
+              <h3 class="card-title">午夜俱乐部·街头竞速</h3>
+              <p class="card-desc">洛圣都夜间城市环线，包含三个急弯和一段隧道直道。推荐使用“猛牛 EVX”或“放逐者 GT”，起步后第一个弯道提前 50 米刹车，隧道段可全油门通过。</p>
+              <div class="card-meta">
+                <span>更新 11-08</span>
+                <span>赛道长度 4.2km</span>
+                <span class="hot">热度 9.2</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片2 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-deathmatch02/400/300" alt="废弃工厂死亡竞赛室内场景" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-red">死亡竞赛</span>
+                <span class="tag tag-gray">室内近战</span>
+                <span class="tag tag-gray">霰弹枪</span>
+              </div>
+              <h3 class="card-title">废弃工厂·近距离作战</h3>
+              <p class="card-desc">三层室内结构，楼梯间与天井是交火热点。开局建议抢占二楼控制室，用霰弹枪封锁楼梯口。复活点附近有护甲拾取，注意每 90 秒刷新一次。</p>
+              <div class="card-meta">
+                <span>更新 11-08</span>
+                <span>推荐人数 4v4</span>
+                <span class="hot">热度 8.7</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片3 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-survival03/400/300" alt="佩里科岛生存战海岸防线" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-green">生存挑战</span>
+                <span class="tag tag-gray">据点防守</span>
+                <span class="tag tag-gray">弹药管理</span>
+              </div>
+              <h3 class="card-title">佩里科岛·生存挑战</h3>
+              <p class="card-desc">四波敌人从海滩和丛林两个方向进攻，第二波开始出现重甲单位。建议两人一组分守两侧，保留至少两个弹匣应对第四波。据点内固定弹药箱位置在雷达北侧。</p>
+              <div class="card-meta">
+                <span>更新 11-08</span>
+                <span>难度 困难</span>
+                <span class="hot">热度 8.5</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片4 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-team04/400/300" alt="商战据点争夺团队对抗地图" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-accent">团队对抗</span>
+                <span class="tag tag-gray">占点</span>
+                <span class="tag tag-gray">分工</span>
+              </div>
+              <h3 class="card-title">商战·据点争夺</h3>
+              <p class="card-desc">三个据点呈三角分布，中央据点视野最好但暴露面大。推荐 2-1-2 分组：两人压制中央，一人游走支援，两人分别控制两侧。占点进度条在最后 20% 会减速，留好烟雾弹。</p>
+              <div class="card-meta">
+                <span>更新 11-08</span>
+                <span>推荐人数 5v5</span>
+                <span class="hot">热度 8.9</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片5 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-sniper05/400/300" alt="沙漠小镇狙击对决远距离视野" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-red">狙击对决</span>
+                <span class="tag tag-gray">远距离</span>
+                <span class="tag tag-gray">掩体转移</span>
+              </div>
+              <h3 class="card-title">沙漠小镇·狙击对决</h3>
+              <p class="card-desc">地图开阔，适合重型狙击枪。开局抢占水塔制高点，但注意暴露后容易被两侧包夹。建议每击杀一人就更换一次掩体位置，保持移动节奏。</p>
+              <div class="card-meta">
+                <span>更新 11-07</span>
+                <span>推荐人数 2v2</span>
+                <span class="hot">热度 8.2</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片6 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-vehicle06/400/300" alt="载具战争越野车对抗场景" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-accent">载具战争</span>
+                <span class="tag tag-gray">越野车</span>
+                <span class="tag tag-gray">地形利用</span>
+              </div>
+              <h3 class="card-title">好麦坞山·载具战争</h3>
+              <p class="card-desc">丘陵地形，建议使用“圣甲虫”越野车，爬坡能力优于跑车。利用山顶反斜面做掩护，避免在开阔坡面停车。每辆车携带两枚追踪导弹，注意冷却时间。</p>
+              <div class="card-meta">
+                <span>更新 11-07</span>
+                <span>推荐人数 3v3</span>
+                <span class="hot">热度 8.0</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片7 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-sky07/400/300" alt="极限跳伞高空视角" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-green">极限跳伞</span>
+                <span class="tag tag-gray">降落精度</span>
+                <span class="tag tag-gray">风速影响</span>
+              </div>
+              <h3 class="card-title">奇力耶德山·极限跳伞</h3>
+              <p class="card-desc">从山顶跳下后需穿过三个检查点，最后降落在移动目标区域。第二个检查点附近有侧风，提前调整方向。开伞高度建议保持在 120 米以上，留出修正空间。</p>
+              <div class="card-meta">
+                <span>更新 11-06</span>
+                <span>检查点 3 个</span>
+                <span class="hot">热度 7.6</span>
+              </div>
+            </div>
+          </article>
+          <!-- 卡片8 -->
+          <article class="card">
+            <img class="card-img" src="https://picsum.photos/seed/rstar-street08/400/300" alt="街头狂飙城市高速路段" width="400" height="300" loading="lazy">
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag tag-accent">竞速</span>
+                <span class="tag tag-gray">高速环线</span>
+                <span class="tag tag-gray">氮气管理</span>
+              </div>
+              <h3 class="card-title">洛圣都环城赛·高速版</h3>
+              <p class="card-desc">全长 6.8 公里的高速环线，包含两个长直道和四个高速弯。氮气建议留到第二个长直道使用，配合尾流可拉开 2 秒以上差距。注意第一个弯道的入弯角度。</p>
+              <div class="card-meta">
+                <span>更新 11-06</span>
+                <span>赛道长度 6.8km</span>
+                <span class="hot">热度 8.4</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. 最新更新 / 动态 -->
+      <section class="section" id="updates">
+        <div class="section-header">
+          <h2 class="section-title">最新赛况动态</h2>
+        </div>
+        <div class="update-list">
+          <div class="update-item">
+            <span class="update-time">今天 09:30</span>
+            <div class="update-content">
+              <div class="update-title">午夜俱乐部·街头竞速新赛道纪录</div>
+              <div class="update-desc">玩家“LSC_速攻手”以 3:42.15 刷新该赛道公开纪录，车辆为猛牛 EVX 满改配置。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">今天 08:15</span>
+            <div class="update-content">
+              <div class="update-title">佩里科岛·生存挑战第四波敌军配置调整</div>
+              <div class="update-desc">11 月 8 日轮换后，第四波重甲单位数量增加 1 名，弹药箱位置不变。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">昨天 21:10</span>
+            <div class="update-content">
+              <div class="update-title">废弃工厂·近距离作战地图微调</div>
+              <div class="update-desc">二楼控制室窗户新增可穿透木板，霰弹枪穿射效果减弱，建议改用冲锋枪压制。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">昨天 18:40</span>
+            <div class="update-content">
+              <div class="update-title">商战·据点争夺新增占点提示</div>
+              <div class="update-desc">占点进度条最后 20% 减速机制正式生效，推荐留烟雾弹在最后阶段使用。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 6 日 20:00</span>
+            <div class="update-content">
+              <div class="update-title">好麦坞山·载具战争加入新载具</div>
+              <div class="update-desc">“圣甲虫”越野车加入该模式载具池，爬坡能力优于现有跑车，但极速略低。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 5 日 14:20</span>
+            <div class="update-content">
+              <div class="update-title">奇力耶德山·极限跳伞风速调整</div>
+              <div class="update-desc">第二个检查点附近侧风风速从 3m/s 提升至 4.5m/s，开伞高度建议上调至 140 米。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 4 日 19:00</span>
+            <div class="update-content">
+              <div class="update-title">沙漠小镇·狙击对决掩体位置优化</div>
+              <div class="update-desc">水塔下方新增两块半高掩体，狙击手转移路线多了一条备选路径。</div>
+            </div>
+          </div>
+          <div class="update-item">
+            <span class="update-time">11 月 3 日 16:30</span>
+            <div class="update-content">
+              <div class="update-title">洛圣都环城赛·高速版天气系统上线</div>
+              <div class="update-desc">该赛道现在有 20% 概率出现小雨天气，路面湿滑会影响刹车距离，建议提前 10 米刹车。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 分类入口 -->
+      <section class="section" id="categories">
+        <div class="section-header">
+          <h2 class="section-title">按类型找赛事</h2>
+        </div>
+        <div class="category-grid">
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(245,179,1,0.15);color:#f5b301;">速</div>
+            <span class="category-name">竞速挑战</span>
+            <span class="category-count">8 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(231,76,60,0.15);color:#e74c3c;">死</div>
+            <span class="category-name">死亡竞赛</span>
+            <span class="category-count">6 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(46,204,113,0.15);color:#2ecc71;">生</div>
+            <span class="category-name">生存挑战</span>
+            <span class="category-count">4 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(155,89,182,0.15);color:#9b59b6;">团</div>
+            <span class="category-name">团队对抗</span>
+            <span class="category-count">5 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(52,152,219,0.15);color:#3498db;">载</div>
+            <span class="category-name">载具战争</span>
+            <span class="category-count">3 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(230,126,34,0.15);color:#e67e22;">跳</div>
+            <span class="category-name">极限跳伞</span>
+            <span class="category-count">2 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(231,76,60,0.15);color:#e74c3c;">狙</div>
+            <span class="category-name">狙击对决</span>
+            <span class="category-count">3 条赛事</span>
+          </a>
+          <a href="/#featured" class="category-item">
+            <div class="category-icon" style="background:rgba(245,179,1,0.15);color:#f5b301;">飙</div>
+            <span class="category-name">街头狂飙</span>
+            <span class="category-count">5 条赛事</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 5. 深度解析正文 -->
+      <section class="section" id="deep-dive">
+        <div class="section-header">
+          <h2 class="section-title">深度解析：不同模式的胜负手</h2>
+        </div>
+        <div class="deep-dive">
+          <h3>竞速类：车辆选择与刹车点比氮气更重要</h3>
+          <p>r星每日大赛的竞速模式每天轮换赛道，但核心逻辑稳定：<strong>车辆匹配地形 &gt; 氮气使用时机 &gt; 走线精度</strong>。以“午夜俱乐部·街头竞速”为例，城市环线包含大量直角弯和一段隧道直道，公路跑车的抓地力优势明显；而“佩里科岛越野赛”的碎石路面会让跑车频繁打滑，此时拉力越野车的高悬挂和四驱系统才是关键。判断一辆车是否适合当前赛道，可以先看三个数据：<strong>加速评分</strong>（影响起步和出弯）、<strong>刹车评分</strong>（影响入弯前减速距离）、<strong>抓地力评分</strong>（影响弯中稳定性和出弯速度）。</p>
+          <ul>
+            <li><strong>猛牛 EVX</strong>：加速 9.2、刹车 8.8、抓地力 8.5，适合高速弯较多的环线赛道。</li>
+            <li><strong>放逐者 GT</strong>：加速 8.7、刹车 9.1、抓地力 9.0，适合急弯和连续变向的城市路段。</li>
+            <li><strong>圣甲虫越野车</strong>：加速 7.8、刹车 7.2、抓地力 8.9，适合碎石和泥地，但极速偏低。</li>
+          </ul>
+          <p>刹车点方面，每个弯道前都有路面标线或参照物，例如“午夜俱乐部”的第一个直角弯前有一盏路灯，建议在路灯后 10 米开始刹车。隧道直道尽头是一个缓弯，可以全油门通过，但出隧道后要立刻向右变线避开中央隔离带。</p>
+
+          <h3>死亡竞赛：地图熟悉度决定前两分钟</h3>
+          <p>死亡竞赛的胜负往往在前两分钟就拉开差距。以“废弃工厂·近距离作战”为例，三层结构意味着垂直方向的遭遇战比水平方向更频繁。开局路线建议：出生点 → 一楼东侧楼梯 → 二楼控制室 → 天井观察。控制室有两个窗户，一个面向楼梯间，一个面向天井，可以同时监控两条主要进攻路线。霰弹枪在楼梯间有绝对优势，但进入天井后要换成冲锋枪，因为天井的交火距离在 15—20 米之间，霰弹枪的散布会变得不可控。</p>
+          <p>复活点机制也值得注意：每次复活后 3 秒内有无敌保护，但保护期间不能开火。利用这 3 秒快速判断最近的安全方向，而不是原地等待。护甲拾取每 90 秒刷新一次，位置固定在二楼控制室和一楼仓库，记住刷新时间可以提前布置。</p>
+
+          <h3>生存挑战：弹药管理与掩体轮换</h3>
+          <p>“佩里科岛·生存挑战”的四波敌人中，前两波以普通步兵为主，第三波开始出现火箭筒兵，第四波有两名重甲单位。弹药箱在雷达北侧的据点内，但每次只能补充一个弹匣，因此需要规划射击节奏：普通步兵用点射，重甲单位集中火力打头部。掩体轮换的原则是每打完一个弹匣就换一个掩体，不要在同一位置停留超过 8 秒。火箭筒兵的发射前摇约 2 秒，看到瞄准红线立刻横向移动，不要后退。</p>
+
+          <h3>团队对抗：占点顺序与信息传递</h3>
+          <p>“商战·据点争夺”的三个据点中，中央据点虽然有视野优势，但四面受敌。更稳妥的策略是先控制两侧据点，再从中路施压。占点进度条在最后 20% 会减速，这意味着最后阶段需要更多人站在圈内。推荐分工：两人守 A 点、一人游走中路、两人抢 C 点，根据对方人数动态调整。信息传递比个人枪法更重要，看到敌人进入哪个据点，第一时间报点，而不是先开枪。</p>
+        </div>
+      </section>
+
+      <!-- 6. 体验指南 / 消费路径 -->
+      <section class="section" id="guide">
+        <div class="section-header">
+          <h2 class="section-title">参赛顺序与判断依据</h2>
+        </div>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>先确认当日模式与地图轮换</h4>
+              <p>每天 18:00 刷新后，先看竞速和死亡竞赛的地图名称。如果当天是“废弃工厂”或“沙漠小镇”这类熟悉地图，可以直接参赛；如果是新地图，建议先看一遍赛道解析或地图概览再入场。</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>根据队伍人数选择模式</h4>
+              <p>两人组队优先考虑“狙击对决”或“极限跳伞”，配合成本低；四到五人组队适合“商战·据点争夺”或“废弃工厂·近距离作战”，分工明确。单人玩家建议从“午夜俱乐部·街头竞速”或“生存挑战”开始，前者依赖个人走线，后者有固定防守逻辑。</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>用车辆评分和武器数据做赛前准备</h4>
+              <p>竞速类先看车辆三项评分是否匹配赛道地形；死亡竞赛和生存类先确认推荐武器配置。例如“废弃工厂”推荐霰弹枪 + 冲锋枪，“沙漠小镇”推荐狙击枪 + 步枪。赛前花 30 秒调整装备，比开局后换枪更高效。</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>赛后复盘关键节点</h4>
+              <p>竞速类重点看第一个弯道的刹车点和氮气使用时机；死亡竞赛看前两次交火的走位路线；生存类看弹药是否在第三波前耗尽。每次复盘只改一个习惯，比同时调整多项更有效。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. FAQ -->
+      <section class="section" id="faq">
+        <div class="section-header">
+          <h2 class="section-title">常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>r星每日大赛每天几点刷新？</summary>
+            <div class="faq-answer">每日大赛通常在北京时间 18:00 刷新，模式、地图和奖励会同步更新。竞速和死亡竞赛每天轮换，生存挑战和团队对抗一般每两天轮换一次。刷新后建议先看公告条确认当日重点。</div>
+          </details>
+          <details class="faq-item">
+            <summary>午夜俱乐部·街头竞速用哪辆车比较容易跑进 3:50？</summary>
+            <div class="faq-answer">推荐“猛牛 EVX”或“放逐者 GT”。猛牛 EVX 的加速和极速更适合隧道直道，放逐者 GT 的刹车和抓地力在连续弯道更稳定。如果对走线还不熟悉，先用放逐者 GT 练熟刹车点，再换猛牛 EVX 冲成绩。</div>
+          </details>
+          <details class="faq-item">
+            <summary>废弃工厂死亡竞赛和沙漠小镇狙击对决有什么区别？</summary>
+            <div class="faq-answer">废弃工厂是室内三层结构，交火距离近，推荐霰弹枪和冲锋枪，强调垂直走位和楼梯间控制；沙漠小镇是开阔地图，交火距离远，推荐狙击枪和步枪，强调掩体选择和转移路线。两者在武器配置和移动节奏上完全不同。</div>
+          </details>
+          <details class="faq-item">
+            <summary>生存挑战第四波重甲单位怎么打比较稳？</summary>
+            <div class="faq-answer">重甲单位头部是弱点，建议两人一组集火，一人吸引火力一人打头。如果只有单人，利用掩体打两枪换一个位置，不要站桩输出。第四波开始前确保弹药箱至少留一个弹匣的余量。</div>
+          </details>
+          <details class="faq-item">
+            <summary>商战·据点争夺最后 20% 进度条减速怎么办？</summary>
+            <div class="faq-answer">最后 20% 需要更多人站在圈内才能维持速度，建议提前 30 秒集合队友，留好烟雾弹和掩体技能。如果对方也在抢点，优先清理圈内敌人而不是追击圈外目标。</div>
+          </details>
+          <details class="faq-item">
+            <summary>第一次参加r星每日大赛，从哪个模式开始比较好？</summary>
+            <div class="faq-answer">建议从“午夜俱乐部·街头竞速”开始，单人可玩，规则直观，赛道固定后可以反复练习刹车点。熟悉每日轮换节奏后，再尝试“佩里科岛·生存挑战”或“废弃工厂·近距离作战”。团队模式最好有固定队友后再参加。</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 8. 用户评论 -->
+      <section class="section" id="comments">
+        <div class="section-header">
+          <h2 class="section-title">玩家评论</h2>
+        </div>
+        <div class="comment-list">
+          <div class="comment-item">
+            <div class="comment-avatar">L</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">LSC_老司机</span><span class="comment-time">今天 09:45</span></div>
+              <div class="comment-text">午夜俱乐部这个赛道确实吃刹车点，我按文中说的路灯后 10 米刹车，圈速快了 1.2 秒。猛牛 EVX 隧道段全油门很稳。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">阿</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">阿伟不飙车</span><span class="comment-time">今天 09:10</span></div>
+              <div class="comment-text">废弃工厂二楼窗户改穿透后，霰弹枪确实没那么好用了，现在换成冲锋枪在天井对枪舒服很多。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">M</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">Miko_生存专家</span><span class="comment-time">今天 08:30</span></div>
+              <div class="comment-text">佩里科岛第四波重甲多了一个，昨天打的时候差点翻车。建议留两个弹匣，别在第三波把弹药打光。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">沙</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">沙漠之鹰_07</span><span class="comment-time">昨天 22:15</span></div>
+              <div class="comment-text">沙漠小镇水塔下面新加的掩体很实用，狙击手转移路线多了一条，不用每次都绕大圈了。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">商</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">商战指挥使</span><span class="comment-time">昨天 20:40</span></div>
+              <div class="comment-text">据点争夺最后 20% 减速后，烟雾弹太关键了。我们昨天最后 10 秒连扔三颗烟，硬是拖到进度条走完。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">跳</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">跳伞不睁眼</span><span class="comment-time">昨天 19:05</span></div>
+              <div class="comment-text">奇力耶德山侧风加强后，第二个检查点确实容易偏，开伞高度拉到 140 米以上会好很多。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">圣</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">圣甲虫车主</span><span class="comment-time">11 月 7 日 18:30</span></div>
+              <div class="comment-text">好麦坞山载具战争用圣甲虫爬坡是真的爽，但直线被跑车追着打，需要队友帮忙掩护。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">狙</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">狙击手老K</span><span class="comment-time">11 月 7 日 16:20</span></div>
+              <div class="comment-text">沙漠小镇 2v2 节奏比 4v4 快很多，两个人守水塔和油罐两个方向基本够用。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">放</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">放逐者GT</span><span class="comment-time">11 月 6 日 21:10</span></div>
+              <div class="comment-text">城市环线还是放逐者 GT 舒服，刹车稳，连续弯道不会甩尾。猛牛 EVX 直线快但弯道要小心。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">新</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">新手上路_09</span><span class="comment-time">11 月 6 日 19:45</span></div>
+              <div class="comment-text">第一次打生存挑战，第三波弹药就不够了。看了弹药管理那段才明白点射和连射要分开用。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">环</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">环城赛苦手</span><span class="comment-time">11 月 5 日 20:00</span></div>
+              <div class="comment-text">环城赛高速版下雨天刹车距离变长，我在第一个弯道直接飞出去了，后来提前 15 米刹车才稳住。</div>
+            </div>
+          </div>
+          <div class="comment-item">
+            <div class="comment-avatar">团</div>
+            <div class="comment-body">
+              <div class="comment-head"><span class="comment-name">团队型玩家</span><span class="comment-time">11 月 5 日 17:30</span></div>
+              <div class="comment-text">商战 2-1-2 分组确实好用，我们五个人按这个站位，中央据点压力小很多。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. 相关资讯 -->
+      <section class="section" id="news">
+        <div class="section-header">
+          <h2 class="section-title">赛事资讯</h2>
+        </div>
+        <div class="news-list">
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news01/600/400" alt="午夜俱乐部新赛道纪录截图" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">午夜俱乐部·街头竞速公开纪录刷新至 3:42.15</div>
+              <div class="news-date">2026-11-08</div>
+              <div class="news-desc">新纪录由“LSC_速攻手”创造，使用猛牛 EVX 满改配置，比旧纪录快 0.8 秒。</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news02/600/400" alt="佩里科岛生存挑战重甲单位" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">佩里科岛生存挑战第四波重甲单位数量调整</div>
+              <div class="news-date">2026-11-08</div>
+              <div class="news-desc">11 月 8 日轮换后重甲单位从 1 名增加至 2 名，弹药管理难度上升。</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news03/600/400" alt="废弃工厂二楼控制室窗户" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">废弃工厂控制室窗户改为可穿透木板</div>
+              <div class="news-date">2026-11-07</div>
+              <div class="news-desc">霰弹枪穿射效果减弱，社区讨论建议改用冲锋枪压制天井方向。</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news04/600/400" alt="商战据点争夺占点进度条" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">商战据点争夺占点减速机制正式生效</div>
+              <div class="news-date">2026-11-06</div>
+              <div class="news-desc">最后 20% 进度条需要更多队员站圈，烟雾弹使用率明显上升。</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news05/600/400" alt="圣甲虫越野车载具战争" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">圣甲虫越野车加入好麦坞山载具战争池</div>
+              <div class="news-date">2026-11-05</div>
+              <div class="news-desc">爬坡能力突出，但极速偏低，适合山地掩护和短距离突进。</div>
+            </div>
+          </div>
+          <div class="news-item">
+            <img class="news-thumb" src="https://picsum.photos/seed/rstar-news06/600/400" alt="奇力耶德山跳伞侧风" width="600" height="400" loading="lazy">
+            <div class="news-body">
+              <div class="news-title">奇力耶德山极限跳伞侧风加强至 4.5m/s</div>
+              <div class="news-date">2026-11-04</div>
+              <div class="news-desc">第二个检查点偏移概率增加，开伞高度建议上调至 140 米以上。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. 相关推荐 -->
+      <section class="section" id="related">
+        <div class="section-header">
+          <h2 class="section-title">延伸方向推荐</h2>
+        </div>
+        <div class="related-tags">
+          <a href="/#featured" class="related-tag">佩里科岛越野赛车辆调校</a>
+          <a href="/#featured" class="related-tag">死亡竞赛武器配置对照</a>
+          <a href="/#featured" class="related-tag">商战据点争夺烟雾弹时机</a>
+          <a href="/#featured" class="related-tag">洛圣都环城赛雨天刹车点</a>
+          <a href="/#featured" class="related-tag">生存挑战第四波集火顺序</a>
+          <a href="/#featured" class="related-tag">极限跳伞检查点修正技巧</a>
+          <a href="/#featured" class="related-tag">载具战争越野车爬坡路线</a>
+          <a href="/#featured" class="related-tag">狙击对决掩体转移节奏</a>
+        </div>
+      </section>
+
+      <!-- 11. 补充板块：热门榜单 -->
+      <section class="section" id="ranking">
+        <div class="section-header">
+          <h2 class="section-title">本周热门赛事榜</h2>
+        </div>
+        <div class="rank-list">
+          <div class="rank-item">
+            <div class="rank-num top1">1</div>
+            <div class="rank-info">
+              <div class="rank-name">午夜俱乐部·街头竞速</div>
+              <div class="rank-sub">竞速 · 参与 2.4 万次</div>
+            </div>
+            <div class="rank-score">9.2</div>
+          </div>
+          <div class="rank-item">
+            <div class="rank-num top2">2</div>
+            <div class="rank-info">
+              <div class="rank-name">商战·据点争夺</div>
+              <div class="rank-sub">团队对抗 · 参与 1.8 万次</div>
+            </div>
+            <div class="rank-score">8.9</div>
+          </div>
+          <div class="rank-item">
+            <div class="rank-num top3">3</div>
+            <div class="rank-info">
+              <div class="rank-name">废弃工厂·近距离作战</div>
+              <div class="rank-sub">死亡竞赛 · 参与 1.6 万次</div>
+            </div>
+            <div class="rank-score">8.7</div>
+          </div>
+          <div class="rank-item">
+            <div class="rank-num">4</div>
+            <div class="rank-info">
+              <div class="rank-name">佩里科岛·生存挑战</div>
+              <div class="rank-sub">生存挑战 · 参与 1.3 万次</div>
+            </div>
+            <div class="rank-score">8.5</div>
+          </div>
+          <div class="rank-item">
+            <div class="rank-num">5</div>
+            <div class="rank-info">
+              <div class="rank-name">洛圣都环城赛·高速版</div>
+              <div class="rank-sub">竞速 · 参与 1.1 万次</div>
+            </div>
+            <div class="rank-score">8.4</div>
+          </div>
+          <div class="rank-item">
+            <div class="rank-num">6</div>
+            <div class="rank-info">
+              <div class="rank-name">沙漠小镇·狙击对决</div>
+              <div class="rank-sub">狙击对决 · 参与 0.9 万次</div>
+            </div>
+            <div class="rank-score">8.2</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 右侧辅助栏 -->
+    <aside class="right-sidebar">
+      <div class="sidebar-panel">
+        <div class="sidebar-title"><span class="icon">◆</span> 今日热榜</div>
+        <div class="sidebar-body">
+          <div class="hot-list">
+            <div class="hot-item"><span class="idx">1</span><a href="/#featured">午夜俱乐部破纪录跑法</a></div>
+            <div class="hot-item"><span class="idx">2</span><a href="/#featured">废弃工厂控制室改动</a></div>
+            <div class="hot-item"><span class="idx">3</span><a href="/#featured">佩里科岛第四波重甲</a></div>
+            <div class="hot-item"><span class="idx">4</span><a href="/#featured">商战占点烟雾弹时机</a></div>
+            <div class="hot-item"><span class="idx">5</span><a href="/#featured">圣甲虫越野车爬坡</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-panel">
+        <div class="sidebar-title"><span class="icon">#</span> 热门标签</div>
+        <div class="sidebar-body">
+          <div class="tag-cloud">
+            <span>竞速</span><span>死亡竞赛</span><span>生存</span><span>团队对抗</span><span>载具战争</span><span>狙击</span><span>跳伞</span><span>车辆调校</span><span>刹车点</span><span>占点</span>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-panel">
+        <div class="sidebar-title"><span class="icon">↻</span> 实时更新</div>
+        <div class="sidebar-body">
+          <div class="update-stream">
+            <div class="stream-item">午夜俱乐部赛道纪录刷新<div class="stream-time">今天 09:30</div></div>
+            <div class="stream-item">生存挑战重甲单位调整<div class="stream-time">今天 08:15</div></div>
+            <div class="stream-item">废弃工厂窗户微调<div class="stream-time">昨天 21:10</div></div>
+            <div class="stream-item">商战占点减速生效<div class="stream-time">昨天 18:40</div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 页尾 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="brand">
+          <svg class="brand-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="18" cy="18" r="16" stroke="#f5b301" stroke-width="2"/>
+            <path d="M18 6 L21 15 L30 18 L21 21 L18 30 L15 21 L6 18 L15 15 Z" fill="#f5b301"/>
+          </svg>
+          <span class="brand-text">r星每日<span class="accent">大赛</span></span>
+        </div>
+        <p>聚合每日竞速、死亡竞赛、生存挑战与团队对抗的赛程结果、赛道解析和车辆调校参考。</p>
+      </div>
+      <div class="footer-col">
+        <h4>赛事频道</h4>
+        <ul>
+          <li><a href="/#featured">竞速挑战</a></li>
+          <li><a href="/#featured">死亡竞赛</a></li>
+          <li><a href="/#featured">生存挑战</a></li>
+          <li><a href="/#featured">团队对抗</a></li>
+          <li><a href="/#featured">载具战争</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>内容板块</h4>
+        <ul>
+          <li><a href="/#overview">赛事概览</a></li>
+          <li><a href="/#deep-dive">深度解析</a></li>
+          <li><a href="/#guide">参赛指南</a></li>
+          <li><a href="/#faq">常见问题</a></li>
+          <li><a href="/#ranking">热门榜单</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="/#comments">玩家评论</a></li>
+          <li><a href="/#news">赛事资讯</a></li>
+          <li><a href="/#related">延伸推荐</a></li>
+          <li><a href="/#updates">最新动态</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 r星每日大赛 · 内容聚合示例页</span>
+      <span>部分内容为示例数据，仅用于展示页面结构</span>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // 搜索过滤（仅对主内容区卡片和更新列表做简单视觉筛选）
+      var searchInput = document.getElementById('searchInput');
+      var searchBtn = document.getElementById('searchBtn');
+      var mainContent = document.querySelector('.main-content');
+
+      function doSearch() {
+        var q = (searchInput.value || '').trim().toLowerCase();
+        if (!q) {
+          // 清除所有隐藏
+          var allCards = mainContent.querySelectorAll('.card, .update-item');
+          allCards.forEach(function(el) { el.style.display = ''; });
+          var noRes = document.getElementById('noResultMsg');
+          if (noRes) noRes.remove();
+          return;
+        }
+
+        var cards = mainContent.querySelectorAll('.card');
+        var updates = mainContent.querySelectorAll('.update-item');
+        var visibleCount = 0;
+
+        cards.forEach(function(card) {
+          var text = card.textContent.toLowerCase();
+          if (text.indexOf(q) !== -1) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        updates.forEach(function(item) {
+          var text = item.textContent.toLowerCase();
+          if (text.indexOf(q) !== -1) {
+            item.style.display = '';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // 无结果提示
+        var oldMsg = document.getElementById('noResultMsg');
+        if (oldMsg) oldMsg.remove();
+
+        if (visibleCount === 0) {
+          var msg = document.createElement('div');
+          msg.id = 'noResultMsg';
+          msg.className = 'no-result';
+          msg.textContent = '没有找到与“' + searchInput.value.trim() + '”相关的赛事或动态，试试其他关键词。';
+          mainContent.appendChild(msg);
+        }
+      }
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', doSearch);
+      }
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            doSearch();
+          }
+        });
+        searchInput.addEventListener('input', function() {
+          if (!searchInput.value.trim()) {
+            doSearch();
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+          </html>
