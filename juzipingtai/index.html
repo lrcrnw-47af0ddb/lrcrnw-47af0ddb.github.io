@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>橘子平台 - 游戏库与联机内容聚合</title>
+<meta name="description" content="橘子平台聚合PC游戏库、联机对局、限时活动与玩家攻略内容，收录角色扮演、射击竞技、独立创意等方向的具体条目与版本动态，适合找游戏、查活动、看攻略的玩家浏览。">
+<meta name="keywords" content="游戏库,联机对局,限时活动,版本更新,玩家攻略">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23e06a1f'/%3E%3Cpath d='M32 12c3 10-2 16-2 16s9-3 14 4c-4 1-7 5-7 5s8 1 9 9c-8-2-13 2-13 2s4 5 1 12c-6-7-12-6-12-6s-3 7-12 9c3-8 0-13 0-13s-7 3-13-2c7-4 8-10 8-10s-6-2-7-9c9-1 12-6 12-6s-4-7 2-13c4 6 10 6 10 6s2-7 10-9z' fill='%23fff7ef'/%3E%3C/svg%3E">
+<style>
+:root{
+  --orange:#e06a1f;
+  --orange-deep:#b8500f;
+  --orange-soft:#fbe7d6;
+  --ink:#20232a;
+  --ink-soft:#4d545e;
+  --ink-mute:#7a828d;
+  --line:#e6e2dc;
+  --bg:#faf7f2;
+  --panel:#ffffff;
+  --panel-2:#f4efe8;
+  --green:#2f7d5e;
+  --blue:#2b5f9e;
+  --radius:10px;
+  --radius-sm:6px;
+  --shadow:0 2px 10px rgba(40,30,20,.07);
+  --shadow-lg:0 8px 28px rgba(40,30,20,.12);
+  --sticky-h:104px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.75;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{margin:0;line-height:1.35;font-weight:700}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 12px;padding-left:20px}
+li{margin-bottom:6px}
+section[id],div[id]{scroll-margin-top:var(--sticky-h)}
+
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+
+/* ---------- 公告条 ---------- */
+.notice{
+  background:linear-gradient(90deg,#2b1a0e,#5a2f12 60%,#8a4513);
+  color:#ffe9d2;
+  font-size:13px;
+}
+.notice-inner{
+  display:flex;align-items:center;gap:14px;
+  padding:7px 20px;max-width:1320px;margin:0 auto;
+  overflow:hidden;
+}
+.notice-tag{
+  flex:none;background:var(--orange);color:#fff;
+  font-size:11px;font-weight:700;letter-spacing:.05em;
+  padding:2px 8px;border-radius:20px;
+}
+.notice-text{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.notice-text b{color:#ffd9b0;font-weight:600}
+.notice-link{flex:none;color:#ffd9b0;font-size:12px;border-bottom:1px dashed rgba(255,217,176,.5)}
+.notice-link:hover{color:#fff}
+
+/* ---------- 页头 ---------- */
+.sticky-zone{position:sticky;top:0;z-index:60;box-shadow:0 2px 12px rgba(40,30,20,.08)}
+.site-header{background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.header-inner{
+  display:flex;align-items:center;gap:22px;
+  padding:10px 20px;max-width:1320px;margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.brand-mark{width:38px;height:38px;flex:none}
+.brand-text{font-size:20px;font-weight:800;letter-spacing:.02em;color:var(--ink)}
+.brand-text span{color:var(--orange)}
+.main-nav{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.main-nav a{
+  font-size:13.5px;color:var(--ink-soft);padding:5px 10px;border-radius:6px;
+  transition:.15s;
+}
+.main-nav a:hover,.main-nav a:focus-visible{background:var(--orange-soft);color:var(--orange-deep);outline:none}
+.header-tools{display:flex;align-items:center;gap:10px;flex:none}
+.search-box{position:relative;display:flex;align-items:center}
+.search-box input{
+  width:170px;font-size:13px;padding:6px 10px;border:1px solid var(--line);
+  border-radius:20px;background:var(--panel-2);color:var(--ink);outline:none;
+  transition:.2s;
+}
+.search-box input:focus{border-color:var(--orange);background:#fff;width:200px}
+.btn-mini{
+  font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--orange);
+  background:var(--orange);color:#fff;font-weight:600;cursor:pointer;
+}
+.btn-mini.ghost{background:transparent;color:var(--orange-deep)}
+
+/* ---------- 首屏 ---------- */
+.hero{
+  background:
+    radial-gradient(900px 320px at 88% -40%,rgba(224,106,31,.16),transparent 70%),
+    linear-gradient(160deg,#fff9f3,#fdf3e8 55%,#f8ecdd);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero-inner{
+  max-width:1320px;margin:0 auto;padding:38px 20px 34px;
+  display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:36px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;
+  color:var(--orange-deep);background:#fff;border:1px solid #f0d8c2;
+  padding:4px 12px;border-radius:20px;margin-bottom:14px;
+}
+.hero-eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--orange);display:inline-block}
+.hero h1{font-size:40px;letter-spacing:.01em;margin-bottom:14px;color:#26170c}
+.hero-desc{font-size:15.5px;color:var(--ink-soft);max-width:620px;margin-bottom:20px}
+.hero-desc b{color:var(--orange-deep);font-weight:600}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.btn{
+  display:inline-block;font-size:14px;font-weight:600;padding:9px 20px;border-radius:8px;
+  border:1px solid transparent;cursor:pointer;transition:.18s;
+}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(224,106,31,.3)}
+.btn-primary:hover{background:var(--orange-deep)}
+.btn-line{background:#fff;color:var(--orange-deep);border-color:#eccfb4}
+.btn-line:hover{background:var(--orange-soft)}
+.hero-stats{display:flex;gap:26px;flex-wrap:wrap}
+.hero-stats div{font-size:12px;color:var(--ink-mute)}
+.hero-stats strong{display:block;font-size:20px;color:var(--ink);font-weight:800;line-height:1.2}
+.hero-visual{position:relative}
+.hero-visual svg{width:100%;height:auto;display:block;filter:drop-shadow(0 14px 28px rgba(120,60,20,.16))}
+
+/* ---------- 布局：三栏门户 ---------- */
+.layout{
+  max-width:1320px;margin:0 auto;padding:26px 20px 10px;
+  display:grid;grid-template-columns:180px minmax(0,1fr) 262px;gap:24px;
+  align-items:start;
+}
+.channel-col{position:sticky;top:calc(var(--sticky-h) + 12px)}
+.channel-box{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 12px;box-shadow:var(--shadow);
+}
+.channel-box h2{
+  font-size:12px;color:var(--ink-mute);font-weight:700;letter-spacing:.14em;
+  margin-bottom:10px;padding-left:6px;text-transform:uppercase;
+}
+.channel-list{list-style:none;padding:0;margin:0}
+.channel-list li{margin:0}
+.channel-list a{
+  display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);
+  padding:6px 8px;border-radius:6px;
+}
+.channel-list a:hover,.channel-list a:focus-visible{background:var(--orange-soft);color:var(--orange-deep);outline:none}
+.channel-list a em{
+  font-style:normal;font-size:11px;color:var(--ink-mute);margin-left:auto;
+}
+.channel-note{
+  margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:12px;color:var(--ink-mute);line-height:1.65;padding-left:6px;
+}
+
+/* 主内容 */
+.main-col{min-width:0}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);margin-bottom:24px;overflow:hidden;
+}
+.panel-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:16px 20px 12px;border-bottom:1px solid var(--line);
+}
+.panel-head h2{font-size:19px;color:var(--ink);display:flex;align-items:center;gap:9px}
+.panel-head h2::before{
+  content:"";width:4px;height:18px;border-radius:2px;background:var(--orange);
+  display:inline-block;
+}
+.panel-head .more{font-size:12.5px;color:var(--orange-deep);flex:none}
+.panel-body{padding:18px 20px}
+.panel-sub{font-size:13px;color:var(--ink-mute);padding:0 20px 14px;margin-top:-4px}
+
+/* 概览 */
+.overview p{font-size:14.5px;color:var(--ink-soft);line-height:1.85}
+.overview p:last-child{margin-bottom:0}
+
+/* 精选卡片 */
+.card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{
+  border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;
+  background:#fff;display:flex;flex-direction:column;transition:.18s;
+}
+.card:hover{box-shadow:var(--shadow-lg);border-color:#e8cfb8;transform:translateY(-2px)}
+.card-img{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--panel-2)}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.card-badge{
+  position:absolute;left:8px;top:8px;font-size:11px;font-weight:700;color:#fff;
+  background:rgba(38,23,12,.72);padding:2px 8px;border-radius:4px;backdrop-filter:blur(4px);
+}
+.card-body{padding:12px 13px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card-title{font-size:15.5px;font-weight:700;color:var(--ink)}
+.card-type{font-size:11.5px;color:var(--orange-deep);font-weight:600}
+.card-desc{font-size:13px;color:var(--ink-soft);line-height:1.65;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{
+  font-size:11px;color:var(--ink-mute);background:var(--panel-2);
+  padding:1px 7px;border-radius:4px;
+}
+.card-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11.5px;color:var(--ink-mute);border-top:1px dashed var(--line);padding-top:8px;
+}
+.card-meta b{color:var(--orange-deep);font-weight:700}
+
+/* 最新更新 列表 */
+.update-list{list-style:none;padding:0;margin:0}
+.update-list li{
+  display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);
+  margin:0;align-items:flex-start;
+}
+.update-list li:last-child{border-bottom:none;padding-bottom:0}
+.update-time{flex:none;width:64px;font-size:12px;color:var(--orange-deep);font-weight:600;padding-top:2px}
+.update-main{min-width:0;flex:1}
+.update-name{font-size:14px;font-weight:600;color:var(--ink)}
+.update-sum{font-size:12.5px;color:var(--ink-mute);margin-top:2px}
+.update-tag{
+  flex:none;font-size:11px;padding:1px 7px;border-radius:4px;margin-top:3px;
+  background:var(--orange-soft);color:var(--orange-deep);font-weight:600;
+}
+.update-tag.g{background:#e3f2ea;color:var(--green)}
+.update-tag.b{background:#e6eef8;color:var(--blue)}
+
+/* 分类入口 */
+.cat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.cat-item{
+  display:block;border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:11px 10px;background:#fff;transition:.16s;
+}
+.cat-item:hover{border-color:#e8cfb8;background:#fffaf5}
+.cat-item strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:3px}
+.cat-item span{font-size:11px;color:var(--ink-mute);line-height:1.5;display:block}
+
+/* 深度解析 */
+.article-body h3{
+  font-size:16px;color:var(--ink);margin:20px 0 8px;
+  padding-left:10px;border-left:3px solid var(--orange);line-height:1.4;
+}
+.article-body h3:first-child{margin-top:0}
+.article-body p{font-size:14.5px;color:var(--ink-soft);line-height:1.9}
+.article-body ul,.article-body ol{font-size:14px;color:var(--ink-soft);line-height:1.85}
+.article-body li b{color:var(--ink)}
+.compare{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0 18px;
+}
+.compare-box{
+  border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 14px;background:var(--panel-2);
+}
+.compare-box h4{font-size:13.5px;color:var(--orange-deep);margin-bottom:6px}
+.compare-box p{font-size:13px;margin:0;color:var(--ink-soft)}
+
+/* 消费路径 步骤 */
+.steps{list-style:none;padding:0;counter-reset:step;margin:0}
+.steps li{
+  counter-increment:step;position:relative;padding:0 0 16px 44px;margin:0;
+  border-left:2px solid var(--orange-soft);margin-left:16px;
+}
+.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+.steps li::before{
+  content:counter(step);position:absolute;left:-17px;top:0;width:32px;height:32px;
+  border-radius:50%;background:var(--orange);color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.steps strong{display:block;font-size:14.5px;color:var(--ink);margin-bottom:2px}
+.steps p{font-size:13px;color:var(--ink-soft);margin:0}
+
+/* FAQ */
+.faq details{
+  border:1px solid var(--line);border-radius:var(--radius-sm);margin-bottom:9px;background:#fff;
+}
+.faq details[open]{border-color:#eccfb4;background:#fffdfa}
+.faq summary{
+  cursor:pointer;padding:11px 14px;font-size:14px;font-weight:600;color:var(--ink);
+  list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--orange);font-size:18px;font-weight:400;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq summary:focus-visible{outline:2px solid var(--orange);outline-offset:-2px;border-radius:6px}
+.faq .faq-a{padding:0 14px 13px;font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+
+/* 评论 */
+.comment-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.comment{
+  border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;background:#fff;
+}
+.comment-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.avatar{
+  width:26px;height:26px;border-radius:50%;flex:none;color:#fff;font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;background:var(--orange);
+}
+.comment-name{font-size:12.5px;font-weight:600;color:var(--ink)}
+.comment-date{font-size:11px;color:var(--ink-mute);margin-left:auto}
+.comment-text{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin:0}
+
+/* 资讯 */
+.news-list{list-style:none;padding:0;margin:0}
+.news-list li{
+  display:flex;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line);margin:0;
+}
+.news-list li:last-child{border-bottom:none;padding-bottom:0}
+.news-thumb{width:104px;height:70px;flex:none;border-radius:6px;overflow:hidden;background:var(--panel-2)}
+.news-thumb img{width:100%;height:100%;object-fit:cover}
+.news-main{min-width:0}
+.news-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.45}
+.news-date{font-size:11.5px;color:var(--orange-deep);margin:3px 0}
+.news-sum{font-size:12.5px;color:var(--ink-mute);line-height:1.6;margin:0}
+
+/* 相关推荐 标签索引 */
+.rec-tags{display:flex;flex-wrap:wrap;gap:8px}
+.rec-tags a{
+  font-size:12.5px;padding:5px 12px;border-radius:20px;background:var(--panel-2);
+  color:var(--ink-soft);border:1px solid transparent;transition:.15s;
+}
+.rec-tags a:hover{background:var(--orange-soft);color:var(--orange-deep);border-color:#f0d8c2}
+
+/* 榜单 */
+.rank-list{list-style:none;padding:0;margin:0;counter-reset:rank}
+.rank-list li{
+  counter-increment:rank;display:flex;align-items:center;gap:12px;padding:9px 0;
+  border-bottom:1px dashed var(--line);margin:0;
+}
+.rank-list li:last-child{border-bottom:none;padding-bottom:0}
+.rank-list li::before{
+  content:counter(rank);flex:none;width:22px;height:22px;border-radius:6px;
+  background:var(--panel-2);color:var(--ink-mute);font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.rank-list li:nth-child(-n+3)::before{background:var(--orange);color:#fff}
+.rank-name{font-size:13.5px;font-weight:600;color:var(--ink);flex:1;min-width:0}
+.rank-name small{display:block;font-size:11.5px;color:var(--ink-mute);font-weight:400}
+.rank-val{font-size:12px;color:var(--orange-deep);font-weight:700;flex:none}
+
+/* 侧栏 */
+.side-col{position:sticky;top:calc(var(--sticky-h) + 12px);display:flex;flex-direction:column;gap:18px}
+.side-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.side-head{
+  padding:12px 14px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+}
+.side-head::before{content:"";width:3px;height:14px;background:var(--orange);border-radius:2px}
+.side-body{padding:12px 14px}
+.hot-list{list-style:none;padding:0;margin:0;counter-reset:hot}
+.hot-list li{
+  counter-increment:hot;display:flex;gap:9px;padding:7px 0;font-size:13px;
+  border-bottom:1px dashed var(--line);margin:0;align-items:baseline;
+}
+.hot-list li:last-child{border-bottom:none;padding-bottom:0}
+.hot-list li::before{
+  content:counter(hot);flex:none;font-size:11px;font-weight:700;color:var(--ink-mute);
+  width:16px;
+}
+.hot-list li:nth-child(-n+3)::before{color:var(--orange)}
+.hot-list a:hover{color:var(--orange-deep)}
+.side-note{font-size:11.5px;color:var(--ink-mute);line-height:1.65;padding:0 14px 12px}
+.timeline{list-style:none;padding:0;margin:0}
+.timeline li{position:relative;padding:0 0 12px 16px;border-left:1px dashed #e0d5c8;margin:0}
+.timeline li:last-child{padding-bottom:0;border-left-color:transparent}
+.timeline li::before{
+  content:"";position:absolute;left:-4px;top:6px;width:7px;height:7px;border-radius:50%;
+  background:var(--orange);
+}
+.timeline time{font-size:11px;color:var(--orange-deep);font-weight:600;display:block}
+.timeline span{font-size:12.5px;color:var(--ink-soft);line-height:1.55;display:block}
+
+/* 页尾 */
+.site-footer{
+  margin-top:26px;background:#241a12;color:#cdbfb2;border-top:4px solid var(--orange);
+}
+.footer-inner{max-width:1320px;margin:0 auto;padding:36px 20px 22px}
+.footer-top{display:grid;grid-template-columns:1.4fr 2.6fr;gap:36px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-brand svg{width:32px;height:32px}
+.footer-brand strong{font-size:18px;color:#fff}
+.footer-desc{font-size:13px;line-height:1.8;color:#a8988a;max-width:340px}
+.footer-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.footer-cols h4{font-size:13px;color:#f0d8c2;margin-bottom:9px;font-weight:700}
+.footer-cols a{display:block;font-size:12.5px;color:#a8988a;padding:2px 0}
+.footer-cols a:hover{color:var(--orange)}
+.footer-bottom{
+  padding-top:16px;font-size:12px;color:#8a7b6e;display:flex;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+}
+.footer-bottom .demo-note{color:#7b6d60}
+
+/* 响应式 */
+@media (max-width:1180px){
+  .layout{grid-template-columns:170px minmax(0,1fr) 240px;gap:20px}
+  .hero-inner{grid-template-columns:minmax(0,1fr) 320px}
+}
+@media (max-width:1024px){
+  :root{--sticky-h:96px}
+  .layout{grid-template-columns:minmax(0,1fr) 260px}
+  .channel-col{position:static;grid-column:1/-1;order:-1}
+  .channel-box{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 12px}
+  .channel-box h2{margin:0;padding:0;flex:none}
+  .channel-list{display:flex;flex-wrap:wrap;gap:4px;flex:1}
+  .channel-list a em{display:none}
+  .channel-note{display:none}
+  .main-col{order:1}
+  .side-col{order:2}
+  .hero-inner{grid-template-columns:1fr;gap:22px}
+  .hero-visual{max-width:420px}
+  .hero h1{font-size:34px}
+  .main-nav{display:none}
+}
+@media (max-width:820px){
+  .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-top{grid-template-columns:1fr;gap:22px}
+  .card-grid{grid-template-columns:1fr}
+}
+@media (max-width:740px){
+  :root{--sticky-h:88px}
+  body{font-size:14.5px}
+  .layout{grid-template-columns:1fr;padding:18px 14px 6px;gap:18px}
+  .side-col{position:static}
+  .hero-inner{padding:26px 14px 24px}
+  .hero h1{font-size:28px}
+  .hero-desc{font-size:14px}
+  .header-inner{padding:8px 14px;gap:12px}
+  .brand-text{font-size:17px}
+  .brand-mark{width:32px;height:32px}
+  .search-box input{width:120px}
+  .search-box input:focus{width:140px}
+  .header-tools .btn-mini.ghost{display:none}
+  .notice-inner{padding:6px 14px;font-size:12px}
+  .notice-link{display:none}
+  .comment-list{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel-head{padding:13px 14px 10px}
+  .panel-head h2{font-size:17px}
+  .panel-body{padding:14px}
+  .panel-sub{padding:0 14px 12px}
+  .news-thumb{width:86px;height:60px}
+  .footer-inner{padding:26px 14px 18px}
+  .footer-cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-stats{gap:18px}
+}
+@media (max-width:380px){
+  .cat-grid{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- 吸顶公告条 + 页头 -->
+<div class="sticky-zone">
+  <div class="notice" role="region" aria-label="平台动态">
+    <div class="notice-inner">
+      <span class="notice-tag">更新</span>
+      <span class="notice-text"><b>11 月 8 日</b>新增《北境回声》第 3 章、开放「冬季联机周」报名，同步上线 12 条版本公告与 4 场社区赛程。</span>
+      <a class="notice-link" href="#updates">查看全部更新</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="橘子平台首页">
+        <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="橘子平台标志">
+          <circle cx="32" cy="32" r="30" fill="#e06a1f"/>
+          <path d="M32 12c3 10-2 16-2 16s9-3 14 4c-4 1-7 5-7 5s8 1 9 9c-8-2-13 2-13 2s4 5 1 12c-6-7-12-6-12-6s-3 7-12 9c3-8 0-13 0-13s-7 3-13-2c7-4 8-10 8-10s-6-2-7-9c9-1 12-6 12-6s-4-7 2-13c4 6 10 6 10 6s2-7 10-9z" fill="#fff7ef"/>
+          <circle cx="32" cy="32" r="6" fill="#e06a1f"/>
+        </svg>
+        <span class="brand-text">橘子<span>平台</span></span>
+      </a>
+      <nav class="main-nav" aria-label="主题导航">
+        <a href="#overview">领域概览</a>
+        <a href="#featured">精选游戏</a>
+        <a href="#updates">版本动态</a>
+        <a href="#categories">分类入口</a>
+        <a href="#deepdive">深度解析</a>
+        <a href="#guide">体验路径</a>
+        <a href="#faq">常见问题</a>
+        <a href="#reviews">玩家评论</a>
+        <a href="#news">相关资讯</a>
+        <a href="#rank">热门榜单</a>
+      </nav>
+      <div class="header-tools">
+        <div class="search-box">
+          <input id="siteSearch" type="search" placeholder="搜索游戏、活动、攻略" aria-label="站内内容搜索">
+        </div>
+        <button class="btn-mini ghost" type="button" onclick="document.getElementById('siteSearch').focus()">搜索</button>
+        <a class="btn-mini" href="#updates">最新更新</a>
+      </div>
+    </div>
+  </header>
+</div>
+
+<!-- 首屏 -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-eyebrow"><i></i>游戏库 · 联机对局 · 限时活动</span>
+      <h1>橘子平台</h1>
+      <p class="hero-desc">汇聚 <b>PC 游戏库、联机对局、限时活动与版本公告</b> 的内容聚合入口。这里收录角色扮演、射击竞技、独立创意、策略模拟等方向的具体条目，标注版本号、开放时间、平台支持与玩家评价，方便你在找游戏、查活动、看更新时快速定位。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#featured">浏览精选游戏</a>
+        <a class="btn btn-line" href="#updates">查看本周更新</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>68</strong>在库游戏条目</div>
+        <div><strong>12</strong>本周版本更新</div>
+        <div><strong>9</strong>进行中限时活动</div>
+        <div><strong>4</strong>社区赛程</div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 400 330" role="presentation">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff4e6"/>
+            <stop offset="1" stop-color="#f6dcc0"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e06a1f"/>
+            <stop offset="1" stop-color="#b8500f"/>
+          </linearGradient>
+        </defs>
+        <rect x="10" y="14" width="380" height="302" rx="22" fill="url(#g1)" stroke="#ecd3b8"/>
+        <!-- 屏幕 -->
+        <rect x="46" y="46" width="308" height="176" rx="14" fill="#2b1a0e"/>
+        <rect x="58" y="58" width="284" height="152" rx="9" fill="#3b2616"/>
+        <rect x="74" y="74" width="112" height="9" rx="4.5" fill="#e06a1f" opacity=".9"/>
+        <rect x="74" y="92" width="180" height="7" rx="3.5" fill="#8a6a4d"/>
+        <rect x="74" y="106" width="150" height="7" rx="3.5" fill="#8a6a4d"/>
+        <rect x="74" y="126" width="86" height="34" rx="7" fill="#e06a1f"/>
+        <rect x="170" y="126" width="86" height="34" rx="7" fill="#5a3a22"/>
+        <rect x="74" y="170" width="182" height="7" rx="3.5" fill="#6b4d33"/>
+        <rect x="74" y="184" width="140" height="7" rx="3.5" fill="#6b4d33"/>
+        <circle cx="300" cy="160" r="26" fill="url(#g2)" opacity=".9"/>
+        <path d="M290 160l7 7 14-15" stroke="#fff7ef" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- 手柄 -->
+        <path d="M132 252c0-14 12-24 26-24h84c14 0 26 10 26 24v10c0 12-9 20-20 20-8 0-12-4-18-10l-8-8h-44l-8 8c-6 6-10 10-18 10-11 0-20-8-20-20z" fill="#3b2616"/>
+        <circle cx="164" cy="262" r="9" fill="#e06a1f"/>
+        <circle cx="238" cy="258" r="6" fill="#f0d8c2"/>
+        <circle cx="254" cy="270" r="6" fill="#f0d8c2"/>
+        <rect x="182" y="256" width="22" height="8" rx="4" fill="#6b4d33"/>
+        <rect x="189" y="249" width="8" height="22" rx="4" fill="#6b4d33"/>
+        <!-- 卡片小元素 -->
+        <rect x="286" y="238" width="86" height="52" rx="9" fill="#fff" stroke="#ecd3b8"/>
+        <rect x="296" y="248" width="30" height="6" rx="3" fill="#e06a1f"/>
+        <rect x="296" y="260" width="60" height="5" rx="2.5" fill="#d8c6b2"/>
+        <rect x="296" y="270" width="44" height="5" rx="2.5" fill="#d8c6b2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 主内容：三栏门户 -->
+<div class="layout">
+
+  <!-- 左频道 -->
+  <aside class="channel-col" aria-label="频道索引">
+    <div class="channel-box">
+      <h2>频道索引</h2>
+      <ul class="channel-list">
+        <li><a href="#categories">角色扮演 <em>18</em></a></li>
+        <li><a href="#categories">射击竞技 <em>14</em></a></li>
+        <li><a href="#categories">策略模拟 <em>11</em></a></li>
+        <li><a href="#categories">独立创意 <em>12</em></a></li>
+        <li><a href="#categories">联机合作 <em>9</em></a></li>
+        <li><a href="#updates">版本公告 <em>12</em></a></li>
+        <li><a href="#updates">限时活动 <em>9</em></a></li>
+        <li><a href="#guide">新手入门 <em>7</em></a></li>
+        <li><a href="#rank">热门榜单 <em>10</em></a></li>
+      </ul>
+      <p class="channel-note">频道数字为当前收录条目数，随版本更新与活动轮换调整。</p>
+    </div>
+  </aside>
+
+  <!-- 中主栏 -->
+  <main class="main-col" id="main">
+
+    <!-- 1 主题领域概览 -->
+    <section class="panel" id="overview">
+      <div class="panel-head"><h2>游戏库与联机内容概览</h2></div>
+      <div class="panel-body overview">
+        <p>橘子平台所指的内容方向，是围绕 PC 游戏库展开的一整套消费信息：有哪些游戏可以玩、属于什么类型、支持哪些平台版本、什么时候开放测试或发售、联机需要几个人、限时活动持续到几号。对玩家来说，真正需要的不是一份笼统的推荐清单，而是能按类型、版本、开放时间逐层筛选的具体条目。</p>
+        <p>目前收录的方向大致分为四类。第一类是<b>角色扮演与叙事驱动</b>，以长流程、分支选择、章节更新为特征，代表作如《北境回声》《雾港纪事》，玩家关注点集中在剧情章节进度与结局分支。第二类是<b>射击竞技与战术对抗</b>，如《零点突袭》《铁幕前线》，核心信息是赛季段位、地图轮换与武器平衡调整。第三类是<b>策略模拟与经营建造</b>，如《星港调度》《小镇四季》，玩家更关心资源曲线、产能配比与更新后的数值变化。第四类是<b>独立创意与短篇体验</b>，单局时长通常在一到三小时，适合碎片时间。</p>
+        <p>联机合作是另一条主线。双人协作、四人小队、非对称对抗各有不同的匹配逻辑与沟通成本，选择前需要先确认好友数量、语音条件与单局时长。限时活动则直接决定“现在值不值得进场”：赛季通行证、节日副本、社区赛事往往有明确起止日期，错过就要等下个轮次。把这些信息按类型与时间整理在一起，才能判断一个条目当下是否适合投入。</p>
+      </div>
+    </section>
+
+    <!-- 2 精选内容推荐 -->
+    <section class="panel" id="featured">
+      <div class="panel-head"><h2>精选游戏条目</h2><a class="more" href="#rank">查看榜单 →</a></div>
+      <p class="panel-sub">按类型、版本与联机人数筛选出的 8 个具体条目，含当前版本与玩家评分。</p>
+      <div class="panel-body">
+        <div class="card-grid">
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/beijinghuisheng01/400/300" alt="北境回声第三章雪原场景封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">角色扮演</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">北境回声</h3>
+              <span class="card-type">叙事 RPG · 单人 · 第 3 章</span>
+              <p class="card-desc">雪原边境的分支叙事，第 3 章新增两条结局线，存档可继承。战斗为回合制，节奏偏慢，适合喜欢读文本的玩家。</p>
+              <div class="tags"><span class="tag">分支结局</span><span class="tag">回合制</span><span class="tag">章节更新</span></div>
+              <div class="card-meta"><span>评分 <b>8.7</b></span><span>11-06 更新</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/lingdianTUXI02/400/300" alt="零点突袭赛季四地图封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">射击竞技</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">零点突袭</h3>
+              <span class="card-type">5v5 战术射击 · 赛季 4</span>
+              <p class="card-desc">赛季 4 重做「港口」地图，新增烟雾投掷物与拆包计时。段位赛每周三结算，单局约 35 分钟。</p>
+              <div class="tags"><span class="tag">排位赛</span><span class="tag">地图轮换</span><span class="tag">武器平衡</span></div>
+              <div class="card-meta"><span>在线 <b>4.2 万</b></span><span>11-07 更新</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/xinggangdiaodu03/400/300" alt="星港调度空间站物流界面封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">策略模拟</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">星港调度</h3>
+              <span class="card-type">物流经营 · 单人 · v1.4</span>
+              <p class="card-desc">在空间站之间规划货运航线，v1.4 加入燃料价格波动与突发事件。上手前两小时偏难，需要读一遍教程。</p>
+              <div class="tags"><span class="tag">资源调度</span><span class="tag">数值经营</span><span class="tag">长线运营</span></div>
+              <div class="card-meta"><span>评分 <b>8.3</b></span><span>11-05 更新</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/wugangjishi04/400/300" alt="雾港纪事雨夜码头封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">角色扮演</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">雾港纪事</h3>
+              <span class="card-type">悬疑叙事 · 单人 · 全 6 章</span>
+              <p class="card-desc">以港口失踪案为主线的推理叙事，全 6 章已完结，无战斗。线索本自动记录，适合一次连续通关。</p>
+              <div class="tags"><span class="tag">推理线索</span><span class="tag">完结作品</span><span class="tag">短流程</span></div>
+              <div class="card-meta"><span>评分 <b>9.0</b></span><span>11-01 完结</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/tiemujianxian05/400/300" alt="铁幕前线装甲载具封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">射击竞技</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">铁幕前线</h3>
+              <span class="card-type">载具射击 · 64 人战场</span>
+              <p class="card-desc">大规模载具对战，攻防推进模式单局可达 50 分钟。新增冬季地图「冻港」，载具耐久整体下调。</p>
+              <div class="tags"><span class="tag">载具战</span><span class="tag">大战场</span><span class="tag">团队协作</span></div>
+              <div class="card-meta"><span>在线 <b>1.8 万</b></span><span>11-04 更新</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/xiaozhensiji06/400/300" alt="小镇四季农田建造画面封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">策略模拟</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">小镇四季</h3>
+              <span class="card-type">建造经营 · 双人合作 · v2.1</span>
+              <p class="card-desc">四季轮转的城镇建造，v2.1 开放双人共同经营同一片农田。无时间压力，适合边聊边玩。</p>
+              <div class="tags"><span class="tag">合作建造</span><span class="tag">季节系统</span><span class="tag">休闲节奏</span></div>
+              <div class="card-meta"><span>评分 <b>8.6</b></span><span>11-03 更新</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/yemianxinhao07/400/300" alt="夜面信号像素风太空舱封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">独立创意</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">夜面信号</h3>
+              <span class="card-type">解谜 · 单人 · 约 2 小时</span>
+              <p class="card-desc">以无线电解码为核心的短篇解谜，全程无战斗，结局取决于是否记录全部信号。适合一晚上打完。</p>
+              <div class="tags"><span class="tag">短篇</span><span class="tag">解谜</span><span class="tag">单次通关</span></div>
+              <div class="card-meta"><span>评分 <b>8.1</b></span><span>10-30 上线</span></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img">
+              <img src="https://picsum.photos/seed/shuangrenshouwei08/400/300" alt="双人守卫塔防协作封面" width="400" height="300" loading="lazy">
+              <span class="card-badge">联机合作</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">双人守卫</h3>
+              <span class="card-type">塔防协作 · 仅双人</span>
+              <p class="card-desc">两名玩家分担资源采集与塔位布置，必须语音沟通。共 18 关，第 12 关后难度上升明显。</p>
+              <div class="tags"><span class="tag">双人协作</span><span class="tag">塔防</span><span class="tag">语音配合</span></div>
+              <div class="card-meta"><span>评分 <b>8.4</b></span><span>11-02 更新</span></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 最新更新 -->
+    <section class="panel" id="updates">
+      <div class="panel-head"><h2>版本更新与活动动态</h2><span class="more">截至 11-08</span></div>
+      <div class="panel-body">
+        <ul class="update-list">
+          <li>
+            <span class="update-time">今天 09:30</span>
+            <div class="update-main">
+              <div class="update-name">北境回声 第 3 章</div>
+              <div class="update-sum">章节已开放，新增两条结局分支，旧存档可直接继承。</div>
+            </div>
+            <span class="update-tag">章节</span>
+          </li>
+          <li>
+            <span class="update-time">今天 08:00</span>
+            <div class="update-main">
+              <div class="update-name">冬季联机周 报名</div>
+              <div class="update-sum">双人守卫、小镇四季参与，报名截止 11 月 14 日。</div>
+            </div>
+            <span class="update-tag g">活动</span>
+          </li>
+          <li>
+            <span class="update-time">昨天 21:10</span>
+            <div class="update-main">
+              <div class="update-name">零点突袭 赛季 4 平衡补丁</div>
+              <div class="update-sum">冲锋枪后坐力上调，港口地图 B 点掩体调整。</div>
+            </div>
+            <span class="update-tag b">补丁</span>
+          </li>
+          <li>
+            <span class="update-time">昨天 18:40</span>
+            <div class="update-main">
+              <div class="update-name">铁幕前线 冬季地图「冻港」</div>
+              <div class="update-sum">新地图进入轮换池，载具耐久整体下调 8%。</div>
+            </div>
+            <span class="update-tag">地图</span>
+          </li>
+          <li>
+            <span class="update-time">11-06 15:20</span>
+            <div class="update-main">
+              <div class="update-name">星港调度 v1.4</div>
+              <div class="update-sum">加入燃料价格波动，新增 6 个突发事件类型。</div>
+            </div>
+            <span class="update-tag b">版本</span>
+          </li>
+          <li>
+            <span class="update-time">11-05 11:00</span>
+            <div class="update-main">
+              <div class="update-name">雾港纪事 终章上线</div>
+              <div class="update-sum">第 6 章发布，全流程完结，新增结局回看功能。</div>
+            </div>
+            <span class="update-tag">完结</span>
+          </li>
+          <li>
+            <span class="update-time">11-04 20:30</span>
+            <div class="update-main">
+              <div class="update-name">小镇四季 v2.1 双人模式</div>
+              <div class="update-sum">开放双人共同经营，共享仓库与季节进度。</div>
+            </div>
+            <span class="update-tag g">模式</span>
+          </li>
+          <li>
+            <span class="update-time">11-03 14:00</span>
+            <div class="update-main">
+              <div class="update-name">夜面信号 上线</div>
+              <div class="update-sum">短篇解谜正式发售，含 12 段无线电解码关卡。</div>
+            </div>
+            <span class="update-tag">上线</span>
+          </li>
+          <li>
+            <span class="update-time">11-02 10:15</span>
+            <div class="update-main">
+              <div class="update-name">双人守卫 第 18 关</div>
+              <div class="update-sum">最终关开放，同步修复第 12 关资源刷新异常。</div>
+            </div>
+            <span class="update-tag b">修复</span>
+          </li>
+          <li>
+            <span class="update-time">10-31 19:30</span>
+            <div class="update-main">
+              <div class="update-name">万圣节限时副本 结束</div>
+              <div class="update-sum">三款游戏的节日副本于 11 月 1 日 0 点关闭。</div>
+            </div>
+            <span class="update-tag g">结束</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 分类入口 -->
+    <section class="panel" id="categories">
+      <div class="panel-head"><h2>按类型找游戏</h2></div>
+      <div class="panel-body">
+        <div class="cat-grid">
+          <a class="cat-item" href="#featured"><strong>角色扮演</strong><span>分支叙事、章节更新、长流程</span></a>
+          <a class="cat-item" href="#featured"><strong>射击竞技</strong><span>排位赛、地图轮换、武器平衡</span></a>
+          <a class="cat-item" href="#featured"><strong>策略模拟</strong><span>资源调度、建造经营、数值曲线</span></a>
+          <a class="cat-item" href="#featured"><strong>独立创意</strong><span>短篇解谜、单次通关、像素风格</span></a>
+          <a class="cat-item" href="#featured"><strong>联机合作</strong><span>双人协作、语音配合、塔防防守</span></a>
+          <a class="cat-item" href="#updates"><strong>限时活动</strong><span>节日副本、赛季通行证、报名期</span></a>
+          <a class="cat-item" href="#guide"><strong>新手入门</strong><span>教程顺序、难度曲线、上手门槛</span></a>
+          <a class="cat-item" href="#rank"><strong>热门榜单</strong><span>在线人数、评分、周榜变化</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 深度解析 -->
+    <section class="panel" id="deepdive">
+      <div class="panel-head"><h2>类型差异与版本判断：怎么挑条目</h2></div>
+      <div class="panel-body article-body">
+        <p>同一个游戏库里，条目之间的差别往往不在画面，而在“你投入时间后能获得什么”。把角色扮演、射击竞技、策略模拟、独立创意四类放在一起比较，能更清楚地判断一个条目值不值得开始。</p>
+
+        <h3>角色扮演：看章节进度与分支成本</h3>
+        <p>叙事型条目的关键信息是<b>章节是否完结</b>与<b>分支是否影响结局</b>。《雾港纪事》全 6 章完结，可以一次连续通关，不用等更新；《北境回声》目前到第 3 章，两条结局线已开放，但后续章节仍在制作。两者的消费节奏完全不同：前者适合周末整段投入，后者适合跟着版本走、每次更新回来推进一段。</p>
+        <p>判断分支成本时，可以看三个点：是否有结局回看、是否有章节选择、存档能否继承。结局回看省去重打，章节选择让你跳过已读文本，存档继承决定更新后是否需要从头再来。这三点在条目详情里通常会写明，入手前值得确认。</p>
+
+        <h3>射击竞技：看赛季长度与平衡节奏</h3>
+        <p>竞技类条目的核心变量是<b>赛季周期</b>与<b>平衡补丁频率</b>。《零点突袭》赛季 4 每周三结算段位，补丁大约两周一次，改动集中在武器后坐力与地图掩体；《铁幕前线》单局更长，平衡调整偏向载具耐久与攻防点位。前者适合短时间高频对局，后者适合愿意投入整晚打一两场的玩家。</p>
+        <ul>
+          <li><b>赛季长度</b>：短赛季（6—8 周）奖励轮换快，长赛季（12 周以上）更适合慢节奏玩家。</li>
+          <li><b>补丁频率</b>：高频补丁意味着主流打法会变，需要持续跟进；低频补丁相对稳定。</li>
+          <li><b>单局时长</b>：35 分钟与 50 分钟的差别，直接决定你能否在碎片时间开局。</li>
+        </ul>
+
+        <h3>策略模拟：看数值曲线与上手门槛</h3>
+        <p>经营类条目的门槛通常不在操作，而在<b>前两小时的数值理解</b>。《星港调度》v1.4 加入燃料价格波动后，前期的航线规划需要预留缓冲，否则容易在中段资金断裂；《小镇四季》v2.1 开放双人经营，节奏明显放缓，适合不想被时间压力推着走的玩家。</p>
+        <div class="compare">
+          <div class="compare-box">
+            <h4>偏硬核：星港调度</h4>
+            <p>需要读教程、算产能、应对突发事件，单局规划时间长，容错率低。</p>
+          </div>
+          <div class="compare-box">
+            <h4>偏休闲：小镇四季</h4>
+            <p>无失败惩罚，季节推进可暂停，双人共享仓库，适合边聊边玩。</p>
+          </div>
+        </div>
+
+        <h3>独立创意与联机合作：看时长与人数</h3>
+        <p>短篇条目的判断标准很直接：<b>单次通关时长</b>与<b>是否有重复游玩价值</b>。《夜面信号》约 2 小时，结局取决于是否记录全部信号，二周目主要是补全遗漏信号。联机合作则先确认人数：《双人守卫》仅支持双人，必须语音沟通；《小镇四季》双人模式共享进度，但单人也能完整游玩。</p>
+        <p>联机条目还要看匹配逻辑。固定好友局与随机匹配的体验差别很大，前者更看重配合分工，后者更看重单局容错。选择前先确认自己能凑齐几个人、是否方便开语音，比看评分更有用。</p>
+
+        <h3>版本与活动：时间窗口决定是否现在进场</h3>
+        <p>限时活动有明确起止日期，错过就要等下个轮次。当前进行中的「冬季联机周」报名截止 11 月 14 日，参与条目为《双人守卫》与《小镇四季》；万圣节副本已于 11 月 1 日关闭。赛季通行证类活动通常与赛季同步结束，赛季 4 的结算节点在每周三，临近结算时进场需要评估能否在剩余时间内完成段位目标。</p>
+        <p>版本更新则影响长期投入。章节更新、地图轮换、数值调整都会改变既有体验，跟进更新日志比看首发评测更能判断当下是否适合开始。对长线条目，建议先看最近一次更新的内容，再看整体评价。</p>
+      </div>
+    </section>
+
+    <!-- 6 体验路径 -->
+    <section class="panel" id="guide">
+      <div class="panel-head"><h2>内容消费顺序与判断依据</h2></div>
+      <div class="panel-body">
+        <ol class="steps">
+          <li><strong>先定时间预算</strong><p>整晚连续投入优先选完结叙事，如《雾港纪事》；碎片时间优先短篇或单局制，如《夜面信号》《零点突袭》。</p></li>
+          <li><strong>再确认人数条件</strong><p>能凑齐两人就看《双人守卫》《小镇四季》双人模式；单人为主则跳过强制协作条目，避免卡在匹配环节。</p></li>
+          <li><strong>查最近一次版本更新</strong><p>更新日志能反映当前状态：章节是否推进、平衡是否大改、活动是否在期内。首发评价往往已过时。</p></li>
+          <li><strong>看上手门槛而非评分</strong><p>《星港调度》评分不低但前两小时偏难；《小镇四季》门槛低但深度有限。按自己能接受的复杂度选。</p></li>
+          <li><strong>最后核对活动截止日期</strong><p>限时活动与赛季通行证都有明确结束时间，进场前先算剩余天数，避免投入后活动关闭。</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 7 FAQ -->
+    <section class="panel" id="faq">
+      <div class="panel-head"><h2>常见问题</h2></div>
+      <div class="panel-body faq">
+        <details>
+          <summary>北境回声第 3 章更新后，旧存档还能用吗？</summary>
+          <div class="faq-a">可以。第 3 章支持旧存档继承，进入章节时会提示选择继承节点。若之前停在分支选择前，需要先完成该节点才能进入新章节。</div>
+        </details>
+        <details>
+          <summary>零点突袭和铁幕前线有什么区别？</summary>
+          <div class="faq-a">零点突袭是 5v5 战术射击，单局约 35 分钟，强调拆包与地图控制；铁幕前线是 64 人载具战场，单局可达 50 分钟，强调攻防推进与载具配合。前者节奏快、段位结算频繁，后者单局投入更长。</div>
+        </details>
+        <details>
+          <summary>第一次接触策略模拟，从哪个条目开始比较好？</summary>
+          <div class="faq-a">建议从《小镇四季》开始，无失败惩罚、季节可暂停，双人模式还能共享进度。熟悉资源与建造逻辑后，再尝试《星港调度》，后者需要处理燃料波动与突发事件，容错更低。</div>
+        </details>
+        <details>
+          <summary>限时活动和赛季通行证一般多久轮换一次？</summary>
+          <div class="faq-a">节日副本通常按节日节点开放，持续 1—2 周；赛季通行证与赛季同步，零点突袭赛季 4 为 8 周一轮，每周三结算段位。具体起止日期以条目详情标注为准。</div>
+        </details>
+        <details>
+          <summary>双人守卫必须两个人才能玩吗？</summary>
+          <div class="faq-a">是。该条目仅支持双人协作，资源采集与塔位布置需要分工，且建议开语音沟通。单人无法进入对局，也没有 AI 补位。</div>
+        </details>
+        <details>
+          <summary>独立短篇游戏通关后还有重复游玩价值吗？</summary>
+          <div class="faq-a">取决于设计。《夜面信号》二周目主要用于补全遗漏的无线电信号与另一条结局，重复游玩价值集中在收集；若只打一周目，约 2 小时即可完成。选择前可看条目是否标注多结局。</div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 8 用户评论 -->
+    <section class="panel" id="reviews">
+      <div class="panel-head"><h2>玩家评论</h2><span class="more">近 7 天</span></div>
+      <div class="panel-body">
+        <div class="comment-list">
+          <div class="comment"><div class="comment-top"><span class="avatar">雪</span><span class="comment-name">雪原拾荒者</span><span class="comment-date">11-08</span></div><p class="comment-text">北境回声第 3 章的分支写得比前两章扎实，两条结局线各有代价，不是简单的好坏选项。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">零</span><span class="comment-name">零点老六</span><span class="comment-date">11-08</span></div><p class="comment-text">赛季 4 冲锋枪后坐力上调后，港口 B 点打法全变了，得重新练压枪。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">港</span><span class="comment-name">港区夜班</span><span class="comment-date">11-07</span></div><p class="comment-text">雾港纪事终章收得稳，线索本自动记录这点很省心，不用边玩边截图。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">星</span><span class="comment-name">星港调度员</span><span class="comment-date">11-07</span></div><p class="comment-text">v1.4 燃料波动有点劝退，第一次玩建议先关掉突发事件，熟悉产能再开。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">铁</span><span class="comment-name">铁幕驾驶员</span><span class="comment-date">11-06</span></div><p class="comment-text">冻港地图载具耐久下调后，冲锋车不好用了，重坦反而更稳，节奏慢下来了。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">小</span><span class="comment-name">小镇种田人</span><span class="comment-date">11-06</span></div><p class="comment-text">双人模式共享仓库太方便了，两个人分季节干活，一晚上能推完一整年。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">夜</span><span class="comment-name">夜面解码员</span><span class="comment-date">11-05</span></div><p class="comment-text">夜面信号两小时打完，结局取决于有没有记全信号，我漏了两段，准备二周目。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">双</span><span class="comment-name">双人塔防党</span><span class="comment-date">11-05</span></div><p class="comment-text">双人守卫第 12 关之后难度跳得有点陡，没语音基本打不过，建议先约好分工。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">北</span><span class="comment-name">北境二周目</span><span class="comment-date">11-04</span></div><p class="comment-text">北境回声的回合制战斗偏慢，喜欢快节奏的可能不适应，但文本量确实足。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">烟</span><span class="comment-name">烟雾弹选手</span><span class="comment-date">11-04</span></div><p class="comment-text">零点突袭新烟雾投掷物用好了能翻盘，用不好就是给对面封路，得多练几次。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">季</span><span class="comment-name">四季慢玩家</span><span class="comment-date">11-03</span></div><p class="comment-text">小镇四季没有失败惩罚这点很舒服，下班回来种两季就下线，不用赶进度。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">冻</span><span class="comment-name">冻港老兵</span><span class="comment-date">11-03</span></div><p class="comment-text">铁幕前线单局太长，50 分钟打一场，输了挺难受，适合周末整段时间玩。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">信</span><span class="comment-name">信号收集者</span><span class="comment-date">11-02</span></div><p class="comment-text">独立短篇这个体量刚好，两小时一个故事，比动辄几十小时的条目更适合我。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">补</span><span class="comment-name">补丁观察员</span><span class="comment-date">11-02</span></div><p class="comment-text">零点突袭补丁两周一次，主流打法换得勤，隔一周不玩回来就跟不上节奏。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">周</span><span class="comment-name">周边闲逛</span><span class="comment-date">11-01</span></div><p class="comment-text">雾港纪事和北境回声都是叙事向，但一个完结一个连载，买之前先看清楚。</p></div>
+          <div class="comment"><div class="comment-top"><span class="avatar">联</span><span class="comment-name">联机凑人难</span><span class="comment-date">10-31</span></div><p class="comment-text">双人守卫找搭子比想象中难，随机匹配体验一般，最好提前约固定队友。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 相关资讯 -->
+    <section class="panel" id="news">
+      <div class="panel-head"><h2>相关资讯</h2></div>
+      <div class="panel-body">
+        <ul class="news-list">
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-beijing03/600/400" alt="北境回声第三章上线公告配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">北境回声第 3 章正式开放，新增两条结局分支</div>
+              <div class="news-date">2026-11-08</div>
+              <p class="news-sum">章节更新同步修复第 2 章存档读取异常，旧存档可直接继承。</p>
+            </div>
+          </li>
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-dongji01/600/400" alt="冬季联机周活动海报配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">冬季联机周开启报名，双人守卫与小镇四季参与</div>
+              <div class="news-date">2026-11-08</div>
+              <p class="news-sum">报名截止 11 月 14 日，活动期间双人协作条目开放专属任务线。</p>
+            </div>
+          </li>
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-saiji04/600/400" alt="零点突袭赛季四平衡补丁说明配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">零点突袭赛季 4 平衡补丁：冲锋枪后坐力上调</div>
+              <div class="news-date">2026-11-07</div>
+              <p class="news-sum">港口地图 B 点掩体调整，拆包计时缩短 0.5 秒，段位结算维持每周三。</p>
+            </div>
+          </li>
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-donggang02/600/400" alt="铁幕前线冻港地图场景配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">铁幕前线冬季地图「冻港」进入轮换池</div>
+              <div class="news-date">2026-11-06</div>
+              <p class="news-sum">载具耐久整体下调 8%，攻防点位重排，单局时长预计缩短约 5 分钟。</p>
+            </div>
+          </li>
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-wugang06/600/400" alt="雾港纪事终章结局画面配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">雾港纪事终章上线，全 6 章完结并加入结局回看</div>
+              <div class="news-date">2026-11-05</div>
+              <p class="news-sum">结局回看可跳过已读文本，线索本新增按章节筛选。</p>
+            </div>
+          </li>
+          <li>
+            <div class="news-thumb"><img src="https://picsum.photos/seed/zixun-xiaozhen05/600/400" alt="小镇四季双人模式农田画面配图" width="600" height="400" loading="lazy"></div>
+            <div class="news-main">
+              <div class="news-title">小镇四季 v2.1 开放双人共同经营</div>
+              <div class="news-date">2026-11-03</div>
+              <p class="news-sum">双人共享仓库与季节进度，单人存档可转为双人存档，转换后不可逆。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 10 相关推荐 -->
+    <section class="panel" id="related">
+      <div class="panel-head"><h2>延伸方向</h2></div>
+      <div class="panel-body">
+        <div class="rec-tags">
+          <a href="#deepdive">分支叙事与结局回看机制</a>
+          <a href="#deepdive">赛季通行证起止时间</a>
+          <a href="#deepdive">双人协作语音分工</a>
+          <a href="#featured">短篇解谜单次通关</a>
+          <a href="#featured">载具战场攻防点位</a>
+          <a href="#updates">版本补丁频率对比</a>
+          <a href="#guide">经营类数值曲线入门</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 右侧辅助栏 -->
+  <aside class="side-col" aria-label="辅助信息">
+    <div class="side-card">
+      <div class="side-head">本周热门条目</div>
+      <div class="side-body">
+        <ol class="hot-list">
+          <li><a href="#featured">北境回声</a></li>
+          <li><a href="#featured">零点突袭</a></li>
+          <li><a href="#featured">雾港纪事</a></li>
+          <li><a href="#featured">星港调度</a></li>
+          <li><a href="#featured">小镇四季</a></li>
+          <li><a href="#featured">双人守卫</a></li>
+          <li><a href="#featured">铁幕前线</a></li>
+        </ol>
+      </div>
+      <p class="side-note">按近 7 天条目浏览与对局热度综合排序。</p>
+    </div>
+
+    <div class="side-card">
+      <div class="side-head">版本时间线</div>
+      <div class="side-body">
+        <ul class="timeline">
+          <li><time>11-08</time><span>北境回声第 3 章开放</span></li>
+          <li><time>11-07</time><span>零点突袭赛季 4 补丁</span></li>
+          <li><time>11-06</time><span>铁幕前线冻港地图</span></li>
+          <li><time>11-05</time><span>雾港纪事终章完结</span></li>
+          <li><time>11-03</time><span>小镇四季双人模式</span></li>
+          <li><time>10-30</time><span>夜面信号发售</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-head">类型速查</div>
+      <div class="side-body">
+        <div class="rec-tags">
+          <a href="#categories">角色扮演</a>
+          <a href="#categories">射击竞技</a>
+          <a href="#categories">策略模拟</a>
+          <a href="#categories">独立创意</a>
+          <a href="#categories">联机合作</a>
+        </div>
+      </div>
+      <p class="side-note">点击类型可跳转到分类入口，查看对应条目说明。</p>
+    </div>
+  </aside>
+
+</div>
+
+<!-- 11 榜单补充板块 已在主栏内，此处为完整榜单 -->
+<section class="panel" id="rank" style="max-width:1320px;margin:0 auto 24px;padding:0 20px;background:transparent;border:none;box-shadow:none;">
+  <div class="panel" style="margin-bottom:0;">
+    <div class="panel-head"><h2>热门榜单：本周在线与评分</h2><span class="more">11-08 更新</span></div>
+    <div class="panel-body">
+      <ol class="rank-list">
+        <li><div class="rank-name">零点突袭<small>5v5 战术射击 · 赛季 4</small></div><span class="rank-val">在线 4.2 万</span></li>
+        <li><div class="rank-name">北境回声<small>叙事 RPG · 第 3 章</small></div><span class="rank-val">在线 2.6 万</span></li>
+        <li><div class="rank-name">铁幕前线<small>载具射击 · 64 人战场</small></div><span class="rank-val">在线 1.8 万</span></li>
+        <li><div class="rank-name">雾港纪事<small>悬疑叙事 · 全 6 章完结</small></div><span class="rank-val">评分 9.0</span></li>
+        <li><div class="rank-name">小镇四季<small>建造经营 · 双人合作</small></div><span class="rank-val">评分 8.6</span></li>
+        <li><div class="rank-name">双人守卫<small>塔防协作 · 仅双人</small></div><span class="rank-val">评分 8.4</span></li>
+        <li><div class="rank-name">星港调度<small>物流经营 · v1.4</small></div><span class="rank-val">评分 8.3</span></li>
+        <li><div class="rank-name">夜面信号<small>短篇解谜 · 约 2 小时</small></div><span class="rank-val">评分 8.1</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 页尾 -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <svg viewBox="0 0 64 64" role="img" aria-label="橘子平台页尾标志">
+            <circle cx="32" cy="32" r="30" fill="#e06a1f"/>
+            <path d="M32 12c3 10-2 16-2 16s9-3 14 4c-4 1-7 5-7 5s8 1 9 9c-8-2-13 2-13 2s4 5 1 12c-6-7-12-6-12-6s-3 7-12 9c3-8 0-13 0-13s-7 3-13-2c7-4 8-10 8-10s-6-2-7-9c9-1 12-6 12-6s-4-7 2-13c4 6 10 6 10 6s2-7 10-9z" fill="#fff7ef"/>
+          </svg>
+          <strong>橘子平台</strong>
+        </div>
+        <p class="footer-desc">聚合 PC 游戏库、联机对局、限时活动与版本公告的内容入口，按类型、版本与开放时间整理具体条目。</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>游戏类型</h4>
+          <a href="#categories">角色扮演</a>
+          <a href="#categories">射击竞技</a>
+          <a href="#categories">策略模拟</a>
+          <a href="#categories">独立创意</a>
+        </div>
+        <div>
+          <h4>内容栏目</h4>
+          <a href="#featured">精选游戏</a>
+          <a href="#updates">版本动态</a>
+          <a href="#deepdive">深度解析</a>
+          <a href="#guide">体验路径</a>
+        </div>
+        <div>
+          <h4>互动与参考</h4>
+          <a href="#faq">常见问题</a>
+          <a href="#reviews">玩家评论</a>
+          <a href="#news">相关资讯</a>
+          <a href="#rank">热门榜单</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 橘子平台 · 内容聚合示例页</span>
+      <span class="demo-note">部分内容为示例数据，仅用于展示页面结构</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var input = document.getElementById('siteSearch');
+  if(!input) return;
+  var targets = Array.prototype.slice.call(
+    document.querySelectorAll('.card, .update-list li, .news-list li, .faq details, .cat-item, .rank-list li')
+  );
+  var noResultId = 'searchNoResult';
+
+  function clearNoResult(){
+    var el = document.getElementById(noResultId);
+    if(el) el.parentNode.removeChild(el);
+  }
+
+  function showNoResult(container){
+    clearNoResult();
+    var tip = document.createElement('p');
+    tip.id = noResultId;
+    tip.style.cssText = 'font-size:13px;color:#b8500f;background:#fbe7d6;border:1px solid #f0d8c2;padding:8px 12px;border-radius:6px;margin:10px 0 0;';
+    tip.textContent = '没有找到匹配的内容，试试「北境回声」「赛季 4」「双人守卫」等具体条目名。';
+    container.appendChild(tip);
+  }
+
+  function runFilter(){
+    var q = input.value.trim().toLowerCase();
+    var visible = 0;
+    targets.forEach(function(el){
+      var text = (el.textContent || '').toLowerCase();
+      var match = !q || text.indexOf(q) !== -1;
+      el.style.display = match ? '' : 'none';
+      if(match) visible++;
+    });
+    clearNoResult();
+    if(q && visible === 0){
+      var main = document.getElementById('featured');
+      var body = main ? main.querySelector('.panel-body') : null;
+      if(body) showNoResult(body);
+    }
+  }
+
+  var timer = null;
+  input.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(runFilter, 160);
+  });
+
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      input.value = '';
+      runFilter();
+      input.blur();
+    }
+  });
+})();
+</script>
+
+</body>
+              </html>
